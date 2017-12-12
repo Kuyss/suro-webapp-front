@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import Home from './components/Home';
-import About from './components/About';
+import UserManagement from './components/UserManagement';
 
 const Container = (props) => 
   <div>
@@ -18,7 +18,7 @@ class App extends Component {
         <div>
           <Container>
             <Route exact path="/" component={Home} />    
-            <Route path="/about" component={About} /> 
+            <Route path="/user_management" component={UserManagement} /> 
           </Container>
         </div>
       </BrowserRouter>
