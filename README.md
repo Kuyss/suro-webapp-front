@@ -7,5 +7,6 @@ This repository is used for a web application for managing equipment reservation
 ## Setup Guide
 
 - position yourself to the root directory of the repository
-- run npm start in command line
+- `npm install`
+- `npm start`
 - done
