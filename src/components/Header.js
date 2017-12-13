@@ -5,7 +5,7 @@ import { roles } from '../util/roles';
 import { Icon, Menu } from 'semantic-ui-react'
 
 export default class Header extends Component {
-	state = { activeItem: 'home', role: "USER" }
+	state = { activeItem: 'home', role: "ADMIN" }
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
