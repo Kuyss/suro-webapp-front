@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import EquipmentManagement from './components/admin/EquipmentManagement/EquipmentManagement';
 import Header from './components/Header';
 import Home from './components/Home';
+import Login from './components/Login.js';
 import UserManagement from './components/admin/UserManagement/UserManagement';
 
 import ActiveReservations from './components/user/ActiveReservations/ActiveReservations.js';
@@ -22,7 +23,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Container>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route path="/user_management" component={UserManagement} />
             <Route path="/equipment_management" component={EquipmentManagement} />
 
