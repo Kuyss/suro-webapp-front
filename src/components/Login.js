@@ -10,7 +10,7 @@ export default class Login extends React.Component {
         super(args);
         this.state = {
             data: {},
-            passOK : true
+            passOK: true
         };
         this.saveCredentials = this.saveCredentials.bind(this);
     }
@@ -23,7 +23,8 @@ export default class Login extends React.Component {
                 this.setState({
                     passOK: false
                 });
-            }else{
+                return;
+            } else {
                 this.setState({
                     passOK: true
                 });
