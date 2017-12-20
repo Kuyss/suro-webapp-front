@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Form } from 'semantic-ui-react';
-import { save,read } from './services/storage.js';
+import { Button, Form, Label } from 'semantic-ui-react';
+import { save, read } from './services/storage.js';
 import { loginUser } from './services/user.js';
 
 
@@ -9,7 +9,8 @@ export default class Login extends React.Component {
     constructor(args) {
         super(args);
         this.state = {
-            data: {}
+            data: {},
+            passOK : true
         };
         this.saveCredentials = this.saveCredentials.bind(this);
     }
@@ -17,6 +18,16 @@ export default class Login extends React.Component {
     saveCredentials(emailAdd, passw) {
 
         loginUser(emailAdd, passw).then((response) => {
+
+            if (response.token == undefined) {
+                this.setState({
+                    passOK: false
+                });
+            }else{
+                this.setState({
+                    passOK: true
+                });
+            }
 
             this.setState({
                 data: response
@@ -26,10 +37,6 @@ export default class Login extends React.Component {
             save('token', this.state.data.token);
         });
 
-    }
-
-    printout() {
-        alert('don');
     }
 
     render() {
@@ -47,7 +54,8 @@ export default class Login extends React.Component {
                         this.password = input;
                     }} />
                 </Form.Field>
-                {<Button type='login' onClick={() => this.saveCredentials(this.email.value, this.password.value)}>Login</Button>}
+                <Button type='login' onClick={() => this.saveCredentials(this.email.value, this.password.value)}>Login</Button>
+                {!this.state.passOK && <Label pointing>Invalid email or password</Label>}
             </Form>
         );
     }
