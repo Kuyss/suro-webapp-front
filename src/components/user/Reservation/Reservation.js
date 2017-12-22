@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, Button, Item } from 'semantic-ui-react';
+import './Reservation.css';
 
 const Reservation = ({ reservation }) => (
     <Item.Group className="res">

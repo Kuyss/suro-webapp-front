@@ -2,6 +2,8 @@ import React from 'react';
 import { Search, Dropdown, Grid, Item, Button } from 'semantic-ui-react';
 import './SearchEquipment.css';
 import ItemList from '../ItemList/ItemList'; 
+import { getItems } from '../../../services/item';
+import {read} from '../../../services/storage';
 
 class SearchEquipment extends React.Component {
 
@@ -10,6 +12,9 @@ class SearchEquipment extends React.Component {
 		this.opt = [{ text: 'Id', value: 'Id' },
 		{ text: 'Name', value: 'Name' },
 		{ text: 'Type', value: 'Type' }];
+		this.state = {
+			items:[]
+		};
 		this.popis = [
 			{
 				"id": 1,
@@ -62,13 +67,21 @@ class SearchEquipment extends React.Component {
 		];
 	}
 
+	componentWillMount(){
+		getItems(read('token')).then((res) =>{
+			this.setState({
+				items: res
+			});
+		});
+	}
+
 	render() {
 		return (
 			<div>
 				<br />
 				<Dropdown className="dropdown" placeholder="Search by:" selection options={this.opt} />
 				<Search className="search" />
-				<ItemList items={this.popis} />
+				<ItemList items={this.state.items} />
 			</div>
 
 		);
