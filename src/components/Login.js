@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Label } from 'semantic-ui-react';
-import { save, read } from './services/storage.js';
-import { loginUser } from './services/user.js';
+import { save, read } from '../services/storage.js';
+import { loginUser } from '../services/user.js';
 
 
 export default class Login extends React.Component {
@@ -42,7 +42,7 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <Form>
+            <Form style={{ padding: 15 }}>
                 <Form.Field>
                     <label>Email</label>
                     <input placeholder='email' ref={(input) => {
