@@ -1,6 +1,5 @@
 import React from 'react';
-import { List } from 'semantic-ui-react';
-import { Image, Item } from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
 
 
 class History extends React.Component {

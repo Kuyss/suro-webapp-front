@@ -1,12 +1,17 @@
 import React from 'react';
 import Item from '../Item/Item.js';
 
-const ItemList = ({ items }) => (
-    <div>
-        {
-            items.map((item) => <Item item={item} />)
-        }
-    </div>
-);
+class ItemList extends React.Component {
+
+
+    render() {
+        return (
+            <div>
+                {
+                    this.props.items.map((item) => <Item item={item} do={this.props.do} />)
+                }
+            </div>);
+    }
+}
 
 export default ItemList;

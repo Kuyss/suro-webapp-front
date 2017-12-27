@@ -1,9 +1,10 @@
 import React from 'react';
-import { Search, Dropdown, Grid, Item, Button } from 'semantic-ui-react';
+import { Search, Dropdown } from 'semantic-ui-react';
 import './SearchEquipment.css';
-import ItemList from '../ItemList/ItemList'; 
+import ItemList from '../ItemList/ItemList';
 import { getItems } from '../../../services/item';
-import {read} from '../../../services/storage';
+import { read } from '../../../services/storage';
+import { postReservation } from '../../../services/reservation';
 
 class SearchEquipment extends React.Component {
 
@@ -13,66 +14,21 @@ class SearchEquipment extends React.Component {
 		{ text: 'Name', value: 'Name' },
 		{ text: 'Type', value: 'Type' }];
 		this.state = {
-			items:[]
+			items: []
 		};
-		this.popis = [
-			{
-				"id": 1,
-				"identifier": "ADD1",
-				"description": "AT91SAM3X8E, Arduino Due, DEV Board",
-				"picture": null,
-				"kit_id": 1,
-				"type_id": 1,
-				"subtype_id": 1,
-				"device_type_id": 1,
-				"created_at": "2017-12-19 15:21:43",
-				"updated_at": "2017-12-19 15:21:43",
-				"kit": null,
-				"subtype": null,
-				"type": null,
-				"device_type": null
-			},
-			{
-				"id": 2,
-				"identifier": "ABTSS1",
-				"description": "Arduino Tinkerkit Sensor Shield",
-				"picture": null,
-				"kit_id": 1,
-				"type_id": 2,
-				"subtype_id": 2,
-				"device_type_id": 1,
-				"created_at": "2017-12-19 15:22:07",
-				"updated_at": "2017-12-19 15:22:07",
-				"kit": null,
-				"subtype": null,
-				"type": null,
-				"device_type": null
-			},
-			{
-				"id": 3,
-				"identifier": "WDB665",
-				"description": "Waspmote Battery 6600 mAh",
-				"picture": null,
-				"kit_id": 4,
-				"type_id": 2,
-				"subtype_id": 3,
-				"device_type_id": 2,
-				"created_at": "2017-12-19 15:22:34",
-				"updated_at": "2017-12-19 15:22:34",
-				"kit": null,
-				"subtype": null,
-				"type": null,
-				"device_type": null
-			}
-		];
+		this.reserve = this.reserve.bind(this);
 	}
 
-	componentWillMount(){
-		getItems(read('token')).then((res) =>{
+	componentWillMount() {
+		getItems(read('token')).then((res) => {
 			this.setState({
 				items: res
 			});
 		});
+	}
+
+	reserve(id) {
+		postReservation(read('token'), id, 'testdate', 'testdate');
 	}
 
 	render() {
@@ -81,7 +37,7 @@ class SearchEquipment extends React.Component {
 				<br />
 				<Dropdown className="dropdown" placeholder="Search by:" selection options={this.opt} />
 				<Search className="search" />
-				<ItemList items={this.state.items} />
+				<ItemList items={this.state.items} do={this.reserve} />
 			</div>
 
 		);

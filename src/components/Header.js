@@ -56,7 +56,7 @@ export default class Header extends Component {
 							<Link to="/history">
 								<Menu.Item as="span" name='history' active={activeItem === 'history'} onClick={this.handleItemClick}>
 									<Icon name="history" />
-									History of Reservations
+									Reservations History
 								</Menu.Item>
 							</Link>
 						</Menu.Menu>
