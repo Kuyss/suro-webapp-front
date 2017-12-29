@@ -16,9 +16,9 @@ export function postReservation(token, id, startdate, returndate, ) {
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
+            'item_id': "[1,2,3]",
             'start_date': startdate,
-            'return_date': returndate,
-            'item_id': [id]
+            'return_date': returndate
         })
-    }).then((res) => res.json());
+    });
 }

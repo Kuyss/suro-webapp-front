@@ -18,9 +18,13 @@ class SearchEquipment extends React.Component {
 	constructor(args) {
 		super(args);
 		this.state = {
-			items: []
+			items: [],
+			itemsToReserve: [],
+			clicked: []
 		};
 		this.reserve = this.reserve.bind(this);
+		this.addToRes = this.addToRes.bind(this);
+		this.filterBy = this.filterBy.bind(this);
 	}
 
 	componentWillMount() {
@@ -31,8 +35,34 @@ class SearchEquipment extends React.Component {
 		});
 	}
 
-	reserve(id) {
-		postReservation(read('token'), id, '11.01.2011', '12.02.2012.');
+	addToRes(newid) {
+		if (!(this.state.clicked.indexOf(newid) > -1)) {
+			console.log(`${newid} added`);
+			var newArray = this.state.itemsToReserve.slice();
+			newArray.push(newid);
+			this.setState({
+				itemsToReserve: newArray
+			});
+
+			newArray = this.state.itemsToReserve.slice();
+			newArray.push(newid);
+			this.setState({
+				clicked: newArray
+			});
+		} else {
+			console.log('already clicked');
+		}
+	}
+
+	reserve(start, end) {
+		console.log(this.state.itemsToReserve);
+
+		postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
+
+		this.setState({
+			itemsToReserve: [],
+			clicked: []
+		})
 	}
 
 	filterBy() {
@@ -46,22 +76,26 @@ class SearchEquipment extends React.Component {
 			<div>
 				<div className="all">
 					<div className="reserv">
-						<Segment>0 items in reservation.</Segment>
+						<Segment>{this.state.itemsToReserve.length} items in reservation.</Segment>
 						<h3>Starting date</h3>
 						<div class="ui calendar" id="example1">
 							<div class="ui input left icon">
 								<i class="calendar icon"></i>
-								<input type="text" placeholder="Date" />
+								<input type="text" placeholder="startdate" ref={(input) => {
+									this.start = input;
+								}} />
 							</div>
 						</div>
 						<h3>Return date</h3>
 						<div class="ui calendar" id="example1">
 							<div class="ui input left icon">
 								<i class="calendar icon"></i>
-								<input type="text" placeholder="Date" />
+								<input type="text" placeholder="returndate" ref={(input) => {
+									this.end = input;
+								}} />
 							</div>
 						</div>
-						<Button style={{ 'margin-left': 500 }}>Start reservation</Button>
+						<Button style={{ 'margin-left': 500 }} onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
 					<br /><br /><br />
 					<select class="ui fluid search dropdown" multiple="" className="select">
@@ -71,10 +105,10 @@ class SearchEquipment extends React.Component {
 					</select>
 					<Input className="input" />
 					<Button onClick={() => this.filterBy()}>Search </Button>
-					
+
 
 				</div>
-				<ItemList items={this.state.items} do={this.reserve} />
+				<ItemList items={this.state.items} do={this.addToRes} />
 			</div>
 
 		);
