@@ -1,17 +1,16 @@
 import React from 'react';
 import { Button, Item } from 'semantic-ui-react';
 import './Reservation.css';
+import Image from 'semantic-ui-react/dist/commonjs/elements/Image/Image';
 
 const Reservation = ({ reservation }) => (
     <Item.Group className="res">
         <Item>
             <Item.Content >
-                <Item.Header as='a'>{reservation.identifier}</Item.Header>
-                {console.log(reservation.description)}
-                <Item.Meta>{reservation.id}</Item.Meta>
-                <Item.Description>
-                    {reservation.id}
-                </Item.Description>
+                <Image src={reservation.items[0].item.picture} size='small'/>
+                <Item.Header as='a'>Item: {reservation.items[0].item.description}</Item.Header>
+                <Item.Description>Start date: {reservation.start_date}</Item.Description>
+                <Item.Description>Return date: {reservation.return_date}</Item.Description>
                 <Button floated='right'>Extend reservation</Button>
             </Item.Content>
         </Item>

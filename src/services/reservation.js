@@ -18,7 +18,7 @@ export function postReservation(token, id, startdate, returndate, ) {
         body: JSON.stringify({
             'start_date': startdate,
             'return_date': returndate,
-            'item_id': id
+            'item_id': [id]
         })
     }).then((res) => res.json());
 }

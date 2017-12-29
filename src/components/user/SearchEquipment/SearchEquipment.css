@@ -1,7 +1,22 @@
-.dropdown {
-    margin: 10px;
+.all{
+    padding: 15px;
 }
 
-.search {
-    margin: 10px;
+.input {
+    padding: 10px;
+}
+
+.select {
+    width: 150px;
+    height: 37px;
+}
+
+.config {
+    margin-left: 500px; 
+}
+
+.reserv {
+    display:inline-block;
+    background-color: whitesmoke;
+    padding: 15px;
 }
