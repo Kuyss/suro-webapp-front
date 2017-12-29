@@ -4,10 +4,14 @@ export function getReservations(token) {
         headers: {
             'Authorization': `Bearer ${token}`
         }
-    }).then((res) => res.json());
+    }).then((res) => res.json())
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
-export function postReservation(token, id, startdate, returndate, ) {
+export function postReservation(token, id, startdate, returndate) {
+
     return fetch('http://localhost:8000/api/reservations/request', {
         method: 'post',
         headers: {
@@ -16,9 +20,11 @@ export function postReservation(token, id, startdate, returndate, ) {
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-            'item_id': "[1,2,3]",
+            'item_id': `[${id}]`,
             'start_date': startdate,
             'return_date': returndate
         })
+    }).catch((error) => {
+        console.log(error);
     });
 }

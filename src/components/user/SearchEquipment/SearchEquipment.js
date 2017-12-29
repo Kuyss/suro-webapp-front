@@ -12,6 +12,7 @@ import TextArea from 'semantic-ui-react/dist/commonjs/addons/TextArea/TextArea';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container/Container';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
 class SearchEquipment extends React.Component {
 
@@ -20,7 +21,8 @@ class SearchEquipment extends React.Component {
 		this.state = {
 			items: [],
 			itemsToReserve: [],
-			clicked: []
+			clicked: [],
+			nodate: false
 		};
 		this.reserve = this.reserve.bind(this);
 		this.addToRes = this.addToRes.bind(this);
@@ -55,14 +57,20 @@ class SearchEquipment extends React.Component {
 	}
 
 	reserve(start, end) {
-		console.log(this.state.itemsToReserve);
+		if (start.length === 0 || end.length === 0) {
+			this.setState({
+				nodate: true
+			});
 
-		postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
+		} else {
 
-		this.setState({
-			itemsToReserve: [],
-			clicked: []
-		})
+			postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
+
+			this.setState({
+				itemsToReserve: [],
+				clicked: []
+			})
+		}
 	}
 
 	filterBy() {
@@ -78,27 +86,28 @@ class SearchEquipment extends React.Component {
 					<div className="reserv">
 						<Segment>{this.state.itemsToReserve.length} items in reservation.</Segment>
 						<h3>Starting date</h3>
-						<div class="ui calendar" id="example1">
-							<div class="ui input left icon">
-								<i class="calendar icon"></i>
+						<div className="ui calendar" id="example1">
+							<div className="ui input left icon">
+								<i className="calendar icon"></i>
 								<input type="text" placeholder="startdate" ref={(input) => {
 									this.start = input;
 								}} />
 							</div>
 						</div>
 						<h3>Return date</h3>
-						<div class="ui calendar" id="example1">
-							<div class="ui input left icon">
-								<i class="calendar icon"></i>
+						<div className="ui calendar" id="example1">
+							<div className="ui input left icon">
+								<i className="calendar icon"></i>
 								<input type="text" placeholder="returndate" ref={(input) => {
 									this.end = input;
 								}} />
 							</div>
 						</div>
+						{this.state.nodate && <Label pointing>Enter both dates</Label>}
 						<Button style={{ 'margin-left': 500 }} onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
 					<br /><br /><br />
-					<select class="ui fluid search dropdown" multiple="" className="select">
+					<select className="ui fluid search dropdown" multiple="" className="select">
 						<option value="id">Id</option>
 						<option value="name">Name</option>
 						<option value="type">Type</option>

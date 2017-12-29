@@ -24,7 +24,7 @@ class ActiveReservations extends React.Component {
 	render() {
 		return (
 			<div className="sve">
-				<ReservationList reservations={this.state.res} />
+				<ReservationList reservations={this.state.res} extend={false}/>
 			</div>
 		);
 	}
