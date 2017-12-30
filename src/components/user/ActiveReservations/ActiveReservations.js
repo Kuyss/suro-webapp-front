@@ -1,6 +1,6 @@
 import React from 'react';
 import ReservationList from '../ReservationList/ReservationList';
-import { getReservations } from '../../../services/reservation';
+import { getReservations, deleteReservation } from '../../../services/reservation';
 import './ActiveReservations.css';
 import { read } from '../../../services/storage';
 
@@ -21,10 +21,14 @@ class ActiveReservations extends React.Component {
 		})
 	}
 
+	delReservation(id){
+		deleteReservation(id, read('token'));
+	}
+
 	render() {
 		return (
 			<div className="sve">
-				<ReservationList reservations={this.state.res} extend={false}/>
+				<ReservationList reservations={this.state.res} extend={false} del={this.delReservation}/>
 			</div>
 		);
 	}

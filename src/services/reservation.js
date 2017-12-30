@@ -28,3 +28,16 @@ export function postReservation(token, id, startdate, returndate) {
         console.log(error);
     });
 }
+
+export function deleteReservation(id, token) {
+    return fetch(`http://localhost:8000/api/reservations/delete/${id}`, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).catch((error) => {
+        console.log(error);
+    });
+}

@@ -56,6 +56,16 @@ class SearchEquipment extends React.Component {
 		}
 	}
 
+	cancel() {
+		this.setState({
+			itemsToReserve: [],
+			clicked: []
+		});
+
+		this.start.value = '';
+		this.end.value = '';
+	}
+
 	reserve(start, end) {
 		if (start.length === 0 || end.length === 0) {
 			this.setState({
@@ -66,10 +76,7 @@ class SearchEquipment extends React.Component {
 
 			postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
 
-			this.setState({
-				itemsToReserve: [],
-				clicked: []
-			})
+			this.cancel();
 		}
 	}
 
@@ -104,7 +111,8 @@ class SearchEquipment extends React.Component {
 							</div>
 						</div>
 						{this.state.nodate && <Label pointing>Enter both dates</Label>}
-						<Button style={{ 'margin-left': 500 }} onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
+						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
+						<Button onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
 					<br /><br /><br />
 					<select className="ui fluid search dropdown" multiple="" className="select">

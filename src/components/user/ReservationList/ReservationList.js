@@ -1,12 +1,14 @@
 import React from 'react';
 import Reservation from '../Reservation/Reservation.js';
 
-const ReservationList = ({ reservations, history }) => (
-    <div>
-        {
-            reservations.map((reservation) => <Reservation reservation={reservation} his={history}/>)
-        }
-    </div>
-);
+export default class ReservationList extends React.Component {
 
-export default ReservationList;
+    render() {
+        return (<div>
+            {
+                this.props.reservations.map((reservation) => <Reservation reservation={reservation} his={this.props.history} del={this.props.del} />)
+            }
+        </div>);
+    }
+
+}
