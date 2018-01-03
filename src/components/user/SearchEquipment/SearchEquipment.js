@@ -14,6 +14,8 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container/Contai
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
+const KEYS_TO_FILTERS = ['item.description'];
+
 class SearchEquipment extends React.Component {
 
 	constructor(args) {
@@ -22,8 +24,11 @@ class SearchEquipment extends React.Component {
 			items: [],
 			itemsToReserve: [],
 			clicked: [],
-			nodate: false
+			nodate: false,
+			filtered: [],
+			searchTerm: ''
 		};
+
 		this.reserve = this.reserve.bind(this);
 		this.addToRes = this.addToRes.bind(this);
 		this.filterBy = this.filterBy.bind(this);
@@ -32,7 +37,8 @@ class SearchEquipment extends React.Component {
 	componentWillMount() {
 		getItems(read('token')).then((res) => {
 			this.setState({
-				items: res
+				items: res,
+				filtered: res
 			});
 		});
 	}
@@ -81,9 +87,28 @@ class SearchEquipment extends React.Component {
 
 	filterBy() {
 		var e = document.getElementsByClassName("select")[0];
-		console.log(e.options[e.selectedIndex].value);
-		console.log(document.getElementsByClassName("input").value);
+		var selectedFilter = (e.options[e.selectedIndex].value);
+		var writtenValue = (this.search.value);
+		var f = {};
+
+		switch(selectedFilter){
+			case 'id':
+				f = this.state.items.filter(item => item.id === parseInt(writtenValue));
+				break;
+			case 'name':
+				f = this.state.items.filter(item => item.description.includes(writtenValue));
+				break;
+			case 'type':
+				f = this.state.items.filter(item => item.type.description.includes(writtenValue));
+		}
+		
+
+		this.setState({
+			filtered: f
+		});
+
 	}
+
 
 	render() {
 		return (
@@ -119,12 +144,20 @@ class SearchEquipment extends React.Component {
 						<option value="name">Name</option>
 						<option value="type">Type</option>
 					</select>
-					<Input className="input" />
-					<Button onClick={() => this.filterBy()}>Search </Button>
+					<div className="ui search">
+						<input className="prompt" type="text" placeholder="search" ref={(input) => {
+							this.search = input;
+						}} />
+
+					</div>
+
+					{ <Button onClick={() => this.filterBy()}>Search </Button> }
+
+					
 
 
 				</div>
-				<ItemList items={this.state.items} do={this.addToRes} />
+				<ItemList items={this.state.filtered} do={this.addToRes} />
 			</div>
 
 		);

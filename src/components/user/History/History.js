@@ -14,14 +14,17 @@ class History extends React.Component {
 			res: [],
 			nodate: false,
 			idsToReserve: [],
-			pastRes: []
+			pastRes: [],
+			activeUserID: 0
 		};
 		this.reserve = this.reserve.bind(this);
 	}
 
 	componentWillMount() {
 
-		const usr = getActiveUser(read('token'));
+		getActiveUser(read('token')).then((result) => this.setState({
+			activeUserID: result
+		}));
 
 		getReservations(read('token')).then((resp) => {
 			this.setState({
@@ -33,7 +36,7 @@ class History extends React.Component {
 				var date = r.return_date.split('-');
 				var returnDate = new Date(date[0], date[1] - 1, date[2]);
 
-				if (returnDate < Date.now() && r.userId === usr.id) {
+				if (returnDate < Date.now() && r.user_id === this.state.activeUserID) {
 
 					var newArray = this.state.pastRes.slice();
 					newArray.push(r);

@@ -35,7 +35,7 @@ export function getActiveUser(token) {
         headers: {
             'Authorization': `Bearer ${token}`
         }
-    }).then((res) => res.json())
+    }).then((res) => res.json()).then((r)=> r.id)
         .catch((error) => {
             console.log(error);
         });
