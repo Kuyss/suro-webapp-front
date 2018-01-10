@@ -94,13 +94,13 @@ class SearchEquipment extends React.Component {
 				f = this.state.items.filter(item => item.id === parseInt(writtenValue));
 				break;
 			case 'name':
-				f = this.state.items.filter(item => item.description.includes(writtenValue));
+				f = this.state.items.filter(item => item.description.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			case 'type':
-				f = this.state.items.filter(item => item.type.description.includes(writtenValue));
+				f = this.state.items.filter(item => item.type.description.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			case 'kittype':
-				f = this.state.items.filter(item => item.kit.name.includes(writtenValue));
+				f = this.state.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			default:
 				break;
