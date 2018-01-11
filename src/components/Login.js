@@ -42,11 +42,7 @@ export default class Login extends React.Component {
 
     render() {
         return (
-<<<<<<< HEAD
             <Form style={{ padding: 15 }}>
-=======
-            <Form style={{padding: 15}}>
->>>>>>> user
                 <Form.Field>
                     <label>Email</label>
                     <input placeholder='email' ref={(input) => {
