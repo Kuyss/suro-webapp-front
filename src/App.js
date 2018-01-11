@@ -4,11 +4,12 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import EquipmentManagement from './components/admin/EquipmentManagement/EquipmentManagement';
 import Header from './components/Header';
 import Home from './components/Home';
+import Login from './components/Login.js';
 import UserManagement from './components/admin/UserManagement/UserManagement';
-
-import ActiveReservations from './components/user/ActiveReservations/ActiveReservations.js';
-import SearchEquipment from './components/user/SearchEquipment/SearchEquipment.js';
-import History from './components/user/History/History.js';
+import Register from './components/Register';
+import ActiveReservations from './components/user/ActiveReservations/ActiveReservations';
+import SearchEquipment from './components/user/SearchEquipment/SearchEquipment';
+import History from './components/user/History/History';
 
 const Container = (props) =>
   <div>
@@ -22,7 +23,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Container>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route path="/user_management" component={UserManagement} />
             <Route path="/equipment_management" component={EquipmentManagement} />
 
