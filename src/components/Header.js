@@ -5,7 +5,7 @@ import { roles } from '../util/roles';
 import { Icon, Menu } from 'semantic-ui-react'
 
 export default class Header extends Component {
-	state = { activeItem: 'home', role: "ADMIN" }
+	state = { activeItem: 'home', role: "USER" }
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -56,7 +56,7 @@ export default class Header extends Component {
 							<Link to="/history">
 								<Menu.Item as="span" name='history' active={activeItem === 'history'} onClick={this.handleItemClick}>
 									<Icon name="history" />
-									History of Reservations
+									Reservations History
 								</Menu.Item>
 							</Link>
 						</Menu.Menu>
