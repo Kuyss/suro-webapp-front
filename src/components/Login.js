@@ -40,25 +40,6 @@ class Login extends React.Component {
 
     }
 
-<<<<<<< HEAD
-    render() {
-        return (
-            <Form style={{ padding: 15 }}>
-                <Form.Field>
-                    <label>Email</label>
-                    <input placeholder='email' ref={(input) => {
-                        this.email = input;
-                    }} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Password</label>
-                    <input placeholder='password' ref={(input) => {
-                        this.password = input;
-                    }} />
-                </Form.Field>
-                <Button type='login' onClick={() => this.saveCredentials(this.email.value, this.password.value)}>Login</Button>
-                {!this.state.passOK && <Label pointing>Invalid email or password</Label>}
-=======
     renderPopup = () => {
         return(
             this.props.showLoginPopup &&
@@ -87,7 +68,6 @@ class Login extends React.Component {
                         <input type='password' placeholder='Password' value={this.state.password} onChange={this.setPassword}/>
                     </Form.Field>
                 <Button type='button' onClick={this.handleLogin}>Login</Button>
->>>>>>> 27e34061028b9a6840ac7199028abbf53601cd0a
             </Form>
         );
     }
