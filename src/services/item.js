@@ -1,5 +1,7 @@
+import { API_BASE } from '../util/constants';
+
 export function getItems(token) {
-    return fetch('http://localhost:8000/api/items', {
+    return fetch(`${API_BASE}/items`, {
         method: 'get',
         headers: {
             'Authorization': `Bearer ${token}`

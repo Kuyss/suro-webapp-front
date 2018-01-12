@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { roles } from '../util/roles';
+import { ROLES } from '../util/constants';
+import { connect } from 'react-redux';
 
 import { Button, Icon, Menu } from 'semantic-ui-react'
 
-export default class Header extends Component {
-	state = { activeItem: 'home', role: "ADMIN" }
+class Header extends Component {
+
+	constructor() {
+		super();
+		this.state = {
+			activeItem: 'home', 
+			role: null
+		}
+	}
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -22,7 +30,7 @@ export default class Header extends Component {
 			          	</Menu.Item>
 					</Link>
 					{
-						role === roles.ADMIN &&
+						this.props.role === ROLES.ADMIN &&
 						<Menu.Menu>
 							<Link to="/user_management">
 								<Menu.Item as="span" name='user management' active={activeItem === 'user management'} onClick={this.handleItemClick} >
@@ -39,7 +47,7 @@ export default class Header extends Component {
 						</Menu.Menu>
 					}
 					{
-						role === roles.USER &&
+						this.props.role === ROLES.USER &&
 						<Menu.Menu>
 							<Link to="/search_equipment">
 								<Menu.Item as="span" name='search equipment' active={activeItem === 'search equipment'} onClick={this.handleItemClick}>
@@ -73,3 +81,21 @@ export default class Header extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+  return {
+    role: state.users.currentUserRole,
+    showLoginPopup: state.users.showLoginPopup
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header);
