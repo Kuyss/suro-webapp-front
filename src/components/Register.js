@@ -9,7 +9,7 @@ export default class Register extends React.Component {
     }
 
     render() {
-        return (<Form>
+        return (<Form style={{ padding: 15 }}>
             <Form.Field>
                 <label>Email</label>
                 <input placeholder='email' ref={(input) => {
