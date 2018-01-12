@@ -26,6 +26,12 @@ const userActions = {
 		};
 	},
 
+	logout() {
+		return dispatch => {
+			dispatch(actions.logout({ data: null }));				
+		};
+	},
+
 	register(user) {
 		return dispatch => {
 			request
@@ -50,6 +56,12 @@ const userActions = {
 	showPopup(name, value) {
 		return dispatch => {
 			dispatch(actions.showPopup({ data: { name, value } }));				
+		};
+	},
+
+	changeActiveTab(name) {
+		return dispatch => {
+			dispatch(actions.changeActiveTab({ data: name }));				
 		};
 	},
 };

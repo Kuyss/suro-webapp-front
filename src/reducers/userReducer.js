@@ -5,6 +5,13 @@ export default function userReducer(state = initialState.users, action) {
 	
 	switch(action.type) {
 
+		case "CHANGE_ACTIVE_TAB":
+			newState = Object.assign({}, state, {
+				activeTab: action.data
+			});
+
+			return newState;
+
 		case "LOGIN":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {

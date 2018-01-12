@@ -107,7 +107,6 @@ class Register extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
   return {
     showRegisterPopup: state.users.showRegisterPopup
   };
