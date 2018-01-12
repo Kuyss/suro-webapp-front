@@ -35,9 +35,9 @@ class UsersOverview extends Component {
 
           <Table.Body>
             {
-              users.map(u => {
+              users.map((u, i) => {
                 return(
-                  <Table.Row>
+                  <Table.Row key={i}>
                     <Table.Cell>{u.id}</Table.Cell>
                     <Table.Cell>{u.first_name}</Table.Cell>
                     <Table.Cell>{u.last_name}</Table.Cell>
