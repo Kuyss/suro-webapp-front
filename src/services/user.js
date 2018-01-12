@@ -28,3 +28,15 @@ export function registerUser(email, password, first_name, last_name) {
         })
     }).then((res) => res.json());
 }
+
+export function getActiveUser(token) {
+    return fetch('http://localhost:8000/api/users/current', {
+        method: 'get',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then((res) => res.json()).then((r)=> r.id)
+        .catch((error) => {
+            console.log(error);
+        });
+}
