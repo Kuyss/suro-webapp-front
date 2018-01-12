@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { roles } from '../util/roles';
 
-import { Icon, Menu } from 'semantic-ui-react'
+import { Button, Icon, Menu } from 'semantic-ui-react'
 
 export default class Header extends Component {
-	state = { activeItem: 'home', role: "USER" }
+	state = { activeItem: 'home', role: "ADMIN" }
 
 	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -61,6 +61,13 @@ export default class Header extends Component {
 							</Link>
 						</Menu.Menu>
 					}
+					<Menu.Menu position='right'>
+						<Link to="/register">
+							<Menu.Item name='registracija' active={activeItem === 'registracija'} onClick={this.handleItemClick}>
+								<Button primary>Register</Button>
+							</Menu.Item>
+						</Link>
+					</Menu.Menu> 
 				</Menu>
 			</div>
 		);

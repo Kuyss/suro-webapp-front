@@ -26,7 +26,7 @@ class App extends Component {
             <Route exact path="/" component={Login} />
             <Route path="/user_management" component={UserManagement} />
             <Route path="/equipment_management" component={EquipmentManagement} />
-
+            <Route path="/register" component={Register} />
             <Route path="/search_equipment" component={SearchEquipment} />
             <Route path="/active_reservations" component={ActiveReservations} />
             <Route path="/history" component={History} />
