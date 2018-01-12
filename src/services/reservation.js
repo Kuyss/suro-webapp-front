@@ -1,5 +1,7 @@
+import { API_BASE } from '../util/constants';
+
 export function getReservations(token) {
-    return fetch('http://159.89.108.135/api/reservations', {
+    return fetch(`${API_BASE}/reservations`, {
         method: 'get',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -11,8 +13,7 @@ export function getReservations(token) {
 }
 
 export function postReservation(token, id, startdate, returndate) {
-
-    return fetch('http://159.89.108.135/api/reservations/request', {
+    return fetch(`${API_BASE}/reservations/request`, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -30,7 +31,7 @@ export function postReservation(token, id, startdate, returndate) {
 }
 
 export function deleteReservation(id, token) {
-    return fetch(`http://159.89.108.135/api/reservations/delete/${id}`, {
+    return fetch(`${API_BASE}/reservations/delete/${id}`, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
