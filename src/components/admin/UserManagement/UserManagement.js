@@ -19,13 +19,17 @@ export default class Header extends Component {
 	            	<Icon name='add user' />
 	            	Create New User
 	            </Menu.Item>
-	            <Menu.Item name='accept new user' active={activeItem === 'accept new user'} onClick={this.handleItemClick} >
-	            <Icon name='checkmark' />
-	            	Accept New User
+	            <Menu.Item name='accept new users' active={activeItem === 'accept new users'} onClick={this.handleItemClick} >
+	            <Icon name='check circle' />
+	            	Accept New Users
 	            </Menu.Item>
-	            <Menu.Item name='user overview' active={activeItem === 'user overview'} onClick={this.handleItemClick} >
+	            <Menu.Item name='users overview' active={activeItem === 'users overview'} onClick={this.handleItemClick} >
 	            	<Icon name='users' />
-	            	User Overview
+	            	Users Overview
+	            </Menu.Item>
+	            <Menu.Item name='reservation approvals' active={activeItem === 'reservation approvals'} onClick={this.handleItemClick} >
+	            	<Icon name='clipboard' />
+	            	Reservation Approvals
 	            </Menu.Item>
 	          </Menu>
 	        </Grid.Column>
