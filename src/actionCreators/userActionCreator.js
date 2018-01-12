@@ -15,7 +15,7 @@ const userActions = {
 		return dispatch => {
 			request
 				.get(env.api + '/users')
-				.set('Authorization', token)
+				.set('Authorization', `bearer ${token}`)
 				.accept('application/json')
 				.end((err, res) => {
 					if(err) {
