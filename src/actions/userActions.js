@@ -5,6 +5,14 @@ export function changeActiveTab({ data }) {
 	}
 }
 
+export function loadAllUsers({ status, data }) {
+	return {
+		data,
+		status,
+		type: "LOAD_ALL_USERS",
+	}
+}
+
 export function login({ status, data }) {
 	return {
 		data,

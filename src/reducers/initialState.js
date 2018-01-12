@@ -5,7 +5,7 @@ export default {
 		currentUser: null,
 		currentUserRole: null,
 		token: null,
-		showRegisterPopup: false,
+		showLoginPopup: false,
 		showRegisterPopup: false,
 		userList: [],
 	}

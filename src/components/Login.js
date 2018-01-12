@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, Label } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 import userActions from '../actionCreators/userActionCreator';
 
 import Popup from './Popup';

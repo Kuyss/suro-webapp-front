@@ -5,6 +5,33 @@ var request = require('superagent');
 
 const userActions = {
 
+	changeActiveTab(name) {
+		return dispatch => {
+			dispatch(actions.changeActiveTab({ data: name }));				
+		};
+	},
+
+	loadAllUsers(token) {
+		return dispatch => {
+			request
+				.get(env.api + '/users')
+				.set('Authorization', token)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.loadAllUsers({ status: "failure", data: err }));
+						return;
+					}
+					let users = JSON.parse(res.text);
+					if(res.ok) {
+						dispatch(actions.loadAllUsers({ status: "success", data: users }));
+					} else {
+						dispatch(actions.loadAllUsers({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	login(user) {
 		return dispatch => {
 			request
@@ -59,11 +86,6 @@ const userActions = {
 		};
 	},
 
-	changeActiveTab(name) {
-		return dispatch => {
-			dispatch(actions.changeActiveTab({ data: name }));				
-		};
-	},
 };
 
 export default userActions;

@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import userActions from 'actionCreators/userActionCreator';
 
 class UsersOverview extends Component {
+
+  componentDidMount = () => {
+    this.props.dispatch(userActions.loadAllUsers(this.props.token));
+  }
+
 	render() {
 		return(
 			<div>
@@ -14,6 +19,7 @@ class UsersOverview extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    token: state.users.token,
     users: state.users.userList
   };
 };

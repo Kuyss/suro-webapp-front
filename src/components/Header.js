@@ -30,7 +30,7 @@ class Header extends Component {
 			return(
 				<Menu.Menu position='right'>
 					<Link to="/">
-						<Menu.Item name='logout' onClick={this.handleLogout}>
+						<Menu.Item as="span" name='logout' onClick={this.handleLogout}>
 							<Button>Logout</Button>
 						</Menu.Item>
 					</Link>
@@ -40,7 +40,7 @@ class Header extends Component {
 			return(
 				<Menu.Menu position='right'>
 					<Link to="/register">
-						<Menu.Item name='register' as="span" active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
+						<Menu.Item as="span" name='register' active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
 							<Button primary>Register</Button>
 						</Menu.Item>
 					</Link>
