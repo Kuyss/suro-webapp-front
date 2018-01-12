@@ -1,5 +1,5 @@
 export function loginUser(email, password) {
-    return fetch('http://localhost:8000/api/auth/login', {
+    return fetch('http://159.89.108.135/api/auth/login', {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -14,7 +14,7 @@ export function loginUser(email, password) {
 }
 
 export function registerUser(email, password, first_name, last_name) {
-    return fetch('http://localhost:8000/api/auth/register', {
+    return fetch('http://159.89.108.135/api/auth/register', {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -30,7 +30,7 @@ export function registerUser(email, password, first_name, last_name) {
 }
 
 export function getActiveUser(token) {
-    return fetch('http://localhost:8000/api/users/current', {
+    return fetch('http://159.89.108.135/api/users/current', {
         method: 'get',
         headers: {
             'Authorization': `Bearer ${token}`

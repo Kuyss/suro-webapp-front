@@ -1,5 +1,5 @@
 export function getItems(token) {
-    return fetch('http://localhost:8000/api/items', {
+    return fetch('http://159.89.108.135/api/items', {
         method: 'get',
         headers: {
             'Authorization': `Bearer ${token}`
