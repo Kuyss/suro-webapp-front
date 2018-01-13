@@ -13,7 +13,6 @@ export function getReservations(token) {
 }
 
 export function postReservation(token, id, startdate, returndate) {
-
     return fetch(`${API_BASE}/reservations/request`, {
         method: 'post',
         headers: {
