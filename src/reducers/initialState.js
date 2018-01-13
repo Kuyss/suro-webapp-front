@@ -8,5 +8,15 @@ export default {
 		showLoginPopup: false,
 		showRegisterPopup: false,
 		userList: [],
+	},
+
+	reservations: {
+		error: null,
+		reservationList: []
+	},
+
+	items:{
+		error: null,
+		itemsList: []
 	}
 }

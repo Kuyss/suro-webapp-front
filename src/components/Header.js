@@ -12,13 +12,13 @@ class Header extends Component {
 		super();
 		this.state = {
 			activeTab: 'home', 
-			role: null
+			role: 2
 		}
 	}
 
 	handleItemClick = (e, { name }) => {
-		//this.setState({ activeTab: name });
-		this.props.dispatch(userActions.changeActiveTab(name));
+		this.setState({ activeTab: name });
+		//this.props.dispatch(userActions.changeActiveTab(name));
 	}
 
 	handleLogout = () => {
@@ -50,7 +50,7 @@ class Header extends Component {
 	}
 
 	render() {
-		const { activeTab, role } = this.props
+		const { activeTab, role } = this.state
 
 		return (
 			<div>
