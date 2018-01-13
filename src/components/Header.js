@@ -50,7 +50,7 @@ class Header extends Component {
 	}
 
 	render() {
-		const { activeTab, role } = this.state
+		const { activeTab, role } = this.props
 
 		return (
 			<div>
