@@ -5,10 +5,32 @@ export default function userReducer(state = initialState.users, action) {
 	
 	switch(action.type) {
 
+		case "CHANGE_ACTIVE_TAB":
+			newState = Object.assign({}, state, {
+				activeTab: action.data
+			});
+
+			return newState;
+
+		case "LOAD_ALL_USERS":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					userList: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "LOGIN":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
-					currentUser: action.data,
+					currentUser: action.data.user,
 					currentUserRole: action.data.user.role_id,
 					showLoginPopup: true,
 					token: action.data.token

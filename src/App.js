@@ -3,7 +3,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import EquipmentManagement from './components/admin/EquipmentManagement/EquipmentManagement';
 import Header from './components/Header';
-import Home from './components/Home';
 import Login from './components/Login.js';
 import UserManagement from './components/admin/UserManagement/UserManagement';
 import Register from './components/Register';

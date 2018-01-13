@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ROLES } from '../util/constants';
 import { connect } from 'react-redux';
+import userActions from '../actionCreators/userActionCreator';
 
 import { Button, Icon, Menu } from 'semantic-ui-react'
 
@@ -10,36 +11,67 @@ class Header extends Component {
 	constructor() {
 		super();
 		this.state = {
-			activeItem: 'home', 
+			activeTab: 'home', 
 			role: null
 		}
 	}
 
-	handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+	handleItemClick = (e, { name }) => {
+		//this.setState({ activeTab: name });
+		this.props.dispatch(userActions.changeActiveTab(name));
+	}
+
+	handleLogout = () => {
+		this.props.dispatch(userActions.logout());
+	}
+
+	renderButtons = () => {
+		if(this.props.role) {
+			return(
+				<Menu.Menu position='right'>
+					<Link to="/">
+						<Menu.Item as="span" name='logout' onClick={this.handleLogout}>
+							<Button>Logout</Button>
+						</Menu.Item>
+					</Link>
+				</Menu.Menu> 
+			);
+		} else {
+			return(
+				<Menu.Menu position='right'>
+					<Link to="/register">
+						<Menu.Item as="span" name='register' active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
+							<Button primary>Register</Button>
+						</Menu.Item>
+					</Link>
+				</Menu.Menu>
+			);
+		}
+	}
 
 	render() {
-		const { activeItem, role } = this.state
+		const { activeTab, role } = this.props
 
 		return (
 			<div>
 				<Menu icon='labeled'>
 					<Link to="/">
-						<Menu.Item as="span" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} >
+						<Menu.Item as="span" name='home' active={activeTab === 'home'} onClick={this.handleItemClick} >
 							<Icon name="home" />
 							Home
 			          	</Menu.Item>
 					</Link>
 					{
-						this.props.role === ROLES.ADMIN &&
+						role === ROLES.ADMIN &&
 						<Menu.Menu>
 							<Link to="/user_management">
-								<Menu.Item as="span" name='user management' active={activeItem === 'user management'} onClick={this.handleItemClick} >
+								<Menu.Item as="span" name='user management' active={activeTab === 'user management'} onClick={this.handleItemClick} >
 									<Icon name="user" />
 									User Management
 					          	</Menu.Item>
 							</Link>
 							<Link to="/equipment_management">
-								<Menu.Item as="span" name='equipment management' active={activeItem === 'equipment management'} onClick={this.handleItemClick} >
+								<Menu.Item as="span" name='equipment management' active={activeTab === 'equipment management'} onClick={this.handleItemClick} >
 									<Icon name="archive" />
 									Equipment Management
 					          	</Menu.Item>
@@ -47,35 +79,29 @@ class Header extends Component {
 						</Menu.Menu>
 					}
 					{
-						this.props.role === ROLES.USER &&
+						role === ROLES.USER &&
 						<Menu.Menu>
 							<Link to="/search_equipment">
-								<Menu.Item as="span" name='search equipment' active={activeItem === 'search equipment'} onClick={this.handleItemClick}>
+								<Menu.Item as="span" name='search equipment' active={activeTab === 'search equipment'} onClick={this.handleItemClick}>
 									<Icon name="search" />
 									Search Equipment
 								</Menu.Item>
 							</Link>
 							<Link to="/active_reservations">
-								<Menu.Item as="span" name='active reservations' active={activeItem === 'active reservations'} onClick={this.handleItemClick}>
+								<Menu.Item as="span" name='active reservations' active={activeTab === 'active reservations'} onClick={this.handleItemClick}>
 									<Icon name="find" />
 									Active Reservations
 								</Menu.Item>
 							</Link>
 							<Link to="/history">
-								<Menu.Item as="span" name='history' active={activeItem === 'history'} onClick={this.handleItemClick}>
+								<Menu.Item as="span" name='history' active={activeTab === 'history'} onClick={this.handleItemClick}>
 									<Icon name="history" />
 									Reservations History
 								</Menu.Item>
 							</Link>
 						</Menu.Menu>
 					}
-					<Menu.Menu position='right'>
-						<Link to="/register">
-							<Menu.Item name='registracija' active={activeItem === 'registracija'} onClick={this.handleItemClick}>
-								<Button primary>Register</Button>
-							</Menu.Item>
-						</Link>
-					</Menu.Menu> 
+					{ this.renderButtons() }
 				</Menu>
 			</div>
 		);
@@ -84,6 +110,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   return {
+  	activeTab: state.users.activeTab,
     role: state.users.currentUserRole,
     showLoginPopup: state.users.showLoginPopup
   };
