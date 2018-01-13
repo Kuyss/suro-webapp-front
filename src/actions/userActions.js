@@ -1,8 +1,22 @@
+export function changeActiveTab({ data }) {
+	return {
+		data,
+		type: "CHANGE_ACTIVE_TAB",
+	}
+}
+
 export function login({ status, data }) {
 	return {
 		data,
 		status,
 		type: "LOGIN",
+	}
+}
+
+export function logout({ data }) {
+	return {
+		data,
+		type: "LOGOUT",
 	}
 }
 

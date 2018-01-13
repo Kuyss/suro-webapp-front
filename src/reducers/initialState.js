@@ -1,5 +1,6 @@
 export default {
 	users: {
+		activeTab: 'home',
 		error: null,
 		currentUser: null,
 		currentUserRole: null,
