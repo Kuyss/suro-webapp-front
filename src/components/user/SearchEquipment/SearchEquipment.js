@@ -13,6 +13,9 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container/Container';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
+import itemActions from 'actionCreators/itemActionCreator';
+import { connect } from 'react-redux';
+
 
 class SearchEquipment extends React.Component {
 
@@ -32,13 +35,18 @@ class SearchEquipment extends React.Component {
 		this.filterBy = this.filterBy.bind(this);
 	}
 
-	componentWillMount() {
-		getItems(read('token')).then((res) => {
-			this.setState({
-				items: res,
-				filtered: res
-			});
-		});
+	// componentWillMount() {
+	// 	getItems(read('token')).then((res) => {
+	// 		this.setState({
+	// 			items: res,
+	// 			filtered: res
+	// 		});
+	// 	});
+	// }
+
+	componentDidMount(){
+
+		this.props.dispatch(itemActions.getAllItems(this.props.token));
 	}
 
 	addToRes(newid) {
@@ -159,11 +167,27 @@ class SearchEquipment extends React.Component {
 
 
 				</div>
-				<ItemList items={this.state.filtered} do={this.addToRes} />
+				<ItemList items={this.props.items} do={this.addToRes} />
 			</div>
 
 		);
 	}
 }
 
-export default SearchEquipment;
+const mapStateToProps = (state) => {
+	return {
+		items: state.items.itemList,
+		token: state.users.token
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		dispatch
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SearchEquipment);

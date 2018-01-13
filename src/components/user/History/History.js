@@ -5,6 +5,9 @@ import { getReservations, postReservation } from '../../../services/reservation'
 import { read } from '../../../services/storage';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import { getActiveUser } from '../../../services/user';
+import reservationActions from 'actionCreators/reservationActionCreator';
+import { connect } from 'react-redux';
+
 
 
 class History extends React.Component {
@@ -20,32 +23,10 @@ class History extends React.Component {
 		this.reserve = this.reserve.bind(this);
 	}
 
-	componentWillMount() {
+	
 
-		getActiveUser(read('token')).then((result) => this.setState({
-			activeUserID: result
-		}));
-
-		getReservations(read('token')).then((resp) => {
-			this.setState({
-				res: resp
-			});
-		}).then(() => {
-			//show only past and this user's reservations
-			this.state.res.forEach(r => {
-				var date = r.return_date.split('-');
-				var returnDate = new Date(date[0], date[1] - 1, date[2]);
-
-				if (returnDate < Date.now() && r.user_id === this.state.activeUserID) {
-
-					var newArray = this.state.pastRes.slice();
-					newArray.push(r);
-					this.setState({
-						pastRes: newArray
-					});
-				}
-			});
-		});
+	componentDidMount(){
+		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
 	}
 
 	reserve(items, start, end) {
@@ -79,10 +60,26 @@ class History extends React.Component {
 		return (
 			<div className="sve">
 				{this.state.nodate && alert('enter both dates')}
-				<ReservationList reservations={this.state.pastRes} history={true} reserve={this.reserve} />
+				<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
 			</div>
 		);
 	}
 }
 
-export default History;
+const mapStateToProps = (state) => {
+	return {
+		reservations: state.reservations.reservationList,
+		token: state.users.token
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		dispatch
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(History);
