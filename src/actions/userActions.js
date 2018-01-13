@@ -5,6 +5,14 @@ export function changeActiveTab({ data }) {
 	}
 }
 
+export function deleteUser({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_USER",
+	}
+}
+
 export function loadAllUsers({ status, data }) {
 	return {
 		data,

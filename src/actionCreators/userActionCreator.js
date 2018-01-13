@@ -11,6 +11,27 @@ const userActions = {
 		};
 	},
 
+	deleteUser(user_id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/users/delete/${user_id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.deleteUser({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.deleteUser({ status: "success", data: user_id }));
+					} else {
+						dispatch(actions.deleteUser({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	loadAllUsers(token) {
 		return dispatch => {
 			request
