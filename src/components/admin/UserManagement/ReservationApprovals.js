@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import reservationActions from 'actionCreators/reservationActionCreator';
-import { Button, Header, Icon, Table } from 'semantic-ui-react';
+import { Button, Icon, Table } from 'semantic-ui-react';
 
 class ReservationApprovals extends Component {
 

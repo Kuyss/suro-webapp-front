@@ -17,6 +17,6 @@ export default {
 
 	items:{
 		error: null,
-		itemsList: []
+		itemList: []
 	}
 }
