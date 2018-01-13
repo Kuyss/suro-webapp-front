@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import userActions from 'actionCreators/userActionCreator';
-import { Button, Header, Icon, Table } from 'semantic-ui-react'
+import { Button, Header, Icon, Table } from 'semantic-ui-react';
 
 
 class UsersOverview extends Component {
