@@ -38,9 +38,6 @@ class History extends React.Component {
 
 		} else {
 
-			// 	OVO RADI SAMO IZ DRUGE ZASTO POJMA
-			//	NEMAM ZBILJA NE KUZIM :(
-
 			var newArray = [];
 
 			items.forEach(element => {

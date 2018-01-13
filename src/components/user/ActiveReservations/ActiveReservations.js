@@ -26,7 +26,6 @@ class ActiveReservations extends React.Component {
 	}
 
 	delReservation(id) {
-
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
 	}
 

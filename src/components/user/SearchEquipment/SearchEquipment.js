@@ -14,7 +14,9 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container/Contai
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import itemActions from 'actionCreators/itemActionCreator';
+import reservationActions from 'actionCreators/reservationActionCreator'
 import { connect } from 'react-redux';
+import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
 
 
 class SearchEquipment extends React.Component {
@@ -35,18 +37,16 @@ class SearchEquipment extends React.Component {
 		this.filterBy = this.filterBy.bind(this);
 	}
 
-	// componentWillMount() {
-	// 	getItems(read('token')).then((res) => {
-	// 		this.setState({
-	// 			items: res,
-	// 			filtered: res
-	// 		});
-	// 	});
-	// }
 
-	componentDidMount(){
+	componentDidMount() {
 
 		this.props.dispatch(itemActions.getAllItems(this.props.token));
+
+		this.setState({
+			filtered: this.props.items
+		});
+
+		console.log(this.state.filtered)
 	}
 
 	addToRes(newid) {
@@ -85,8 +85,9 @@ class SearchEquipment extends React.Component {
 			});
 
 		} else {
-			console.log(this.state.itemsToReserve.toString());
-			postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
+			
+			//postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
+			this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.itemsToReserve, start, end ));
 			this.cancel();
 		}
 	}
@@ -99,16 +100,16 @@ class SearchEquipment extends React.Component {
 
 		switch (selectedFilter) {
 			case 'id':
-				f = this.state.items.filter(item => item.id === parseInt(writtenValue));
+				f = this.props.items.filter(item => item.id === parseInt(writtenValue));
 				break;
 			case 'name':
-				f = this.state.items.filter(item => item.description.toLowerCase().includes(writtenValue.toLowerCase()));
+				f = this.props.items.filter(item => item.description.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			case 'type':
-				f = this.state.items.filter(item => item.type.description.toLowerCase().includes(writtenValue.toLowerCase()));
+				f = this.props.items.filter(item => item.type.description.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			case 'kittype':
-				f = this.state.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
+				f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			default:
 				break;
@@ -167,7 +168,7 @@ class SearchEquipment extends React.Component {
 
 
 				</div>
-				<ItemList items={this.props.items} do={this.addToRes} />
+				<ItemList items={this.state.filtered} do={this.addToRes} />
 			</div>
 
 		);
