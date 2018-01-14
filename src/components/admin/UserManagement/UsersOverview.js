@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import userActions from 'actionCreators/userActionCreator';
-import { Header, Table } from 'semantic-ui-react'
+import { Button, Header, Icon, Table } from 'semantic-ui-react'
 
 
 class UsersOverview extends Component {
@@ -15,6 +15,10 @@ class UsersOverview extends Component {
    else if (role_id === 2) return "USER";
    else return "ROLE";
   }
+
+   handleDeleteUser = (user_id) => {
+      this.props.dispatch(userActions.deleteUser(user_id, this.props.token));
+   }
 
 	render() {
     const { users } = this.props;
@@ -30,6 +34,7 @@ class UsersOverview extends Component {
               <Table.HeaderCell>Role</Table.HeaderCell>
               <Table.HeaderCell>Created At</Table.HeaderCell>
               <Table.HeaderCell>Updated At</Table.HeaderCell>
+              <Table.HeaderCell>Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -45,6 +50,7 @@ class UsersOverview extends Component {
                     <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
                     <Table.Cell>{u.created_at}</Table.Cell>
                     <Table.Cell>{u.updated_at}</Table.Cell>
+                    <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteUser(u.id)} color='red' icon><Icon name='user delete'/></Button></Table.Cell>
                   </Table.Row>
                 );
               })

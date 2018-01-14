@@ -17,8 +17,8 @@ class Header extends Component {
 	}
 
 	handleItemClick = (e, { name }) => {
-		this.setState({ activeTab: name });
-		//this.props.dispatch(userActions.changeActiveTab(name));
+		//this.setState({ activeTab: name });
+		this.props.dispatch(userActions.changeActiveTab(name));
 	}
 
 	handleLogout = () => {
@@ -50,7 +50,7 @@ class Header extends Component {
 	}
 
 	render() {
-		const { activeTab, role } = this.state
+		const { activeTab, role } = this.props
 
 		return (
 			<div>

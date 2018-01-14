@@ -12,6 +12,19 @@ export default function userReducer(state = initialState.users, action) {
 
 			return newState;
 
+		case "DELETE_USER":
+			if(action.status === 'success') {
+				newState = deleteUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "LOAD_ALL_USERS":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
@@ -76,5 +89,20 @@ export default function userReducer(state = initialState.users, action) {
 		default:
 			return state;
 	}
+}
+
+function deleteUser(user_id, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user_id)
+			userList.splice(i, 1);
+	}
+
+	const newState = Object.assign({}, state, {
+					userList
+				});
+
+	return newState;
 }
 
