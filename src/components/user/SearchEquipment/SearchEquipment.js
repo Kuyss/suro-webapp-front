@@ -121,7 +121,7 @@ class SearchEquipment extends React.Component {
 			<div>
 				<div className="all">
 					<div className="reserv">
-						<Segment>{this.state.itemsToReserve.length} items in reservation.</Segment>
+						<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
 						<h3>Starting date</h3>
 						<div className="ui calendar" id="example1">
 							<div className="ui input left icon">
