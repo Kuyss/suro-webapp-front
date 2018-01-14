@@ -21,3 +21,11 @@ export function getAllReservations({ status, data }) {
 		type: "GET_ALL_RESERVATIONS",
 	}
 }
+
+export function deleteReservation({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_RESERVATION",
+	}
+}
