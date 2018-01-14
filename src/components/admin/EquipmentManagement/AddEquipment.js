@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import itemActions from 'actionCreators/itemActionCreator';
-import { Button, Dropdown, Form, Input, TextArea } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Input, Table, TextArea } from 'semantic-ui-react';
 
 class AddEquipment extends Component {
 
@@ -14,7 +14,8 @@ class AddEquipment extends Component {
 			subtype_id: null,
 			device_type_id: null,
 			description: "",
-			identifier: ""
+			identifier: "",
+			itemList: []
 		}
 	}
 
@@ -42,8 +43,11 @@ class AddEquipment extends Component {
 		return dropdownList;
 	}
 
-	handleCreateItem = () => {
-		let { device_type_id, type_id, subtype_id, kit_id, description, identifier } = this.state;
+	handleAddItem = () => {
+		const { device_type_id, type_id, subtype_id, kit_id, description, identifier } = this.state;
+		let itemList = [...this.state.itemList];
+
+		if(!device_type_id || !identifier || !description || !kit_id || !type_id) return;
 
 		let item = {
 			description,
@@ -54,7 +58,33 @@ class AddEquipment extends Component {
 			kit_id
 		};
 
-		this.props.dispatch(itemActions.createItem(item, this.props.token));
+		itemList.push(item);
+
+		this.setState({ itemList });
+
+		this.resetState();
+
+		//this.props.dispatch(itemActions.createItem(item, this.props.token));
+	}
+
+	handleCreateItems = () => {
+		const { itemList } = this.state;
+		for(let i = 0; i < itemList.length; i++) {
+			this.props.dispatch(itemActions.createItem(itemList[i], this.props.token));
+		}
+		
+		this.setState({ itemList: [] });
+	}
+
+	resetState = () => {
+		this.setState({
+			kit_id: null,
+			type_id: null,
+			subtype_id: null,
+			device_type_id: null,
+			description: "",
+			identifier: ""
+		});
 	}
 
 	setIdentifier = (e) => {
@@ -95,15 +125,64 @@ class AddEquipment extends Component {
 
 		return(
 			<div>
-				<Input onChange={this.setIdentifier} placeholder='Identifier'/>
-				<Dropdown onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
-				<Dropdown onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
-				<Dropdown onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
-				<Dropdown onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
 				<Form>
-					<TextArea onChange={this.setDescription} placeholder='Description' />
+					<Form.Field >
+                      <label>Identifier:</label>
+                      <Input value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
+                    </Form.Field>
+					<Form.Group inline>
+						<label>Select Types:</label>
+				        <Dropdown onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
+						<Dropdown onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
+						<Dropdown onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
+						<Dropdown onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
+			        </Form.Group>
+			        <Form.Field >
+                      <label>Description:</label>
+                      <TextArea value={this.state.description} onChange={this.setDescription} placeholder='Description' />
+                    </Form.Field>
+					
+					<Button type='button' onClick={this.handleAddItem}>Add Equipment</Button>
 				</Form>
-				<Button type='button' onClick={this.handleCreateItem}>Create Item</Button>
+				<br/>
+				
+					{
+						this.state.itemList.length > 0 &&
+						<div>
+							<Table celled padded>
+					          <Table.Header>
+					            <Table.Row>
+					              <Table.HeaderCell>Identifier</Table.HeaderCell>
+					              <Table.HeaderCell>Device Type</Table.HeaderCell>
+					              <Table.HeaderCell>Type</Table.HeaderCell>
+					              <Table.HeaderCell>Subtype</Table.HeaderCell>
+					              <Table.HeaderCell>Kit</Table.HeaderCell>
+					              <Table.HeaderCell>Description</Table.HeaderCell>
+					            </Table.Row>
+					          </Table.Header>
+
+					          <Table.Body>
+					            {
+					              this.state.itemList.map((it, i) => {
+					                return(
+					                  <Table.Row key={i}>
+					                    <Table.Cell>{it.identifier}</Table.Cell>
+					                    <Table.Cell>{it.device_type_id}</Table.Cell>
+					                    <Table.Cell>{it.type_id}</Table.Cell>
+					                    <Table.Cell>{it.subtype_id}</Table.Cell>
+					                    <Table.Cell>{it.kit_id}</Table.Cell>
+					                    <Table.Cell>{it.description}</Table.Cell>
+					                  </Table.Row>
+					                );
+					              })
+					            }
+					          </Table.Body>
+					        </Table>
+					        <Button type='button' onClick={this.handleCreateItems}>Save Changes</Button>
+				        </div>
+				        
+					}
+				
 			</div>
 		);
 	}

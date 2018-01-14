@@ -14,30 +14,30 @@ class EquipmentOverview extends Component {
 		return(
 			<div>
 			  <Table celled padded>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell singleLine>Id</Table.HeaderCell>
-              <Table.HeaderCell>Created At</Table.HeaderCell>
-              <Table.HeaderCell>Description</Table.HeaderCell>
-              <Table.HeaderCell>Updated At</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+		          <Table.Header>
+		            <Table.Row>
+		              <Table.HeaderCell singleLine>Id</Table.HeaderCell>
+		              <Table.HeaderCell>Created At</Table.HeaderCell>
+		              <Table.HeaderCell>Description</Table.HeaderCell>
+		              <Table.HeaderCell>Updated At</Table.HeaderCell>
+		            </Table.Row>
+		          </Table.Header>
 
-          <Table.Body>
-            {
-              items.map((it, i) => {
-                return(
-                  <Table.Row key={i}>
-                    <Table.Cell>{it.id}</Table.Cell>
-                    <Table.Cell>{it.created_at}</Table.Cell>
-                    <Table.Cell>{it.description}</Table.Cell>
-                    <Table.Cell>{it.updated_at}</Table.Cell>
-                  </Table.Row>
-                );
-              })
-            }
-          </Table.Body>
-        </Table>
+		          <Table.Body>
+		            {
+		              items.map((it, i) => {
+		                return(
+		                  <Table.Row key={i}>
+		                    <Table.Cell>{it.id}</Table.Cell>
+		                    <Table.Cell>{it.created_at}</Table.Cell>
+		                    <Table.Cell>{it.description}</Table.Cell>
+		                    <Table.Cell>{it.updated_at}</Table.Cell>
+		                  </Table.Row>
+		                );
+		              })
+		            }
+		          </Table.Body>
+		        </Table>
 			</div>
 		);
 	}
