@@ -7,7 +7,7 @@ export default {
 		token: null,
 		showLoginPopup: false,
 		showRegisterPopup: false,
-		userList: [],
+		userList: []
 	},
 
 	reservations: {
