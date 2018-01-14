@@ -5,6 +5,32 @@ export default function reservationReducer(state = initialState.reservations, ac
 	
 	switch(action.type) {
 
+		case "APPROVE_RESERVATION":
+			if(action.status === 'success') {
+				newState = approveReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "DECLINE_RESERVATION":
+			if(action.status === 'success') {
+				newState = declineReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "GET_ALL_RESERVATIONS":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
@@ -25,5 +51,35 @@ export default function reservationReducer(state = initialState.reservations, ac
 		default:
 			return state;
 	}
+}
+
+function approveReservation(reservation_id, state) {
+	let reservationList = [...state.reservationList];
+
+	for(let i = 0; i < reservationList.length; i++) {
+		if(reservationList[i].id === reservation_id) 
+			reservationList[i].status.name = "Odobreno";
+	}
+
+	const newState = Object.assign({}, state, {
+		reservationList
+	});
+
+	return newState;
+}
+
+function declineReservation(reservation_id, state) {
+	let reservationList = [...state.reservationList];
+
+	for(let i = 0; i < reservationList.length; i++) {
+		if(reservationList[i].id === reservation_id) 
+			reservationList[i].status.name = "Odbijeno";
+	}
+
+	const newState = Object.assign({}, state, {
+		reservationList
+	});
+
+	return newState;
 }
 

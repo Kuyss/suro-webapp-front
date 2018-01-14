@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { ROLES } from '../util/constants';
 import { connect } from 'react-redux';
 import userActions from '../actionCreators/userActionCreator';
+import './Header.css';
 
-import { Button, Icon, Menu } from 'semantic-ui-react'
+import { Button, Icon, Label, Menu } from 'semantic-ui-react'
 
 class Header extends Component {
 
@@ -29,9 +30,9 @@ class Header extends Component {
 		if(this.props.role) {
 			return(
 				<Menu.Menu position='right'>
-					<Link to="/">
-						<Menu.Item as="span" name='logout' onClick={this.handleLogout}>
-							<Button>Logout</Button>
+					<Link to="/" className='rightLink'>
+						<Menu.Item as="span" name='logout' className='rightBtn'  onClick={this.handleLogout}>
+							<Button color='grey'>Logout</Button>
 						</Menu.Item>
 					</Link>
 				</Menu.Menu> 
@@ -39,9 +40,9 @@ class Header extends Component {
 		} else {
 			return(
 				<Menu.Menu position='right'>
-					<Link to="/register">
-						<Menu.Item as="span" name='register' active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
-							<Button primary>Register</Button>
+					<Link to="/register" className='rightLink'>
+						<Menu.Item as="span" className='rightBtn' name='register' active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
+							<Button primary cla>Register</Button>
 						</Menu.Item>
 					</Link>
 				</Menu.Menu>
@@ -112,7 +113,8 @@ const mapStateToProps = (state) => {
   return {
   	activeTab: state.users.activeTab,
     role: state.users.currentUserRole,
-    showLoginPopup: state.users.showLoginPopup
+    showLoginPopup: state.users.showLoginPopup,
+    user: state.users.currentUser
   };
 };
 
