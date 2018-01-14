@@ -14,7 +14,6 @@ class History extends React.Component {
 	constructor(args) {
 		super(args);
 		this.state = {
-			res: [],
 			nodate: false,
 			idsToReserve: [],
 			pastRes: [],
@@ -23,10 +22,27 @@ class History extends React.Component {
 		this.reserve = this.reserve.bind(this);
 	}
 
-	
 
-	componentDidMount(){
+
+	componentDidMount() {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
+
+
+		//show only past and this user's reservations
+
+		this.props.reservations.forEach(r => {
+			var date = r.return_date.split('-');
+			var returnDate = new Date(date[0], date[1] - 1, date[2]);
+
+			if (returnDate < Date.now() && r.user_id === this.state.activeUserID) {
+
+				var newArray = this.state.pastRes.slice();
+				newArray.push(r);
+				this.setState({
+					pastRes: newArray
+				});
+			}
+		});
 	}
 
 	reserve(items, start, end) {
@@ -49,15 +65,15 @@ class History extends React.Component {
 			});
 
 			console.log(this.state.idsToReserve.toString());
-			//postReservation(read('token'), this.state.idsToReserve.toString(), start, end);
+			//this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.idsToReserve.toString(), start, end));
 		}
 	}
 
 	render() {
 		return (
 			<div className="sve">
-				{this.state.nodate && alert('enter both dates')}
-				<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
+				{this.state.nodate && <Label pointing>Enter both dates</Label>}
+				<ReservationList reservations={this.state.pastRes} history={true} reserve={this.reserve} />
 			</div>
 		);
 	}
@@ -67,6 +83,7 @@ const mapStateToProps = (state) => {
 	return {
 		reservations: state.reservations.reservationList,
 		token: state.users.token
+
 	};
 };
 

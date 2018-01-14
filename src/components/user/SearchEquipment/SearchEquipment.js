@@ -85,9 +85,7 @@ class SearchEquipment extends React.Component {
 			});
 
 		} else {
-			
-			//postReservation(read('token'), this.state.itemsToReserve.toString(), start, end);
-			this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.itemsToReserve, start, end ));
+			this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.itemsToReserve, start, end));
 			this.cancel();
 		}
 	}
