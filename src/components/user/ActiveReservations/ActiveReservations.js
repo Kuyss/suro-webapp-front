@@ -6,24 +6,27 @@ import { read } from '../../../services/storage';
 import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import { connect } from 'react-redux';
+import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
+
+
 
 
 class ActiveReservations extends React.Component {
 
 	constructor(args) {
 		super(args);
+		this.delReservation = this.delReservation.bind(this);
 	}
 
 
 
 	componentDidMount() {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
-
-		
 	}
 
 	delReservation(id) {
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
+		const arr = this.props.reservations.reservationList;
 	}
 
 	render() {

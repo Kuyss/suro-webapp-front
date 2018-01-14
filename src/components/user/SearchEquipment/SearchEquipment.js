@@ -24,12 +24,10 @@ class SearchEquipment extends React.Component {
 	constructor(args) {
 		super(args);
 		this.state = {
-			items: [],
 			itemsToReserve: [],
 			clicked: [],
 			nodate: false,
-			filtered: [],
-			searchTerm: ''
+			filtered: []
 		};
 
 		this.reserve = this.reserve.bind(this);
@@ -45,8 +43,6 @@ class SearchEquipment extends React.Component {
 		this.setState({
 			filtered: this.props.items
 		});
-
-		console.log(this.state.filtered)
 	}
 
 	addToRes(newid) {
