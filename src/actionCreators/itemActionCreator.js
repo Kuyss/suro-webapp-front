@@ -27,6 +27,51 @@ const itemActions = {
 		};
 	},
 
+	deleteItem(item_id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/items/delete/${item_id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.deleteItem({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteItem({ status: "success", data: item_id }));
+					} else {
+						dispatch(actions.deleteItem({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	editItem(item, token) {
+		return dispatch => {
+			request
+				.put(env.api + '/admin/items/edit')
+				.set('Authorization', `bearer ${token}`)
+				.send(item)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.editItem({ status: "failure", data: err }));
+						return;
+					}
+
+					let newItem = JSON.parse(res.text);
+
+					if (res.ok) {
+						dispatch(actions.editItem({ status: "success", data: newItem }));
+					} else {
+						dispatch(actions.editItem({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	getAllDeviceTypes(token) {
 		return dispatch => {
 			request

@@ -100,8 +100,8 @@ function deleteUser(user_id, state) {
 	}
 
 	const newState = Object.assign({}, state, {
-					userList
-				});
+		userList
+	});
 
 	return newState;
 }

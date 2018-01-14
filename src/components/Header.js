@@ -42,7 +42,7 @@ class Header extends Component {
 				<Menu.Menu position='right'>
 					<Link to="/register" className='rightLink'>
 						<Menu.Item as="span" className='rightBtn' name='register' active={this.props.activeTab === 'register'} onClick={this.handleItemClick}>
-							<Button primary cla>Register</Button>
+							<Button primary>Register</Button>
 						</Menu.Item>
 					</Link>
 				</Menu.Menu>
