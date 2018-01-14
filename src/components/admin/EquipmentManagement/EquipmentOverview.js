@@ -40,10 +40,11 @@ class EquipmentOverview extends Component {
 
 		if(!description || !identifier) return;
 
-		item.description = description;
-		item.identifier = identifier;
+		const newItem = Object.assign({}, item, { description, identifier });
 
-		this.props.dispatch(itemActions.editItem(item, this.props.token));
+		this.props.dispatch(itemActions.editItem(newItem, this.props.token));
+
+		this.handleDismiss();
 	}
 
 	setIdentifier = (e) => {
