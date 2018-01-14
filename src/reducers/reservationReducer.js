@@ -46,7 +46,18 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
-	
+		case "DELETE_RESERVATION":
+			if(action.status === 'success') {
+				newState = deleteReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
 
 		default:
 			return state;
@@ -75,6 +86,18 @@ function declineReservation(reservation_id, state) {
 		if(reservationList[i].id === reservation_id) 
 			reservationList[i].status.name = "Odbijeno";
 	}
+
+	const newState = Object.assign({}, state, {
+		reservationList
+	});
+
+	return newState;
+}
+
+function deleteReservation(reservation_id, state) {
+	let reservationList = [...state.reservationList];
+
+	reservationList = reservationList.filter(e => e.id !== reservation_id);
 
 	const newState = Object.assign({}, state, {
 		reservationList

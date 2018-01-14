@@ -6,41 +6,27 @@ import { read } from '../../../services/storage';
 import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import { connect } from 'react-redux';
+import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
+
+
 
 
 class ActiveReservations extends React.Component {
 
 	constructor(args) {
 		super(args);
-		this.state = {
-			res: [],
-			activeRes: [],
-			activeUserID: 0
-		};
+		this.delReservation = this.delReservation.bind(this);
 	}
 
 
 
 	componentDidMount() {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
-
-		this.props.reservations.forEach(r => {
-			var date = r.return_date.split('-');
-			var returnDate = new Date(date[0], date[1] - 1, date[2]);
-
-			if (returnDate > Date.now() && r.user_id === this.state.activeUserID) {
-
-				var newArray = this.state.pastRes.slice();
-				newArray.push(r);
-				this.setState({
-					activeRes: newArray
-				});
-			}
-		});
 	}
 
 	delReservation(id) {
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
+		
 	}
 
 	render() {

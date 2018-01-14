@@ -24,12 +24,10 @@ class SearchEquipment extends React.Component {
 	constructor(args) {
 		super(args);
 		this.state = {
-			items: [],
 			itemsToReserve: [],
 			clicked: [],
 			nodate: false,
-			filtered: [],
-			searchTerm: ''
+			filtered: []
 		};
 
 		this.reserve = this.reserve.bind(this);
@@ -45,8 +43,6 @@ class SearchEquipment extends React.Component {
 		this.setState({
 			filtered: this.props.items
 		});
-
-		console.log(this.state.filtered)
 	}
 
 	addToRes(newid) {
@@ -125,7 +121,7 @@ class SearchEquipment extends React.Component {
 			<div>
 				<div className="all">
 					<div className="reserv">
-						<Segment>{this.state.itemsToReserve.length} items in reservation.</Segment>
+						<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
 						<h3>Starting date</h3>
 						<div className="ui calendar" id="example1">
 							<div className="ui input left icon">

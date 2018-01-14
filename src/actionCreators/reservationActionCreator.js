@@ -99,8 +99,14 @@ const reservationActions = {
 				.accept('application/json')
 				.end((err, res) => {
 					if(err) {
-						console.log(err);
+						dispatch(actions.deleteReservation({ status: "failure", data: err }));
 						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.deleteReservation({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteReservation({ status: "failure", data: res.status }));
 					}
 				});
 		};
