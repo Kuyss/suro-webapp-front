@@ -17,6 +17,11 @@ export default {
 
 	items:{
 		error: null,
-		itemList: []
+		itemList: [],
+		deviceTypes: [],
+		kits: [],
+		subtypes: [],
+		types: [],
+		showItemCreatedPopup: false
 	}
 }
