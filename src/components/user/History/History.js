@@ -15,8 +15,7 @@ class History extends React.Component {
 		super(args);
 		this.state = {
 			nodate: false,
-			idsToReserve: [],
-			pastRes: []
+			idsToReserve: []
 		};
 		this.reserve = this.reserve.bind(this);
 	}
@@ -26,22 +25,6 @@ class History extends React.Component {
 	componentDidMount() {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
 
-
-		//show only past and this user's reservations
-
-		// this.props.reservations.forEach(r => {
-		// 	var date = r.return_date.split('-');
-		// 	var returnDate = new Date(date[0], date[1] - 1, date[2]);
-
-		// 	if (returnDate < Date.now()) {
-
-		// 		var newArray = this.state.pastRes.slice();
-		// 		newArray.push(r);
-		// 		this.setState({
-		// 			pastRes: newArray
-		// 		});
-		// 	}
-		// });
 	}
 
 	reserve(items, start, end) {

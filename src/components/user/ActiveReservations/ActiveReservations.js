@@ -12,9 +12,6 @@ class ActiveReservations extends React.Component {
 
 	constructor(args) {
 		super(args);
-		this.state = {
-			activeRes: []
-		};
 	}
 
 
@@ -22,20 +19,7 @@ class ActiveReservations extends React.Component {
 	componentDidMount() {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
 
-		// this.props.reservations.forEach(r => {
-		// 	var date = r.return_date.split('-');
-		// 	var returnDate = new Date(date[0], date[1] - 1, date[2]);
-
-		// 	if (returnDate > Date.now()) {
-
-		// 		var newArray = this.state.activeRes.slice();
-		// 		newArray.push(r);
-		// 		this.setState({
-		// 			activeRes: newArray
-		// 		});
-		// 	}
-
-		// });
+		
 	}
 
 	delReservation(id) {
