@@ -113,6 +113,25 @@ const reservationActions = {
 		};
 	},
 
+	extendReservation(token, id, returndate){
+		return dispatch => {
+			request
+				.post(env.api + '/reservations/extend')
+                .set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.send({
+					'reservation_id': `[${id}]`,
+					'new_return_date': returndate
+				})
+				.end((err, res) => {
+					if(err) {
+						console.log(err);
+						return;
+					}
+				});
+		};
+	},
+
 	deleteReservation(token, id){
 		return dispatch => {
 			request

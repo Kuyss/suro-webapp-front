@@ -51,7 +51,7 @@ export default class Reservation extends React.Component {
                                     </div>
 
                                     
-                                    {!this.props.his && <Button floated='right'>Extend reservation</Button>}
+                                    {!this.props.his && <Button floated='right' onClick={() => this.props.ext(this.props.reservation.id, this.end.value)}>Extend reservation</Button>}
                                     {!this.props.his && <Button floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
 
                                 </div>}
