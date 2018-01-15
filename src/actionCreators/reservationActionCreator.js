@@ -83,6 +83,7 @@ const reservationActions = {
 						return;
 					}
 					let activeUserReservations = JSON.parse(res.text);
+
 					if(res.ok) {
 						dispatch(actions.getActiveUsersReservations({ status: "success", data: activeUserReservations }));
 					} else {

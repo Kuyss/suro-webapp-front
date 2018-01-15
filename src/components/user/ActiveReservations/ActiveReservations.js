@@ -21,18 +21,19 @@ class ActiveReservations extends React.Component {
 
 
 	componentDidMount() {
+		//TODO promijenit 2 u aktualnog usera
 		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, 2));
+		
 	}
 
 	delReservation(id) {
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
-		
 	}
 
 	render() {
 		return (
 			<div className="sve">
-				<ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} />
+				{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} /> }
 			</div>
 		);
 	}
@@ -42,7 +43,7 @@ class ActiveReservations extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		reservations: state.reservations.reservationList,
+		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token
 	};
 };

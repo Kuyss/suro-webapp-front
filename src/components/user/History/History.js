@@ -23,7 +23,8 @@ class History extends React.Component {
 
 
 	componentDidMount() {
-		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
+		//TODO activeuserid !
+		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, 2));
 
 	}
 
@@ -63,7 +64,7 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		reservations: state.reservations.reservationList,
+		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token
 
 	};
