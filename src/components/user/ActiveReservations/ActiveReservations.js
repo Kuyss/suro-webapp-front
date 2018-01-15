@@ -5,6 +5,7 @@ import './ActiveReservations.css';
 import { read } from '../../../services/storage';
 import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
+import userActions from '../../../actionCreators/userActionCreator';
 import { connect } from 'react-redux';
 import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
 
@@ -21,8 +22,7 @@ class ActiveReservations extends React.Component {
 
 
 	componentDidMount() {
-		//TODO promijenit 2 u aktualnog usera
-		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, 2));
+		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 		
 	}
 
@@ -44,7 +44,8 @@ class ActiveReservations extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		reservations: state.reservations.activeUsersReservationList,
-		token: state.users.token
+		token: state.users.token,
+		currentUser : state.users.currentUser
 	};
 };
 
