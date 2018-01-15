@@ -32,7 +32,7 @@ class ActiveReservations extends React.Component {
 	}
 
 	extendRes(id, end){
-		this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end))
+		this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end));
 	}
 
 	render() {
