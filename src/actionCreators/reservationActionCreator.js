@@ -71,6 +71,28 @@ const reservationActions = {
 		};
 	},
 
+	getActiveUsersReservations(token, id) {
+		return dispatch => {
+			request
+                .get(env.api + `/reservations/user/${id}`)
+                .set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.getActiveUsersReservations({ status: "failure", data: err }));
+						return;
+					}
+					let activeUserReservations = JSON.parse(res.text);
+
+					if(res.ok) {
+						dispatch(actions.getActiveUsersReservations({ status: "success", data: activeUserReservations }));
+					} else {
+						dispatch(actions.getActiveUsersReservations({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	postReservation(token, id, startdate, returndate){
 		return dispatch => {
 			request

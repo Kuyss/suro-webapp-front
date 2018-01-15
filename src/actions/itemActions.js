@@ -63,3 +63,10 @@ export function getAllTypes({ status, data }) {
 }
 
 
+export function getItemStatus({ status, data }) {
+	return {
+		data,
+		status,
+		type: "GET_ITEMS_STATUS",
+	}
+}

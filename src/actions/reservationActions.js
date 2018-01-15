@@ -22,6 +22,14 @@ export function getAllReservations({ status, data }) {
 	}
 }
 
+export function getActiveUsersReservations({ status, data }) {
+	return {
+		data,
+		status,
+		type: "GET_ACTIVE_USERS_RESERVATIONS",
+	}
+}
+
 export function deleteReservation({ status, data }) {
 	return {
 		data,

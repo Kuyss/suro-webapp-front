@@ -46,6 +46,8 @@ class SearchEquipment extends React.Component {
 	}
 
 	addToRes(newid) {
+
+
 		if (!(this.state.clicked.indexOf(newid) > -1)) {
 			console.log(`${newid} added`);
 			var newArray = this.state.itemsToReserve.slice();
@@ -62,6 +64,7 @@ class SearchEquipment extends React.Component {
 		} else {
 			console.log('already clicked');
 		}
+
 	}
 
 	cancel() {
@@ -172,6 +175,7 @@ class SearchEquipment extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		items: state.items.itemList,
+		itemStatus: state.items.status,
 		token: state.users.token
 	};
 };
