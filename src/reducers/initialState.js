@@ -12,7 +12,8 @@ export default {
 
 	reservations: {
 		error: null,
-		reservationList: []
+		reservationList: [],
+		activeUsersReservationList: []
 	},
 
 	items:{
@@ -22,6 +23,7 @@ export default {
 		kits: [],
 		subtypes: [],
 		types: [],
-		showItemCreatedPopup: false
+		showItemCreatedPopup: false,
+		status: true
 	}
 }

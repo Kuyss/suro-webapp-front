@@ -95,6 +95,22 @@ export default function itemReducer(state = initialState.items, action) {
 
 			return newState;
 
+		case "GET_ITEM_STATUS":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					types: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+
 		default:
 			return state;
 	}

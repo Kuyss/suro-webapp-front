@@ -4,6 +4,10 @@ import './Item.css';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image/Image';
+import itemActions from 'actionCreators/itemActionCreator'
+import { connect } from 'react-redux';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
+
 
 class Item extends React.Component {
 
@@ -18,8 +22,8 @@ class Item extends React.Component {
                         <I.Description>
                             {this.props.item.kit.name}
                         </I.Description>
-                        <Button floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button>
-
+                        {(!this.props.item.free)&&<Button floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button>}
+                        {(this.props.item.free)&&<Label pointing>Item already reserved.</Label>}
                     </I.Content>
                 </I>
             </I.Group>

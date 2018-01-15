@@ -46,22 +46,30 @@ class SearchEquipment extends React.Component {
 	}
 
 	addToRes(newid) {
-		if (!(this.state.clicked.indexOf(newid) > -1)) {
-			console.log(`${newid} added`);
-			var newArray = this.state.itemsToReserve.slice();
-			newArray.push(newid);
-			this.setState({
-				itemsToReserve: newArray
-			});
 
-			newArray = this.state.itemsToReserve.slice();
-			newArray.push(newid);
-			this.setState({
-				clicked: newArray
-			});
-		} else {
-			console.log('already clicked');
-		}
+		// this.props.dispatch(itemActions.getItemStatus(this.props.token, newid));
+
+		// console.log(this.props.status);
+
+		//if (this.props.status) {
+
+			if (!(this.state.clicked.indexOf(newid) > -1)) {
+				console.log(`${newid} added`);
+				var newArray = this.state.itemsToReserve.slice();
+				newArray.push(newid);
+				this.setState({
+					itemsToReserve: newArray
+				});
+
+				newArray = this.state.itemsToReserve.slice();
+				newArray.push(newid);
+				this.setState({
+					clicked: newArray
+				});
+			} else {
+				console.log('already clicked');
+			}
+		//}
 	}
 
 	cancel() {
@@ -172,6 +180,7 @@ class SearchEquipment extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		items: state.items.itemList,
+		itemStatus: state.items.status,
 		token: state.users.token
 	};
 };

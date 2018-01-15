@@ -133,6 +133,27 @@ const itemActions = {
 		};
 	},
 
+	getItemStatus(token, id) {
+		return dispatch => {
+			request
+				.get(env.api + `/items/status/${id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.getItemStatus({ status: "failure", data: err }));
+						return;
+					}
+					let itemStatus = JSON.parse(res.text);
+					if (res.ok) {
+						dispatch(actions.getItemStatus({ status: "success", data: itemStatus }));
+					} else {
+						dispatch(actions.getItemStatus({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 
 };
 

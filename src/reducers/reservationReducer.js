@@ -46,6 +46,21 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
+		case "GET_ACTIVE_USERS_RESERVATIONS":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					activeUsersReservationList: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_RESERVATION":
 			if(action.status === 'success') {
 				newState = deleteReservation(action.data, state);
