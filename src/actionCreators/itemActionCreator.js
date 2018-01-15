@@ -54,7 +54,7 @@ const itemActions = {
 				.put(env.api + '/admin/items/edit')
 				.set('Authorization', `bearer ${token}`)
 				.set('Content-Type', 'application/json')
-				.send(item)
+				.send({ item: JSON.stringify(item) })
 				.accept('application/json')
 				.end((err, res) => {
 					if (err) {
