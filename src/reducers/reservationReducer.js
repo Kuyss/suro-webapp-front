@@ -69,7 +69,7 @@ function approveReservation(reservation_id, state) {
 
 	for(let i = 0; i < reservationList.length; i++) {
 		if(reservationList[i].id === reservation_id) 
-			reservationList[i].status.name = "Odobreno";
+			reservationList[i].status.name = "Odobrena";
 	}
 
 	const newState = Object.assign({}, state, {
@@ -84,7 +84,7 @@ function declineReservation(reservation_id, state) {
 
 	for(let i = 0; i < reservationList.length; i++) {
 		if(reservationList[i].id === reservation_id) 
-			reservationList[i].status.name = "Odbijeno";
+			reservationList[i].status.name = "Odbijena";
 	}
 
 	const newState = Object.assign({}, state, {

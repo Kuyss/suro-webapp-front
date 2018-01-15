@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import itemActions from 'actionCreators/itemActionCreator';
 import { Button, Dropdown, Form, Input, Table, TextArea } from 'semantic-ui-react';
+import './EquipmentManagement.css';
 
 class AddEquipment extends Component {
 
@@ -63,8 +64,6 @@ class AddEquipment extends Component {
 		this.setState({ itemList });
 
 		this.resetState();
-
-		//this.props.dispatch(itemActions.createItem(item, this.props.token));
 	}
 
 	handleCreateItems = () => {
@@ -74,6 +73,7 @@ class AddEquipment extends Component {
 		}
 		
 		this.setState({ itemList: [] });
+		this.resetState();
 	}
 
 	resetState = () => {
@@ -115,6 +115,13 @@ class AddEquipment extends Component {
 		this.setState({ kit_id });
 	}
 
+	getNameFromId = (arr, id) => {
+		for(let i = 0; i < arr.length; i++) {
+			if(arr[i].value === id)
+				return arr[i].text;
+		}
+	}
+
 	render() {
 		let { deviceTypes, types, subtypes, kits } = this.props;
 
@@ -125,17 +132,17 @@ class AddEquipment extends Component {
 
 		return(
 			<div>
-				<Form>
-					<Form.Field >
+				<Form widths='equal'>
+					<Form.Field inline>
                       <label>Identifier:</label>
-                      <Input value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
+                      <Input className='identifierInput' value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
                     </Form.Field>
 					<Form.Group inline>
 						<label>Select Types:</label>
-				        <Dropdown onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
-						<Dropdown onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
-						<Dropdown onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
-						<Dropdown onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
+				        <Dropdown value={this.state.device_type_id} onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
+						<Dropdown value={this.state.type_id} onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
+						<Dropdown value={this.state.subtype_id} onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
+						<Dropdown value={this.state.kit_id} onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
 			        </Form.Group>
 			        <Form.Field >
                       <label>Description:</label>
@@ -167,10 +174,10 @@ class AddEquipment extends Component {
 					                return(
 					                  <Table.Row key={i}>
 					                    <Table.Cell>{it.identifier}</Table.Cell>
-					                    <Table.Cell>{it.device_type_id}</Table.Cell>
-					                    <Table.Cell>{it.type_id}</Table.Cell>
-					                    <Table.Cell>{it.subtype_id}</Table.Cell>
-					                    <Table.Cell>{it.kit_id}</Table.Cell>
+					                    <Table.Cell>{this.getNameFromId(deviceTypesDropdown, it.device_type_id)}</Table.Cell>
+					                    <Table.Cell>{this.getNameFromId(typesDropdown, it.type_id)}</Table.Cell>
+					                    <Table.Cell>{this.getNameFromId(subTypesDropdown, it.subtype_id)}</Table.Cell>
+					                    <Table.Cell>{this.getNameFromId(kitsDropdown, it.kit_id)}</Table.Cell>
 					                    <Table.Cell>{it.description}</Table.Cell>
 					                  </Table.Row>
 					                );
