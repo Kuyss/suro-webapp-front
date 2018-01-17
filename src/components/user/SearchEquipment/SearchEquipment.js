@@ -124,10 +124,15 @@ class SearchEquipment extends React.Component {
 
 		if (selectedFilter == 'id') {
 			e.value = 'name';
+			this.search.value = "";
+			this.filterBy();
+			e.value = 'id';
+		} else {
+			this.search.value = "";
+			this.filterBy();
+			e.value = selectedFilter;
 		}
-		this.search.value = "";
-		this.filterBy();
-		e.value = 'id';
+
 
 
 
