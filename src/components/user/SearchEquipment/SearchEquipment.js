@@ -118,6 +118,21 @@ class SearchEquipment extends React.Component {
 
 	}
 
+	cancelQuery() {
+		var e = document.getElementsByClassName("select")[0];
+		var selectedFilter = (e.options[e.selectedIndex].value);
+
+		if (selectedFilter == 'id') {
+			e.value = 'name';
+		}
+		this.search.value = "";
+		this.filterBy();
+		e.value = 'id';
+
+
+
+	}
+
 
 	render() {
 		return (
@@ -148,21 +163,23 @@ class SearchEquipment extends React.Component {
 						<Button onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
 					<br /><br /><br />
-					<select className="ui fluid search dropdown" multiple="" className="select">
-						<option value="id">Id</option>
-						<option value="name">Name</option>
-						<option value="type">Type</option>
-						<option value="kittype">Kit type</option>
-					</select>
-					<div className="ui search">
-						<input className="prompt" type="text" placeholder="search" ref={(input) => {
-							this.search = input;
-						}} />
+					<div className="searchForm">
+						<select multiple="" className="select">
+							<option value="id">Id</option>
+							<option value="name">Name</option>
+							<option value="type">Type</option>
+							<option value="kittype">Kit type</option>
+						</select>
+						<div className="ui search" >
+							<input className="prompt" type="text" placeholder="search" ref={(input) => {
+								this.search = input;
+							}} />
 
+						</div>
+
+						<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
+						<Button style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
 					</div>
-
-					<Button onClick={() => this.filterBy()}>Search </Button>
-
 
 				</div>
 				<ItemList items={this.state.filtered} do={this.addToRes} />
