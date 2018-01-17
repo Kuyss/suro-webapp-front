@@ -6,6 +6,22 @@ export function createItem({ status, data }) {
 	}
 }
 
+export function deleteItem({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_ITEM",
+	}
+}
+
+export function editItem({ status, data }) {
+	return {
+		data,
+		status,
+		type: "EDIT_ITEM",
+	}
+}
+
 export function getAllDeviceTypes({ status, data }) {
 	return {
 		data,

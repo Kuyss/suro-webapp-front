@@ -60,13 +60,13 @@ class Login extends React.Component {
             !this.props.user && 
             <Form style={{padding: 15}}>
                 <Form.Field >
-                      <label>Email Address:</label>
-                      <input placeholder='Email Address' value={this.state.email} onChange={this.setEmail}/>
-                    </Form.Field>
+                  <label>Email Address:</label>
+                  <input placeholder='Email Address' value={this.state.email} onChange={this.setEmail}/>
+                </Form.Field>
                 <Form.Field >
-                        <label>Password:</label>
-                        <input type='password' placeholder='Password' value={this.state.password} onChange={this.setPassword}/>
-                    </Form.Field>
+                    <label>Password:</label>
+                    <input type='password' placeholder='Password' value={this.state.password} onChange={this.setPassword}/>
+                </Form.Field>
                 <Button type='button' onClick={this.handleLogin}>Login</Button>
             </Form>
         );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import userActions from 'actionCreators/userActionCreator';
 import { Button, Icon, Table } from 'semantic-ui-react';
+import "./UsersOverview.css";
 
 
 class UsersOverview extends Component {
@@ -24,10 +25,10 @@ class UsersOverview extends Component {
     const { users } = this.props;
 		return(
 			<div>
-			  <Table celled padded>
+			  <Table celled textAlign='center'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell singleLine>Id</Table.HeaderCell>
+              <Table.HeaderCell>Id</Table.HeaderCell>
               <Table.HeaderCell>First Name</Table.HeaderCell>
               <Table.HeaderCell>Last Name</Table.HeaderCell>
               <Table.HeaderCell>Email</Table.HeaderCell>
