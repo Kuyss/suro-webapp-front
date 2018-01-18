@@ -18,9 +18,12 @@ class ReservationApprovals extends Component {
 	}
 
 	render() {
-		const { reservations } = this.props;
+    console.log(this.props);
+		const { toApprove, approved, declined } = this.props;
+
 		return(
 			<div>
+        <h2>To Approve:</h2>
 			  <Table celled padded>
           <Table.Header>
             <Table.Row>
@@ -39,7 +42,7 @@ class ReservationApprovals extends Component {
 
           <Table.Body>
             {
-              reservations.map((r, i) => {
+              toApprove.map((r, i) => {
                 return(
                   <Table.Row key={i}>
                     <Table.Cell>{r.created_at}</Table.Cell>
@@ -62,15 +65,104 @@ class ReservationApprovals extends Component {
             }
           </Table.Body>
         </Table>
+        <br />
+        <h2>Approved Reservations:</h2>
+        <Table celled padded>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Id</Table.HeaderCell>
+              <Table.HeaderCell>Items</Table.HeaderCell>
+              <Table.HeaderCell>Start Date</Table.HeaderCell>
+              <Table.HeaderCell>Return Date</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Created At</Table.HeaderCell>
+              <Table.HeaderCell>Updated At</Table.HeaderCell>
+              <Table.HeaderCell>User</Table.HeaderCell>
+              <Table.HeaderCell>Approve</Table.HeaderCell>
+              <Table.HeaderCell>Decline</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {
+              approved.map((r, i) => {
+                return(
+                  <Table.Row key={i}>
+                    <Table.Cell>{r.id}</Table.Cell>
+                    <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
+                    <Table.Cell>{r.start_date}</Table.Cell>
+                    <Table.Cell>{r.return_date}</Table.Cell>
+                    <Table.Cell>{r.status.name}</Table.Cell>
+                    <Table.Cell>{r.created_at}</Table.Cell>
+                    <Table.Cell>{r.updated_at}</Table.Cell>
+                    <Table.Cell>{r.user.email}</Table.Cell>
+                    <Table.Cell textAlign='center'>
+                      <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
+                    </Table.Cell>
+                    <Table.Cell textAlign='center'>
+                      <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
+            }
+          </Table.Body>
+        </Table>
+        <br />
+        <h2>Declined Reservations:</h2>
+        <Table celled padded>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell singleLine>Created At</Table.HeaderCell>
+              <Table.HeaderCell>Id</Table.HeaderCell>
+              <Table.HeaderCell>Items</Table.HeaderCell>
+              <Table.HeaderCell>Start Date</Table.HeaderCell>
+              <Table.HeaderCell>Return Date</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Updated At</Table.HeaderCell>
+              <Table.HeaderCell>User</Table.HeaderCell>
+              <Table.HeaderCell>Approve</Table.HeaderCell>
+              <Table.HeaderCell>Decline</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            {
+              declined.map((r, i) => {
+                return(
+                  <Table.Row key={i}>
+                    <Table.Cell>{r.created_at}</Table.Cell>
+                    <Table.Cell>{r.id}</Table.Cell>
+                    <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
+                    <Table.Cell>{r.start_date}</Table.Cell>
+                    <Table.Cell>{r.return_date}</Table.Cell>
+                    <Table.Cell>{r.status.name}</Table.Cell>
+                    <Table.Cell>{r.updated_at}</Table.Cell>
+                    <Table.Cell>{r.user.email}</Table.Cell>
+                    <Table.Cell textAlign='center'>
+                      <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
+                    </Table.Cell>
+                    <Table.Cell textAlign='center'>
+                      <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
+            }
+          </Table.Body>
+        </Table>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.reservations);
   return {
     token: state.users.token,
-    reservations: state.reservations.reservationList
+    toApprove: state.reservations.toApprove,
+    approved: state.reservations.approved,
+    declined: state.reservations.declined
   };
 };
 

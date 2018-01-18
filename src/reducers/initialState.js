@@ -13,7 +13,10 @@ export default {
 	reservations: {
 		error: null,
 		reservationList: [],
-		activeUsersReservationList: []
+		activeUsersReservationList: [],
+		toApprove: [],
+		approved: [],
+		declined: []
 	},
 
 	items:{
