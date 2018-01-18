@@ -27,12 +27,14 @@ class SearchEquipment extends React.Component {
 			itemsToReserve: [],
 			clicked: [],
 			nodate: false,
+			noitems: false,
 			filtered: []
 		};
 
 		this.reserve = this.reserve.bind(this);
 		this.addToRes = this.addToRes.bind(this);
 		this.filterBy = this.filterBy.bind(this);
+		this.suggest = this.suggest.bind(this);
 	}
 
 
@@ -83,6 +85,10 @@ class SearchEquipment extends React.Component {
 				nodate: true
 			});
 
+		} else if (this.state.itemsToReserve.length == 0) {
+			this.setState({
+				noitems: true
+			});
 		} else {
 			this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.itemsToReserve, start, end));
 			this.cancel();
@@ -135,6 +141,15 @@ class SearchEquipment extends React.Component {
 
 	}
 
+	suggest(kittype) {
+
+		var writtenValue = kittype
+		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
+		this.setState({
+			filtered: f
+		});
+	}
+
 
 	render() {
 		return (
@@ -160,7 +175,7 @@ class SearchEquipment extends React.Component {
 								}} />
 							</div>
 						</div>
-						{(this.state.nodate || this.state.itemsToReserve.length == 0) && <div class="ui pointing red basic label">Enter both dates and items</div>}
+						{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
 						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
 						<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
@@ -184,7 +199,7 @@ class SearchEquipment extends React.Component {
 					</div>
 
 				</div>
-				<ItemList items={this.state.filtered} do={this.addToRes} />
+				<ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />
 			</div>
 
 		);
