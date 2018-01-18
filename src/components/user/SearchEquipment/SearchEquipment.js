@@ -160,7 +160,7 @@ class SearchEquipment extends React.Component {
 								}} />
 							</div>
 						</div>
-						{this.state.nodate && <Label pointing>Enter both dates</Label>}
+						{(this.state.nodate || this.state.itemsToReserve.length == 0) && <div class="ui pointing red basic label">Enter both dates and items</div>}
 						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
 						<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>

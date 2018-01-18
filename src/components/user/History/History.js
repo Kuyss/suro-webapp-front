@@ -83,7 +83,7 @@ class History extends React.Component {
 
 				</div>
 
-				{this.state.nodate && <Label pointing>Enter both dates</Label>}
+				{(this.state.nodate) && <div class="ui pointing red basic label">Enter both dates and items</div>}
 				<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
 			</div>
 		);
