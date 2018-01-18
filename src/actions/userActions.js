@@ -13,6 +13,22 @@ export function deleteUser({ status, data }) {
 	}
 }
 
+export function activateUser({ status, data }) {
+	return {
+		data,
+		status,
+		type: "ACTIVATE_USER",
+	}
+}
+
+export function loadAllInactiveUsers({ status, data }) {
+	return {
+		data,
+		status,
+		type: "LOAD_ALL_INACTIVE_USERS",
+	}
+}
+
 export function loadAllUsers({ status, data }) {
 	return {
 		data,

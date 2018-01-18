@@ -33,6 +33,7 @@ class UsersOverview extends Component {
               <Table.HeaderCell>Last Name</Table.HeaderCell>
               <Table.HeaderCell>Email</Table.HeaderCell>
               <Table.HeaderCell>Role</Table.HeaderCell>
+              <Table.HeaderCell>Active</Table.HeaderCell>
               <Table.HeaderCell>Created At</Table.HeaderCell>
               <Table.HeaderCell>Updated At</Table.HeaderCell>
               <Table.HeaderCell>Delete</Table.HeaderCell>
@@ -49,6 +50,7 @@ class UsersOverview extends Component {
                     <Table.Cell>{u.last_name}</Table.Cell>
                     <Table.Cell>{u.email}</Table.Cell>
                     <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
+                    <Table.Cell>{u.active ? "YES" : "NO"}</Table.Cell>
                     <Table.Cell>{u.created_at}</Table.Cell>
                     <Table.Cell>{u.updated_at}</Table.Cell>
                     <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteUser(u.id)} color='red' icon><Icon name='user delete'/></Button></Table.Cell>

@@ -32,6 +32,52 @@ const userActions = {
 		};
 	},
 
+	activateUser(user, token) {
+		console.log(user);
+		return dispatch => {
+			request
+				.put(`${env.api}/admin/users/edit`)
+				.set('Authorization', `bearer ${token}`)
+				.send({ user: JSON.stringify(user) })
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.activateUser({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						console.log("OK");
+						dispatch(actions.activateUser({ status: "success", data: user }));
+					} else {
+						dispatch(actions.activateUser({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	loadAllInactiveUsers(token) {
+		return dispatch => {
+			request
+				.get(env.api + '/users')
+				.set('Authorization', `bearer ${token}`)
+				.query("active=0")
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.loadAllInactiveUsers({ status: "failure", data: err }));
+						return;
+					}
+					let users = JSON.parse(res.text);
+					if(res.ok) {
+						dispatch(actions.loadAllInactiveUsers({ status: "success", data: users }));
+					} else {
+						dispatch(actions.loadAllInactiveUsers({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	loadAllUsers(token) {
 		return dispatch => {
 			request

@@ -25,6 +25,34 @@ export default function userReducer(state = initialState.users, action) {
 
 			return newState;
 
+		case "ACTIVATE_USER":
+			if(action.status === 'success') {
+				newState = activateUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "LOAD_ALL_INACTIVE_USERS":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					userList: action.data.filter(e => { return e.active === 0 })
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "LOAD_ALL_USERS":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
@@ -105,4 +133,21 @@ function deleteUser(user_id, state) {
 
 	return newState;
 }
+
+function activateUser(user, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user.id)
+			userList.splice(i, 1);
+	}
+
+	const newState = Object.assign({}, state, {
+		userList
+	});
+
+	return newState;
+}
+
+
 
