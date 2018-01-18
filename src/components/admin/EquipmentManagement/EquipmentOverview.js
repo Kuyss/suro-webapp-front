@@ -27,8 +27,12 @@ class EquipmentOverview extends Component {
 		});
 	}
 
-	handleStartEdit = (index) => {
-		this.setState({ index })
+	handleStartEdit = (item, index) => {
+		this.setState({ 
+			index,  
+			description: item.description,
+			identifier: item.identifier
+		});
 	}
 
 	handleDeleteItem = (item_id) => {
@@ -37,10 +41,14 @@ class EquipmentOverview extends Component {
 
 	handleEditItem = (item) => {
 		const { description, identifier } = this.state;
+		let newItem;
 
 		if(!description || !identifier) return;
 
-		const newItem = Object.assign({}, item, { description, identifier });
+		if(item.identifier === identifier) 
+			newItem = { id: item.id, description };
+		else 
+			newItem = { id: item.id, description, identifier };
 
 		this.props.dispatch(itemActions.editItem(newItem, this.props.token));
 
@@ -103,7 +111,7 @@ class EquipmentOverview extends Component {
 			                    <Table.Cell>{it.device_type.description}, {it.type.description}, {it.subtype ? it.subtype.description : ""}, {it.kit.name}</Table.Cell>
 			                    <Table.Cell>{it.created_at}</Table.Cell>
 			                    <Table.Cell>{it.updated_at}</Table.Cell>
-			                    <Table.Cell textAlign='center'><Button onClick={() => this.handleStartEdit(i)} color='orange' icon><Icon name='edit'/></Button></Table.Cell>
+			                    <Table.Cell textAlign='center'><Button onClick={() => this.handleStartEdit(it,i)} color='orange' icon><Icon name='edit'/></Button></Table.Cell>
 			                    <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteItem(it.id)} color='red' icon><Icon name='minus'/></Button></Table.Cell>
 			                  </Table.Row>
 		                	);

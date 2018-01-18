@@ -161,8 +161,13 @@ function editItem(item, state) {
 	let itemList = [...state.itemList];
 
 	for(let i = 0; i < itemList.length; i++) {
-		if(itemList[i].id === item.id)
-			itemList[i] = item;
+		if(itemList[i].id === item.id) {
+			const newItem = Object.assign({}, itemList[i], {
+				description: item.description,
+				identifier: item.identifier
+			});
+			itemList[i] = newItem;
+		}
 	}
 
 	const newState = Object.assign({}, state, {
