@@ -22,8 +22,9 @@ class Item extends React.Component {
                         <I.Description>
                             {this.props.item.kit.name}
                         </I.Description>
-                        {(!this.props.item.free)&&<Button floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button>}
-                        {(this.props.item.free)&&<Label pointing>Item already reserved.</Label>}
+                        {this.props.item.free && (this.props.item.working===1) &&<Button color='grey' floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button>}
+                        {(!this.props.item.free)&&<Label pointing>Item already reserved.</Label>}
+                        {(!this.props.item.working)&&<Label pointing>Item is damaged.</Label>}
                     </I.Content>
                 </I>
             </I.Group>

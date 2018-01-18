@@ -1,5 +1,5 @@
 .res {
-    box-shadow: 2px 2px 2px lightgrey;
+    box-shadow: 2px 2px 2px 2px lightgrey;
     padding: 15px;
 }
 
@@ -7,3 +7,4 @@
     background-color: whitesmoke;
     padding: 15px;
 }
+

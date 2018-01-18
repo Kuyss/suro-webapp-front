@@ -7,8 +7,9 @@
 }
 
 .select {
-    width: 150px;
+    width: 170px;
     height: 37px;
+    margin: 5px;
 }
 
 .config {

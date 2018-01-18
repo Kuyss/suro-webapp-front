@@ -17,6 +17,7 @@ class ActiveReservations extends React.Component {
 	constructor(args) {
 		super(args);
 		this.delReservation = this.delReservation.bind(this);
+		this.extendRes = this.extendRes.bind(this);
 	}
 
 
@@ -30,10 +31,14 @@ class ActiveReservations extends React.Component {
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
 	}
 
+	extendRes(id, end){
+		this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end));
+	}
+
 	render() {
 		return (
 			<div className="sve">
-				{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} /> }
+				{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} ext={this.extendRes}/> }
 			</div>
 		);
 	}
