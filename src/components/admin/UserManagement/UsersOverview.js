@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import userActions from 'actionCreators/userActionCreator';
-import { Button, Icon, Table } from 'semantic-ui-react';
+import { Button, Icon, Input, Table } from 'semantic-ui-react';
 import "./UsersOverview.css";
 
 
 class UsersOverview extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      first_name: "",
+      last_name: "",
+      role_id: 0,
+      active: null,
+      index: -1,
+    }
+  }
 
   componentDidMount = () => {
     this.props.dispatch(userActions.loadAllUsers(this.props.token));
@@ -20,6 +32,46 @@ class UsersOverview extends Component {
    handleDeleteUser = (user_id) => {
       this.props.dispatch(userActions.deleteUser(user_id, this.props.token));
    }
+
+   handleDismiss = () => {
+    this.setState({
+      first_name: "",
+      last_name: "",
+      role_id: 0,
+      active: null,
+      index: -1,
+    });
+  }
+
+  handleEditUser = (user) => {
+    const { first_name, last_name } = this.state;
+
+    if(!first_name || !last_name) return;
+
+    const newUser = { id: user.id, first_name, last_name };
+
+    this.props.dispatch(userActions.editUser(newUser, this.props.token));
+
+    this.handleDismiss();
+  }
+
+  handleStartEdit = (user, index) => {
+    this.setState({
+      first_name: user.first_name,
+      last_name: user.last_name,
+      index 
+    });
+  }
+
+  setFirstName = (e) => {
+    const first_name = e.target.value;
+    this.setState({ first_name });
+  }
+
+  setLastName = (e) => {
+    const last_name = e.target.value;
+    this.setState({ last_name });
+  }
 
 	render() {
     const { users } = this.props;
@@ -36,6 +88,7 @@ class UsersOverview extends Component {
               <Table.HeaderCell>Active</Table.HeaderCell>
               <Table.HeaderCell>Created At</Table.HeaderCell>
               <Table.HeaderCell>Updated At</Table.HeaderCell>
+              <Table.HeaderCell>Edit</Table.HeaderCell>
               <Table.HeaderCell>Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -43,19 +96,41 @@ class UsersOverview extends Component {
           <Table.Body>
             {
               users.map((u, i) => {
-                return(
-                  <Table.Row key={i}>
-                    <Table.Cell>{u.id}</Table.Cell>
-                    <Table.Cell>{u.first_name}</Table.Cell>
-                    <Table.Cell>{u.last_name}</Table.Cell>
-                    <Table.Cell>{u.email}</Table.Cell>
-                    <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
-                    <Table.Cell>{u.active ? "YES" : "NO"}</Table.Cell>
-                    <Table.Cell>{u.created_at}</Table.Cell>
-                    <Table.Cell>{u.updated_at}</Table.Cell>
-                    <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteUser(u.id)} color='red' icon><Icon name='user delete'/></Button></Table.Cell>
-                  </Table.Row>
+                if(i === this.state.index) {
+                  return(
+                    <Table.Row key={i}>
+                      <Table.Cell>{u.id}</Table.Cell>
+                      <Table.Cell><Input placeholder='First Name' value={this.state.first_name} onChange={this.setFirstName} /></Table.Cell>
+                      <Table.Cell><Input placeholder='Last Name' value={this.state.last_name} onChange={this.setLastName} /></Table.Cell>
+                      <Table.Cell>{u.email}</Table.Cell>
+                      <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
+                      <Table.Cell>{u.active ? "YES" : "NO"}</Table.Cell>
+                      <Table.Cell>{u.created_at}</Table.Cell>
+                      <Table.Cell>{u.updated_at}</Table.Cell>
+                      <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleEditUser(u)} color='green' icon><Icon name='checkmark'/></Button>
+                            <Button onClick={this.handleDismiss} color='red' icon><Icon name='remove'/></Button>
+                          </Table.Cell>
+                      <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteUser(u.id)} color='red' icon><Icon name='user delete'/></Button></Table.Cell>
+                    </Table.Row>
                 );
+                } else {
+                  return(
+                    <Table.Row key={i}>
+                      <Table.Cell>{u.id}</Table.Cell>
+                      <Table.Cell>{u.first_name}</Table.Cell>
+                      <Table.Cell>{u.last_name}</Table.Cell>
+                      <Table.Cell>{u.email}</Table.Cell>
+                      <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
+                      <Table.Cell>{u.active ? "YES" : "NO"}</Table.Cell>
+                      <Table.Cell>{u.created_at}</Table.Cell>
+                      <Table.Cell>{u.updated_at}</Table.Cell>
+                      <Table.Cell textAlign='center'><Button onClick={() => this.handleStartEdit(u,i)} color='orange' icon><Icon name='edit'/></Button></Table.Cell>
+                      <Table.Cell textAlign='center'><Button onClick={() => this.handleDeleteUser(u.id)} color='red' icon><Icon name='user delete'/></Button></Table.Cell>
+                    </Table.Row>
+                );
+                }
+                
               })
             }
           </Table.Body>

@@ -5,6 +5,29 @@ var request = require('superagent');
 
 const userActions = {
 
+	activateUser(user, token) {
+		console.log(user);
+		return dispatch => {
+			request
+				.put(`${env.api}/admin/users/edit`)
+				.set('Authorization', `bearer ${token}`)
+				.send({ user: JSON.stringify(user) })
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.activateUser({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.activateUser({ status: "success", data: user }));
+					} else {
+						dispatch(actions.activateUser({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	changeActiveTab(name) {
 		return dispatch => {
 			dispatch(actions.changeActiveTab({ data: name }));				
@@ -32,7 +55,7 @@ const userActions = {
 		};
 	},
 
-	activateUser(user, token) {
+	editUser(user, token) {
 		console.log(user);
 		return dispatch => {
 			request
@@ -42,15 +65,16 @@ const userActions = {
 				.accept('application/json')
 				.end((err, res) => {
 					if(err) {
-						dispatch(actions.activateUser({ status: "failure", data: err }));
+						dispatch(actions.editUser({ status: "failure", data: err }));
 						return;
 					}
 
+					let payload = JSON.parse(res.text);
+
 					if(res.ok) {
-						console.log("OK");
-						dispatch(actions.activateUser({ status: "success", data: user }));
+						dispatch(actions.editUser({ status: "success", data: payload.user }));
 					} else {
-						dispatch(actions.activateUser({ status: "failure", data: res.status }));
+						dispatch(actions.editUser({ status: "failure", data: res.status }));
 					}
 				});
 		};

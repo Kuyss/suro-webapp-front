@@ -84,6 +84,7 @@ class EquipmentOverview extends Component {
 			                    <Table.Cell>{it.id}</Table.Cell>
 			                    <Table.Cell><Input placeholder='Identifier' value={this.state.identifier} onChange={this.setIdentifier} /></Table.Cell>
 			                    <Table.Cell><Input placeholder='Description' value={this.state.description} onChange={this.setDescription} /></Table.Cell>
+			                    <Table.Cell>{it.device_type.description}, {it.type.description}, {it.subtype ? it.subtype.description : ""}, {it.kit.name}</Table.Cell>
 			                    <Table.Cell>{it.created_at}</Table.Cell>
 			                    <Table.Cell>{it.updated_at}</Table.Cell>
 			                    <Table.Cell textAlign='center'>

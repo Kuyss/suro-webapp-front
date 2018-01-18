@@ -18,7 +18,6 @@ class ReservationApprovals extends Component {
 	}
 
 	render() {
-    console.log(this.props);
 		const { toApprove, approved, declined } = this.props;
 
 		return(
@@ -157,7 +156,6 @@ class ReservationApprovals extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.reservations);
   return {
     token: state.users.token,
     toApprove: state.reservations.toApprove,

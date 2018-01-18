@@ -5,6 +5,19 @@ export default function userReducer(state = initialState.users, action) {
 	
 	switch(action.type) {
 
+		case "ACTIVATE_USER":
+			if(action.status === 'success') {
+				newState = activateUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "CHANGE_ACTIVE_TAB":
 			newState = Object.assign({}, state, {
 				activeTab: action.data
@@ -25,9 +38,9 @@ export default function userReducer(state = initialState.users, action) {
 
 			return newState;
 
-		case "ACTIVATE_USER":
+		case "EDIT_USER":
 			if(action.status === 'success') {
-				newState = activateUser(action.data, state);
+				newState = editUser(action.data, state);
 			}
 			
 			if(action.status === 'failure') {
@@ -119,6 +132,21 @@ export default function userReducer(state = initialState.users, action) {
 	}
 }
 
+function activateUser(user, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user.id)
+			userList.splice(i, 1);
+	}
+
+	const newState = Object.assign({}, state, {
+		userList
+	});
+
+	return newState;
+}
+
 function deleteUser(user_id, state) {
 	let userList = [...state.userList];
 
@@ -134,12 +162,12 @@ function deleteUser(user_id, state) {
 	return newState;
 }
 
-function activateUser(user, state) {
+function editUser(user, state) {
 	let userList = [...state.userList];
 
 	for(let i = 0; i < userList.length; i++) {
 		if(userList[i].id === user.id)
-			userList.splice(i, 1);
+			userList[i] = user;
 	}
 
 	const newState = Object.assign({}, state, {
@@ -148,6 +176,8 @@ function activateUser(user, state) {
 
 	return newState;
 }
+
+
 
 
 
