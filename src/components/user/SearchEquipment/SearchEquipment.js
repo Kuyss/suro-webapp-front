@@ -133,9 +133,6 @@ class SearchEquipment extends React.Component {
 			e.value = selectedFilter;
 		}
 
-
-
-
 	}
 
 
@@ -165,13 +162,13 @@ class SearchEquipment extends React.Component {
 						</div>
 						{this.state.nodate && <Label pointing>Enter both dates</Label>}
 						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
-						<Button onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
+						<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 					</div>
 					<br /><br /><br />
 					<div className="searchForm">
 						<select multiple="" className="select">
-							<option value="id">Id</option>
 							<option value="name">Name</option>
+							<option value="id">Id</option>
 							<option value="type">Type</option>
 							<option value="kittype">Kit type</option>
 						</select>
@@ -183,7 +180,7 @@ class SearchEquipment extends React.Component {
 						</div>
 
 						<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
-						<Button style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
+						<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
 					</div>
 
 				</div>
