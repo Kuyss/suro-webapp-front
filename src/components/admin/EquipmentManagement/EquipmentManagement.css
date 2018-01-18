@@ -11,3 +11,8 @@ div.stretched.thirteen.wide.column {
     padding: 0 0 0 24px !important;
     width: 220px !important
 }
+
+.typeDropdowns .ui.search.dropdown {
+    min-width: '';
+    margin-right: 10px;
+}

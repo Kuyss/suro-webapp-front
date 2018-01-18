@@ -137,7 +137,7 @@ class AddEquipment extends Component {
                       <label>Identifier:</label>
                       <Input className='identifierInput' value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
                     </Form.Field>
-					<Form.Group inline>
+					<Form.Group inline className="typeDropdowns">
 						<label>Select Types:</label>
 				        <Dropdown value={this.state.device_type_id} onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
 						<Dropdown value={this.state.type_id} onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
