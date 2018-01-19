@@ -78,8 +78,9 @@ class History extends React.Component {
 			<div className="sve">
 
 				<div className="reserv">
+					<h2>Renew old reservation</h2>
 					<Segment>{this.state.idsToReserve.length} items in reservation: [{this.state.idsToReserve.toString()}]</Segment>
-					<h3>Starting date</h3>
+					<h3>New starting date</h3>
 					<div className="ui calendar" id="example1">
 						<div className="ui input left icon">
 							<i className="calendar icon"></i>
@@ -88,7 +89,7 @@ class History extends React.Component {
 							}} />
 						</div>
 					</div>
-					<h3>Return date</h3>
+					<h3>New return date</h3>
 					<div className="ui calendar" id="example1">
 						<div className="ui input left icon">
 							<i className="calendar icon"></i>
@@ -99,7 +100,7 @@ class History extends React.Component {
 					</div>
 					{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
 					<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
-					<Button color='grey' onClick={() => this.renew(this.start.value, this.end.value)}>Start reservation</Button>
+					<Button color='grey' onClick={() => this.renew(this.start.value, this.end.value)}>Renew reservation</Button>
 				</div>
 
 				<ReservationList reservations={this.props.reservations} history={true} reserve={this.addToState} />
