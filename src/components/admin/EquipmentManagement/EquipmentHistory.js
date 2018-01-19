@@ -58,6 +58,12 @@ class EquipmentHistory extends Component {
 					<Dropdown value={this.state.item_id} onChange={this.setItem} fluid placeholder='Select Item' search selection options={itemOptions} />
 					<br />
 					{
+						reservations.length === 0 &&
+						<div>
+							<h3>There are no reservations for this item</h3>
+						</div>
+					}
+					{
 						reservations.length !== 0 &&
 						<div>
 							<h2>Item Reservations:</h2>
