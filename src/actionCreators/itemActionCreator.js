@@ -228,6 +228,28 @@ const itemActions = {
 		};
 	},
 
+	uploadFile(file, token) {
+		console.log(file);
+		return dispatch => {
+			request
+				.post(env.api + '/admin/items/create/file')
+				.set('Authorization', `bearer ${token}`)
+				.send(file)
+				.end((err, res) => {
+					if (err) {
+						console.log(err);
+						return;
+					}
+
+					if (res.ok) {
+						console.log("ok");
+					} else {
+						console.log(res);
+					}
+				});
+		};
+	},
+
 
 };
 
