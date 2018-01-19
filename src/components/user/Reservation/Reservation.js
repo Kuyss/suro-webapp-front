@@ -57,7 +57,7 @@ export default class Reservation extends React.Component {
                                 <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
                                 <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
                                 <br /> <br />
-                                {this.state.needsReturning && <div class="ui pointing red  label">You need to return this item soon!</div>}
+                                {this.state.needsReturning && (this.props.reservation.status.id !== 5) && <div class="ui pointing red  label">You need to return this item soon!</div>}
                                 <br /> <br />
                                 {(this.props.reservation.status.id === 2) && <div>
                                     {!this.props.his && <div className="grey">
