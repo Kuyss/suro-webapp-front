@@ -73,7 +73,8 @@ class SearchEquipment extends React.Component {
 	cancel() {
 		this.setState({
 			itemsToReserve: [],
-			clicked: []
+			clicked: [],
+			showingSim: false
 		});
 
 		this.start.value = '';
@@ -81,6 +82,10 @@ class SearchEquipment extends React.Component {
 	}
 
 	reserve(start, end) {
+		this.setState({
+			showingSim: false
+		});
+
 		if (start.length === 0 || end.length === 0) {
 			this.setState({
 				nodate: true
@@ -97,6 +102,10 @@ class SearchEquipment extends React.Component {
 	}
 
 	filterBy() {
+		this.setState({
+			showingSim: false
+		});
+
 		var e = document.getElementsByClassName("select")[0];
 		var selectedFilter = (e.options[e.selectedIndex].value);
 		var writtenValue = (this.search.value);
@@ -126,6 +135,11 @@ class SearchEquipment extends React.Component {
 	}
 
 	cancelQuery() {
+
+		this.setState({
+			showingSim: false
+		});
+
 		var e = document.getElementsByClassName("select")[0];
 		var selectedFilter = (e.options[e.selectedIndex].value);
 
@@ -143,13 +157,14 @@ class SearchEquipment extends React.Component {
 	}
 
 	suggest(kittype) {
-		
+
 		var writtenValue = kittype
 		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
 		this.setState({
 			filtered: f,
 			showingSim: true
 		});
+		window.scrollTo(0, 600);
 	}
 
 
@@ -201,6 +216,7 @@ class SearchEquipment extends React.Component {
 					</div>
 
 				</div>
+				{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
 				<ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />
 			</div>
 

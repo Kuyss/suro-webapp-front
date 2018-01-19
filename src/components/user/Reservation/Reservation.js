@@ -34,10 +34,11 @@ export default class Reservation extends React.Component {
 
         if (rd.getDate() == afterafter.getDate() || rd.getDate() == afterTomorrow.getDate() ||
             rd.getDate() == tomorrow.getDate() || rd.getDate() == today.getDate()) {
-            this.setState({
-                needsReturning: true
-            });
-
+            if (!this.props.his) {
+                this.setState({
+                    needsReturning: true
+                });
+            }
         }
     }
 
