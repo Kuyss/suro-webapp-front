@@ -5,6 +5,13 @@ export default function itemReducer(state = initialState.items, action) {
 	
 	switch(action.type) {
 
+		case "CLEAR_ITEM_RESERVATIONS":
+			newState = Object.assign({}, state, {
+				itemReservations: action.data
+			});
+
+			return newState;
+
 		case "CREATE_ITEM":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
@@ -64,7 +71,8 @@ export default function itemReducer(state = initialState.items, action) {
 		case "GET_ALL_ITEMS":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
-					itemList: action.data
+					itemList: action.data,
+					itemsLoading: false
 				});
 			}
 			
@@ -125,6 +133,21 @@ export default function itemReducer(state = initialState.items, action) {
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
 					types: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "GET_RESERVATION_HISTORY":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					itemReservations: action.data
 				});
 			}
 			
