@@ -45,7 +45,7 @@ export default class Reservation extends React.Component {
 
     render() {
         return (
-            <div id="all">
+            <div id="all" style={{ "margin": 20 }}>
                 {(((this.props.his) && (this.state.returnDate < Date.now())) || ((!this.props.his) && (this.state.returnDate > Date.now()))) &&
 
                     <Item.Group className="res">
