@@ -28,7 +28,8 @@ class SearchEquipment extends React.Component {
 			clicked: [],
 			nodate: false,
 			noitems: false,
-			filtered: []
+			filtered: [],
+			showingSim: false
 		};
 
 		this.reserve = this.reserve.bind(this);
@@ -142,11 +143,12 @@ class SearchEquipment extends React.Component {
 	}
 
 	suggest(kittype) {
-
+		
 		var writtenValue = kittype
 		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
 		this.setState({
-			filtered: f
+			filtered: f,
+			showingSim: true
 		});
 	}
 

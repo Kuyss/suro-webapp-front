@@ -17,7 +17,7 @@ class Item extends React.Component {
                 <I>
                     <I.Content >
                         <Image src={this.props.item.picture} size='small' />
-                        <I.Header as='a'>{this.props.item.description}</I.Header>
+                        <I.Header >{this.props.item.description}</I.Header>
                         <I.Meta>{this.props.item.type.description}</I.Meta>
                         <I.Description>
                             {this.props.item.kit.name}

@@ -8,7 +8,7 @@ export default class HistoryItem extends React.Component {
             <I.Group >
                 <I>
                     <I.Content >
-                        <I.Header as='a'>[{this.props.item.item_id}] {this.props.item.item.description}</I.Header>
+                        <I.Header>[{this.props.item.item_id}] {this.props.item.item.description}</I.Header>
                     </I.Content>
                 </I>
             </I.Group>
