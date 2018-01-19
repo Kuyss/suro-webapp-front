@@ -72,7 +72,7 @@ const userActions = {
 					let payload = JSON.parse(res.text);
 
 					if(res.ok) {
-						dispatch(actions.editUser({ status: "success", data: payload.user }));
+						dispatch(actions.editUser({ status: "success", data: payload }));
 					} else {
 						dispatch(actions.editUser({ status: "failure", data: res.status }));
 					}
