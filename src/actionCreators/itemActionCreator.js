@@ -5,6 +5,12 @@ var request = require('superagent');
 
 const itemActions = {
 
+	clearItemReservations() {
+		return dispatch => {
+			dispatch(actions.clearItemReservations({ data: [] }));				
+		};
+	},
+
 	createItem(item, token) {
 		return dispatch => {
 			request
@@ -195,6 +201,28 @@ const itemActions = {
 						dispatch(actions.getItemStatus({ status: "success", data: itemStatus }));
 					} else {
 						dispatch(actions.getItemStatus({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	getReservationHistory(item_id, token) {
+		return dispatch => {
+			request
+				.get(env.api + `/reservations/item/${item_id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.getReservationHistory({ status: "failure", data: err }));
+						return;
+					}
+					let item = JSON.parse(res.text);
+					let itemReservations = item[0] ? item[0].reservations : [];
+					if (res.ok) {
+						dispatch(actions.getReservationHistory({ status: "success", data: itemReservations }));
+					} else {
+						dispatch(actions.getReservationHistory({ status: "failure", data: res.status }));
 					}
 				});
 		};

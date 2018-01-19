@@ -4,6 +4,7 @@ import { Grid, Segment } from 'semantic-ui-react';
 import EquipmentTabs from './EquipmentTabs';
 import AddEquipment from './AddEquipment';
 import EquipmentOverview from './EquipmentOverview';
+import EquipmentHistory from './EquipmentHistory';
 import './EquipmentManagement.css';
 
 export default class EquipmentManagement extends Component {
@@ -26,6 +27,8 @@ export default class EquipmentManagement extends Component {
 				return <AddEquipment />
 			case 'equipment overview':
 				return <EquipmentOverview />
+			case 'equipment history':
+				return <EquipmentHistory />
 			default:
 				return null
 		}

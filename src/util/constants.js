@@ -3,4 +3,10 @@ export const ROLES = {
 	USER: 2
 };
 
+export const RESERVATION_STATUS = {
+	TO_APPROVE: 1,
+	APPROVED: 2,
+	DECLINED: 3
+};
+
 export const API_BASE = "http://159.89.108.135/api";

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+import history from './history'
 
 import EquipmentManagement from './components/admin/EquipmentManagement/EquipmentManagement';
 import Header from './components/Header';
@@ -19,7 +20,7 @@ const Container = (props) =>
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div>
           <Container>
             <Route exact path="/" component={Login} />
@@ -31,7 +32,7 @@ class App extends Component {
             <Route path="/history" component={History} />
           </Container>
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

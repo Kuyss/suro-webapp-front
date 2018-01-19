@@ -13,7 +13,10 @@ export default {
 	reservations: {
 		error: null,
 		reservationList: [],
-		activeUsersReservationList: []
+		activeUsersReservationList: [],
+		toApprove: [],
+		approved: [],
+		declined: []
 	},
 
 	items:{
@@ -24,6 +27,8 @@ export default {
 		subtypes: [],
 		types: [],
 		showItemCreatedPopup: false,
-		status: true
+		status: true,
+		itemsLoading: true,
+		itemReservations: []
 	}
 }

@@ -1,3 +1,11 @@
+export function activateUser({ status, data }) {
+	return {
+		data,
+		status,
+		type: "ACTIVATE_USER",
+	}
+}
+
 export function changeActiveTab({ data }) {
 	return {
 		data,
@@ -10,6 +18,22 @@ export function deleteUser({ status, data }) {
 		data,
 		status,
 		type: "DELETE_USER",
+	}
+}
+
+export function editUser({ status, data }) {
+	return {
+		data,
+		status,
+		type: "EDIT_USER",
+	}
+}
+
+export function loadAllInactiveUsers({ status, data }) {
+	return {
+		data,
+		status,
+		type: "LOAD_ALL_INACTIVE_USERS",
 	}
 }
 

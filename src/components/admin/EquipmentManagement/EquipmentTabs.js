@@ -22,6 +22,10 @@ export default class EquipmentTabs extends Component {
 				<Icon name='briefcase' />
 					Equipment Overview
 				</Menu.Item>
+				<Menu.Item name='equipment history' active={activeItem === 'equipment history'} onClick={this.handleItemClick} >
+				<Icon name='history' />
+					Equipment History
+				</Menu.Item>
 			</Menu>
 		);
 	}

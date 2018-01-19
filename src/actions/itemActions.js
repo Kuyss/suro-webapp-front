@@ -1,3 +1,10 @@
+export function clearItemReservations({ data }) {
+	return {
+		data,
+		type: "CLEAR_ITEM_RESERVATIONS",
+	}
+}
+
 export function createItem({ status, data }) {
 	return {
 		data,
@@ -68,5 +75,13 @@ export function getItemStatus({ status, data }) {
 		data,
 		status,
 		type: "GET_ITEMS_STATUS",
+	}
+}
+
+export function getReservationHistory({ status, data }) {
+	return {
+		data,
+		status,
+		type: "GET_RESERVATION_HISTORY",
 	}
 }

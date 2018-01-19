@@ -1,9 +1,24 @@
 import initialState from './initialState';
+import history from '../history';
+import { ROLES } from 'util/constants';
 
 export default function userReducer(state = initialState.users, action) {
 	let newState = state;
 	
 	switch(action.type) {
+
+		case "ACTIVATE_USER":
+			if(action.status === 'success') {
+				newState = activateUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
 
 		case "CHANGE_ACTIVE_TAB":
 			newState = Object.assign({}, state, {
@@ -15,6 +30,34 @@ export default function userReducer(state = initialState.users, action) {
 		case "DELETE_USER":
 			if(action.status === 'success') {
 				newState = deleteUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "EDIT_USER":
+			if(action.status === 'success') {
+				newState = editUser(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "LOAD_ALL_INACTIVE_USERS":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					userList: action.data.filter(e => { return e.active === 0 })
+				});
 			}
 			
 			if(action.status === 'failure') {
@@ -42,12 +85,28 @@ export default function userReducer(state = initialState.users, action) {
 
 		case "LOGIN":
 			if(action.status === 'success') {
+				const role_id = action.data.user.role_id;
+				let activeTab = 'home';
+				let path = '/';
+				
+				if(role_id === ROLES.ADMIN) {
+					activeTab = 'user management';
+					path = '/user_management';
+				} 
+				else if(role_id === ROLES.USER) {
+					activeTab = 'search equipment';
+					path = '/search_equipment';
+				}
+
 				newState = Object.assign({}, state, {
+					activeTab,
 					currentUser: action.data.user,
 					currentUserRole: action.data.user.role_id,
 					showLoginPopup: true,
 					token: action.data.token
 				});
+
+				history.push(path);
 			}
 			
 			if(action.status === 'failure') {
@@ -91,6 +150,21 @@ export default function userReducer(state = initialState.users, action) {
 	}
 }
 
+function activateUser(user, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user.id)
+			userList.splice(i, 1);
+	}
+
+	const newState = Object.assign({}, state, {
+		userList
+	});
+
+	return newState;
+}
+
 function deleteUser(user_id, state) {
 	let userList = [...state.userList];
 
@@ -105,4 +179,23 @@ function deleteUser(user_id, state) {
 
 	return newState;
 }
+
+function editUser(user, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user.id)
+			userList[i] = user;
+	}
+
+	const newState = Object.assign({}, state, {
+		userList
+	});
+
+	return newState;
+}
+
+
+
+
 
