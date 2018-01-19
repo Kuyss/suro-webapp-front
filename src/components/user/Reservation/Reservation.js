@@ -86,7 +86,7 @@ export default class Reservation extends React.Component {
                                 {(!this.props.his) && (this.props.reservation.status.id === 5) && <Label pointing  >Reservation was canceled.</Label>}
                                 {this.props.his &&
                                     <div>
-                                        {(this.props.reservation.status.id !== 2) && <div><br />
+                                        {(this.props.reservation.status.id !== 2) && (!this.props.his) && <div><br />
                                             <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
                                             <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
                                             <br /> <br /> <br /> <br />
