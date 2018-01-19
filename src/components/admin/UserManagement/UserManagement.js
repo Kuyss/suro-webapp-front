@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { ROLES } from 'util/constants';
 
 import UserTabs from './UserTabs';
 import UsersOverview from './UsersOverview';
 import CreateNewUser from './CreateNewUser';
 import AcceptNewUsers from './AcceptNewUsers';
 import ReservationApprovals from './ReservationApprovals';
+import NotFound from 'components/NotFound';
 import './UserManagement.css';
 
-export default class UserManagement extends Component {
+class UserManagement extends Component {
 	constructor() {
 		super();
 
@@ -38,20 +41,42 @@ export default class UserManagement extends Component {
 	}
 
 	render() {
-		return (
-		  <div className="UserManagement">	
-		  	<Grid>
-		        <Grid.Column width={3}>
-		      		<UserTabs handleTabChange={this.handleTabChange}/>
-		      	</Grid.Column>
+		if(this.props.role !== ROLES.ADMIN) {
+			return <NotFound />
+		} else {
+			return (
+			  <div className="UserManagement">	
+			  	<Grid>
+			        <Grid.Column width={3}>
+			      		<UserTabs handleTabChange={this.handleTabChange}/>
+			      	</Grid.Column>
 
-		      	<Grid.Column stretched width={13} >
-		          <Segment>
-		            { this.renderUserManagementView() }
-		          </Segment>
-		        </Grid.Column>
-		    </Grid>
-		  </div>
-		);
+			      	<Grid.Column stretched width={13} >
+			          <Segment>
+			            { this.renderUserManagementView() }
+			          </Segment>
+			        </Grid.Column>
+			    </Grid>
+			  </div>
+			);
+		}
+		
 	}
 }
+
+const mapStateToProps = (state) => {
+  return {
+    role: state.users.currentUserRole
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserManagement);

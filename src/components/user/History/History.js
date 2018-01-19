@@ -8,8 +8,8 @@ import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import { connect } from 'react-redux';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-
-
+import { ROLES } from 'util/constants';
+import NotFound from 'components/NotFound';
 
 class History extends React.Component {
 	constructor(args) {
@@ -24,8 +24,8 @@ class History extends React.Component {
 
 
 	componentDidMount() {
-		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
-
+		if(this.props.token)
+			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 	}
 
 	reserve(items) {
@@ -56,42 +56,47 @@ class History extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="sve">
+		if(this.props.role !== ROLES.USER) {
+			return <NotFound />
+		} else {
+			return (
+				<div className="sve">
 
-				<div className="grey">
-					<div><h3>New starting date</h3>
+					<div className="grey">
+						<div><h3>New starting date</h3>
+							<div className="ui calendar" id="example1">
+								<div className="ui input left icon">
+									<i className="calendar icon"></i>
+									<input type="text" placeholder="startdate" ref={(input) => {
+										this.start = input;
+									}} />
+								</div>
+							</div>
+						</div>
+						<h3>New return date</h3>
 						<div className="ui calendar" id="example1">
 							<div className="ui input left icon">
 								<i className="calendar icon"></i>
-								<input type="text" placeholder="startdate" ref={(input) => {
-									this.start = input;
+								<input type="text" placeholder="returndate" ref={(input) => {
+									this.end = input;
 								}} />
 							</div>
 						</div>
-					</div>
-					<h3>New return date</h3>
-					<div className="ui calendar" id="example1">
-						<div className="ui input left icon">
-							<i className="calendar icon"></i>
-							<input type="text" placeholder="returndate" ref={(input) => {
-								this.end = input;
-							}} />
-						</div>
-					</div>
 
 
+					</div>
+
+					{this.state.nodate && <Label pointing>Enter both dates</Label>}
+					<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
 				</div>
-
-				{this.state.nodate && <Label pointing>Enter both dates</Label>}
-				<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
-			</div>
-		);
+			);
+		}
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
+		role: state.users.currentUserRole,
 		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token,
 		currentUser: state.users.currentUser

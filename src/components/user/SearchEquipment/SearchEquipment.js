@@ -17,6 +17,8 @@ import itemActions from 'actionCreators/itemActionCreator';
 import reservationActions from 'actionCreators/reservationActionCreator'
 import { connect } from 'react-redux';
 import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
+import NotFound from 'components/NotFound';
+import { ROLES } from 'util/constants';
 
 
 class SearchEquipment extends React.Component {
@@ -137,62 +139,67 @@ class SearchEquipment extends React.Component {
 
 
 	render() {
-		return (
-			<div>
-				<div className="all">
-					<div className="reserv">
-						<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
-						<h3>Starting date</h3>
-						<div className="ui calendar" id="example1">
-							<div className="ui input left icon">
-								<i className="calendar icon"></i>
-								<input type="text" placeholder="startdate" ref={(input) => {
-									this.start = input;
-								}} />
+		if(this.props.role !== ROLES.USER) {
+			return <NotFound />
+		} else {
+			return (
+				<div>
+					<div className="all">
+						<div className="reserv">
+							<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
+							<h3>Starting date</h3>
+							<div className="ui calendar" id="example1">
+								<div className="ui input left icon">
+									<i className="calendar icon"></i>
+									<input type="text" placeholder="startdate" ref={(input) => {
+										this.start = input;
+									}} />
+								</div>
 							</div>
-						</div>
-						<h3>Return date</h3>
-						<div className="ui calendar" id="example1">
-							<div className="ui input left icon">
-								<i className="calendar icon"></i>
-								<input type="text" placeholder="returndate" ref={(input) => {
-									this.end = input;
-								}} />
+							<h3>Return date</h3>
+							<div className="ui calendar" id="example1">
+								<div className="ui input left icon">
+									<i className="calendar icon"></i>
+									<input type="text" placeholder="returndate" ref={(input) => {
+										this.end = input;
+									}} />
+								</div>
 							</div>
+							{this.state.nodate && <Label pointing>Enter both dates</Label>}
+							<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
+							<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 						</div>
-						{this.state.nodate && <Label pointing>Enter both dates</Label>}
-						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
-						<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
-					</div>
-					<br /><br /><br />
-					<div className="searchForm">
-						<select multiple="" className="select">
-							<option value="name">Name</option>
-							<option value="id">Id</option>
-							<option value="type">Type</option>
-							<option value="kittype">Kit type</option>
-						</select>
-						<div className="ui search" >
-							<input className="prompt" type="text" placeholder="search" ref={(input) => {
-								this.search = input;
-							}} />
+						<br /><br /><br />
+						<div className="searchForm">
+							<select multiple="" className="select">
+								<option value="name">Name</option>
+								<option value="id">Id</option>
+								<option value="type">Type</option>
+								<option value="kittype">Kit type</option>
+							</select>
+							<div className="ui search" >
+								<input className="prompt" type="text" placeholder="search" ref={(input) => {
+									this.search = input;
+								}} />
 
+							</div>
+
+							<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
+							<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
 						</div>
 
-						<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
-						<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
 					</div>
-
+					<ItemList items={this.state.filtered} do={this.addToRes} />
 				</div>
-				<ItemList items={this.state.filtered} do={this.addToRes} />
-			</div>
 
-		);
+			);
+		}
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
+		role: state.users.currentUserRole,
 		items: state.items.itemList,
 		itemStatus: state.items.status,
 		token: state.users.token
