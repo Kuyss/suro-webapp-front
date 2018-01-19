@@ -1,4 +1,6 @@
 import initialState from './initialState';
+import history from '../history';
+import { ROLES } from 'util/constants';
 
 export default function userReducer(state = initialState.users, action) {
 	let newState = state;
@@ -83,12 +85,28 @@ export default function userReducer(state = initialState.users, action) {
 
 		case "LOGIN":
 			if(action.status === 'success') {
+				const role_id = action.data.user.role_id;
+				let activeTab = 'home';
+				let path = '/';
+				
+				if(role_id === ROLES.ADMIN) {
+					activeTab = 'user management';
+					path = '/user_management';
+				} 
+				else if(role_id === ROLES.USER) {
+					activeTab = 'search equipment';
+					path = '/search_equipment';
+				}
+
 				newState = Object.assign({}, state, {
+					activeTab,
 					currentUser: action.data.user,
 					currentUserRole: action.data.user.role_id,
 					showLoginPopup: true,
 					token: action.data.token
 				});
+
+				history.push(path);
 			}
 			
 			if(action.status === 'failure') {

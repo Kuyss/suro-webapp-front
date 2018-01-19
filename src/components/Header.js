@@ -56,12 +56,15 @@ class Header extends Component {
 		return (
 			<div>
 				<Menu icon='labeled'>
-					<Link to="/">
-						<Menu.Item as="span" name='home' active={activeTab === 'home'} onClick={this.handleItemClick} >
-							<Icon name="home" />
-							Home
-			          	</Menu.Item>
-					</Link>
+					{
+						role === null &&
+						<Link to="/">
+							<Menu.Item as="span" name='home' active={activeTab === 'home'} onClick={this.handleItemClick} >
+								<Icon name="home" />
+								Home
+				          	</Menu.Item>
+						</Link>
+					}
 					{
 						role === ROLES.ADMIN &&
 						<Menu.Menu>
