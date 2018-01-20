@@ -32,7 +32,8 @@ class SearchEquipment extends React.Component {
 			nodate: false,
 			noitems: false,
 			filtered: [],
-			showingSim: false
+			showingSim: false,
+			isFiltered: false
 		};
 
 		this.reserve = this.reserve.bind(this);
@@ -42,23 +43,9 @@ class SearchEquipment extends React.Component {
 	}
 
 
-	// componentDidMount() {
-	// 	if (this.props.token) {
-	// 		this.props.dispatch(itemActions.getAllItems(this.props.token));
-
-	// 		this.setState({
-	// 			filtered: this.props.items
-	// 		});
-	// 	}
-	// }
-
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.token && nextProps.token !== this.props.token) {
 			this.props.dispatch(itemActions.getAllItems(nextProps.token));
-
-			// this.setState({
-			// 	filtered: this.props.items
-			// });
 		}
 	}
 
@@ -144,7 +131,8 @@ class SearchEquipment extends React.Component {
 		}
 
 		this.setState({
-			filtered: f
+			filtered: f,
+			isFiltered: true
 		});
 
 	}
@@ -152,7 +140,8 @@ class SearchEquipment extends React.Component {
 	cancelQuery() {
 
 		this.setState({
-			showingSim: false
+			showingSim: false,
+			isFiltered: false
 		});
 
 		var e = document.getElementsByClassName("select")[0];
@@ -172,12 +161,11 @@ class SearchEquipment extends React.Component {
 	}
 
 	suggest(kittype) {
-
-		var writtenValue = kittype
-		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
+		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(kittype.toLowerCase()));
 		this.setState({
 			filtered: f,
-			showingSim: true
+			showingSim: true,
+			isFiltered: true
 		});
 		window.scrollTo(0, 600);
 	}
@@ -238,8 +226,8 @@ class SearchEquipment extends React.Component {
 
 						</div>
 						{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
-						{(this.state.filtered.length > 0) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />}
-						{(this.state.filtered.length == 0) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} />}
+						{(this.state.isFiltered) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />}
+						{(!this.state.isFiltered) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} />}
 					</div>);
 			}
 		}
