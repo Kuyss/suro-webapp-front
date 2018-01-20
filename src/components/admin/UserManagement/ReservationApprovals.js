@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import reservationActions from 'actionCreators/reservationActionCreator';
-import { Button, Icon, Loader, Table } from 'semantic-ui-react';
+import { Button, Checkbox, Icon, Loader, Table, Segment } from 'semantic-ui-react';
+import './UserManagement.css';
 
 class ReservationApprovals extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      showApproved: false,
+      showToApprove: true,
+      showDeclined: false,
+    }
+  }
 
 	componentDidMount = () => {
 		this.props.dispatch(reservationActions.getAllReservations(this.props.token));
@@ -29,134 +40,161 @@ class ReservationApprovals extends Component {
 
       return(
         <div>
-          <h2>To Approve:</h2>
-          <Table celled padded>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell singleLine>Created At</Table.HeaderCell>
-                <Table.HeaderCell>Id</Table.HeaderCell>
-                <Table.HeaderCell>Items</Table.HeaderCell>
-                <Table.HeaderCell>Start Date</Table.HeaderCell>
-                <Table.HeaderCell>Return Date</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Updated At</Table.HeaderCell>
-                <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Approve</Table.HeaderCell>
-                <Table.HeaderCell>Decline</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+          <Segment>
+            <h3>Select which reservations to show:</h3>
+            <Checkbox className='checkboxes' toggle label='Show Approved' onClick={() => this.setState({ showApproved: !this.state.showApproved })} />
+            <Checkbox className='checkboxes' toggle label='Show Waiting approval' onClick={() => this.setState({ showToApprove: !this.state.showToApprove })} defaultChecked />
+            <Checkbox className='checkboxes' toggle label='Show Declined' onClick={() => this.setState({ showDeclined: !this.state.showDeclined })} />
+            <Checkbox className='checkboxes' toggle label='Show Returned' />
+          </Segment>
 
-            <Table.Body>
-              {
-                toApprove.map((r, i) => {
-                  return(
-                    <Table.Row key={i}>
-                      <Table.Cell>{r.created_at}</Table.Cell>
-                      <Table.Cell>{r.id}</Table.Cell>
-                      <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
-                      <Table.Cell>{r.start_date}</Table.Cell>
-                      <Table.Cell>{r.return_date}</Table.Cell>
-                      <Table.Cell>{r.status.name}</Table.Cell>
-                      <Table.Cell>{r.updated_at}</Table.Cell>
-                      <Table.Cell>{r.user.email}</Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
-                      </Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  );
-                })
-              }
-            </Table.Body>
-          </Table>
-          <br />
-          <h2>Approved Reservations:</h2>
-          <Table celled padded>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Id</Table.HeaderCell>
-                <Table.HeaderCell>Items</Table.HeaderCell>
-                <Table.HeaderCell>Start Date</Table.HeaderCell>
-                <Table.HeaderCell>Return Date</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Created At</Table.HeaderCell>
-                <Table.HeaderCell>Updated At</Table.HeaderCell>
-                <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Return</Table.HeaderCell>
-                <Table.HeaderCell>Decline</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+          {
+            this.state.showToApprove &&
+            <div>
+            <h2>To Approve:</h2>
+            <Table celled padded>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell singleLine>Created At</Table.HeaderCell>
+                  <Table.HeaderCell>Id</Table.HeaderCell>
+                  <Table.HeaderCell>Items</Table.HeaderCell>
+                  <Table.HeaderCell>Start Date</Table.HeaderCell>
+                  <Table.HeaderCell>Return Date</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                  <Table.HeaderCell>Updated At</Table.HeaderCell>
+                  <Table.HeaderCell>User</Table.HeaderCell>
+                  <Table.HeaderCell>Approve</Table.HeaderCell>
+                  <Table.HeaderCell>Decline</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-            <Table.Body>
-              {
-                approved.map((r, i) => {
-                  return(
-                    <Table.Row key={i}>
-                      <Table.Cell>{r.id}</Table.Cell>
-                      <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
-                      <Table.Cell>{r.start_date}</Table.Cell>
-                      <Table.Cell>{r.return_date}</Table.Cell>
-                      <Table.Cell>{r.status.name}</Table.Cell>
-                      <Table.Cell>{r.created_at}</Table.Cell>
-                      <Table.Cell>{r.updated_at}</Table.Cell>
-                      <Table.Cell>{r.user.email}</Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleReturnReservation(r.id)} color='yellow' icon><Icon name='arrow right'/></Button>
-                      </Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  );
-                })
-              }
-            </Table.Body>
-          </Table>
-          <br />
-          <h2>Declined Reservations:</h2>
-          <Table celled padded>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell singleLine>Created At</Table.HeaderCell>
-                <Table.HeaderCell>Id</Table.HeaderCell>
-                <Table.HeaderCell>Items</Table.HeaderCell>
-                <Table.HeaderCell>Start Date</Table.HeaderCell>
-                <Table.HeaderCell>Return Date</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Updated At</Table.HeaderCell>
-                <Table.HeaderCell>User</Table.HeaderCell>
-                <Table.HeaderCell>Approve</Table.HeaderCell>
-                <Table.HeaderCell>Decline</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+              <Table.Body>
+                {
+                  toApprove.map((r, i) => {
+                    return(
+                      <Table.Row key={i}>
+                        <Table.Cell>{r.created_at}</Table.Cell>
+                        <Table.Cell>{r.id}</Table.Cell>
+                        <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
+                        <Table.Cell>{r.start_date}</Table.Cell>
+                        <Table.Cell>{r.return_date}</Table.Cell>
+                        <Table.Cell>{r.status.name}</Table.Cell>
+                        <Table.Cell>{r.updated_at}</Table.Cell>
+                        <Table.Cell>{r.user.email}</Table.Cell>
+                        <Table.Cell textAlign='center'>
+                          <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
+                        </Table.Cell>
+                        <Table.Cell textAlign='center'>
+                          <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                        </Table.Cell>
+                      </Table.Row>
+                    );
+                  })
+                }
+              </Table.Body>
+            </Table>
+            <br />
+            </div>
+          }
+          {
+            this.state.showApproved &&
+            <div>
+              <h2>Approved Reservations:</h2>
+              <Table celled padded>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Id</Table.HeaderCell>
+                    <Table.HeaderCell>Items</Table.HeaderCell>
+                    <Table.HeaderCell>Start Date</Table.HeaderCell>
+                    <Table.HeaderCell>Return Date</Table.HeaderCell>
+                    <Table.HeaderCell>Status</Table.HeaderCell>
+                    <Table.HeaderCell>Created At</Table.HeaderCell>
+                    <Table.HeaderCell>Updated At</Table.HeaderCell>
+                    <Table.HeaderCell>User</Table.HeaderCell>
+                    <Table.HeaderCell>Return</Table.HeaderCell>
+                    <Table.HeaderCell>Decline</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-            <Table.Body>
-              {
-                declined.map((r, i) => {
-                  return(
-                    <Table.Row key={i}>
-                      <Table.Cell>{r.created_at}</Table.Cell>
-                      <Table.Cell>{r.id}</Table.Cell>
-                      <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
-                      <Table.Cell>{r.start_date}</Table.Cell>
-                      <Table.Cell>{r.return_date}</Table.Cell>
-                      <Table.Cell>{r.status.name}</Table.Cell>
-                      <Table.Cell>{r.updated_at}</Table.Cell>
-                      <Table.Cell>{r.user.email}</Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
-                      </Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  );
-                })
-              }
-            </Table.Body>
-          </Table>
+                <Table.Body>
+                  {
+                    approved.map((r, i) => {
+                      return(
+                        <Table.Row key={i}>
+                          <Table.Cell>{r.id}</Table.Cell>
+                          <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
+                          <Table.Cell>{r.start_date}</Table.Cell>
+                          <Table.Cell>{r.return_date}</Table.Cell>
+                          <Table.Cell>{r.status.name}</Table.Cell>
+                          <Table.Cell>{r.created_at}</Table.Cell>
+                          <Table.Cell>{r.updated_at}</Table.Cell>
+                          <Table.Cell>{r.user.email}</Table.Cell>
+                          <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleReturnReservation(r.id)} color='yellow' icon><Icon name='arrow right'/></Button>
+                          </Table.Cell>
+                          <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                          </Table.Cell>
+                        </Table.Row>
+                      );
+                    })
+                  }
+                </Table.Body>
+              </Table>
+              <br />
+            </div>
+          }
+            
+          {
+            this.state.showDeclined && 
+            <div>
+              <h2>Declined Reservations:</h2>
+              <Table celled padded>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell singleLine>Created At</Table.HeaderCell>
+                    <Table.HeaderCell>Id</Table.HeaderCell>
+                    <Table.HeaderCell>Items</Table.HeaderCell>
+                    <Table.HeaderCell>Start Date</Table.HeaderCell>
+                    <Table.HeaderCell>Return Date</Table.HeaderCell>
+                    <Table.HeaderCell>Status</Table.HeaderCell>
+                    <Table.HeaderCell>Updated At</Table.HeaderCell>
+                    <Table.HeaderCell>User</Table.HeaderCell>
+                    <Table.HeaderCell>Approve</Table.HeaderCell>
+                    <Table.HeaderCell>Decline</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {
+                    declined.map((r, i) => {
+                      return(
+                        <Table.Row key={i}>
+                          <Table.Cell>{r.created_at}</Table.Cell>
+                          <Table.Cell>{r.id}</Table.Cell>
+                          <Table.Cell>{r.items.map(i => {return (i.item.identifier + ", ")})}</Table.Cell>
+                          <Table.Cell>{r.start_date}</Table.Cell>
+                          <Table.Cell>{r.return_date}</Table.Cell>
+                          <Table.Cell>{r.status.name}</Table.Cell>
+                          <Table.Cell>{r.updated_at}</Table.Cell>
+                          <Table.Cell>{r.user.email}</Table.Cell>
+                          <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
+                          </Table.Cell>
+                          <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                          </Table.Cell>
+                        </Table.Row>
+                      );
+                    })
+                  }
+                </Table.Body>
+              </Table>
+              <br />
+            </div>
+          }
+          
+          
         </div>
       );
     }
