@@ -30,6 +30,9 @@ class Header extends Component {
 		if(this.props.role) {
 			return(
 				<Menu.Menu position='right'>
+					<Menu.Item>
+			          <span className='loggedAs'><Icon name='user' color='green'  /> Logged in as: <b>{this.props.user.email}</b></span>
+			        </Menu.Item>
 					<Link to="/" className='rightLink'>
 						<Menu.Item as="span" name='logout' className='rightBtn'  onClick={this.handleLogout}>
 							<Button color='grey'>Logout</Button>
