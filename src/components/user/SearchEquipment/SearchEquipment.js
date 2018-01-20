@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
 import NotFound from 'components/NotFound';
 import { ROLES } from 'util/constants';
+import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader/Loader';
 
 
 class SearchEquipment extends React.Component {
@@ -41,25 +42,26 @@ class SearchEquipment extends React.Component {
 	}
 
 
-	componentDidMount() {
-		if(this.props.token) {
-			this.props.dispatch(itemActions.getAllItems(this.props.token));
+	// componentDidMount() {
+	// 	if (this.props.token) {
+	// 		this.props.dispatch(itemActions.getAllItems(this.props.token));
 
-			this.setState({
-				filtered: this.props.items
-			});
-		}
-	}
+	// 		this.setState({
+	// 			filtered: this.props.items
+	// 		});
+	// 	}
+	// }
 
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.token && nextProps.token !== this.props.token) {
+		if (nextProps.token && nextProps.token !== this.props.token) {
 			this.props.dispatch(itemActions.getAllItems(nextProps.token));
 
-			this.setState({
-				filtered: this.props.items
-			});
+			// this.setState({
+			// 	filtered: this.props.items
+			// });
 		}
 	}
+
 
 	addToRes(newid) {
 
@@ -182,60 +184,64 @@ class SearchEquipment extends React.Component {
 
 
 	render() {
-		if(this.props.role !== ROLES.USER) {
+		if (this.props.role !== ROLES.USER) {
 			return <NotFound />
 		} else {
-			return (
-				<div>
-				<div className="all">
-					<div className="reserv">
-						<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
-						<h3>Starting date</h3>
-						<div className="ui calendar" id="example1">
-							<div className="ui input left icon">
-								<i className="calendar icon"></i>
-								<input type="text" placeholder="startdate" ref={(input) => {
-									this.start = input;
-								}} />
+			if (this.props.load) {
+				return <Loader active />
+			} else {
+				return (
+					<div>
+						<div className="all">
+							<div className="reserv">
+								<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
+								<h3>Starting date</h3>
+								<div className="ui calendar" id="example1">
+									<div className="ui input left icon">
+										<i className="calendar icon"></i>
+										<input type="text" placeholder="startdate" ref={(input) => {
+											this.start = input;
+										}} />
+									</div>
+								</div>
+								<h3>Return date</h3>
+								<div className="ui calendar" id="example1">
+									<div className="ui input left icon">
+										<i className="calendar icon"></i>
+										<input type="text" placeholder="returndate" ref={(input) => {
+											this.end = input;
+										}} />
+									</div>
+								</div>
+								{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
+								<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
+								<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
 							</div>
-						</div>
-						<h3>Return date</h3>
-						<div className="ui calendar" id="example1">
-							<div className="ui input left icon">
-								<i className="calendar icon"></i>
-								<input type="text" placeholder="returndate" ref={(input) => {
-									this.end = input;
-								}} />
+							<br /><br /><br />
+							<div className="searchForm">
+								<select multiple="" className="select">
+									<option value="name">Name</option>
+									<option value="id">Id</option>
+									<option value="type">Type</option>
+									<option value="kittype">Kit type</option>
+								</select>
+								<div className="ui search" >
+									<input className="prompt" type="text" placeholder="search" ref={(input) => {
+										this.search = input;
+									}} />
+
+								</div>
+
+								<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
+								<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
 							</div>
-						</div>
-						{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
-						<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
-						<Button color='grey' onClick={() => this.reserve(this.start.value, this.end.value)}>Start reservation</Button>
-					</div>
-					<br /><br /><br />
-					<div className="searchForm">
-						<select multiple="" className="select">
-							<option value="name">Name</option>
-							<option value="id">Id</option>
-							<option value="type">Type</option>
-							<option value="kittype">Kit type</option>
-						</select>
-						<div className="ui search" >
-							<input className="prompt" type="text" placeholder="search" ref={(input) => {
-								this.search = input;
-							}} />
 
 						</div>
-
-						<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
-						<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
-					</div>
-
-				</div>
-				{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
-				<ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />
-			</div>);
-			
+						{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
+						{(this.state.filtered.length > 0) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />}
+						{(this.state.filtered.length == 0) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} />}
+					</div>);
+			}
 		}
 	}
 }
@@ -245,7 +251,8 @@ const mapStateToProps = (state) => {
 		role: state.users.currentUserRole,
 		items: state.items.itemList,
 		itemStatus: state.items.status,
-		token: state.users.token
+		token: state.users.token,
+		load: state.items.itemsLoading
 	};
 };
 
