@@ -32,8 +32,10 @@ export default class Reservation extends React.Component {
         });
 
 
-        if (rd.getDate() == afterafter.getDate() || rd.getDate() == afterTomorrow.getDate() ||
-            rd.getDate() == tomorrow.getDate() || rd.getDate() == today.getDate()) {
+        if ((rd.getDate() == afterafter.getDate() && rd.getMonth() == afterafter.getMonth() && rd.getFullYear() == afterafter.getFullYear())
+            || (rd.getDate() == afterTomorrow.getDate() && rd.getMonth() == afterTomorrow.getMonth() && rd.getFullYear() == afterTomorrow.getFullYear())
+            || (rd.getDate() == tomorrow.getDate() && rd.getMonth() == tomorrow.getMonth() && rd.getFullYear() == tomorrow.getFullYear())
+            || (rd.getDate() == today.getDate() && rd.getMonth() == today.getMonth() && rd.getFullYear() == today.getFullYear())) {
             if (!this.props.his) {
                 this.setState({
                     needsReturning: true
