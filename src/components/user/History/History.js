@@ -8,6 +8,9 @@ import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import { connect } from 'react-redux';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import './History.css';
+import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
+
 import { ROLES } from 'util/constants';
 import NotFound from 'components/NotFound';
 
@@ -16,9 +19,11 @@ class History extends React.Component {
 		super(args);
 		this.state = {
 			nodate: false,
+			noitems: false,
+			clicked: [],
 			idsToReserve: []
 		};
-		this.reserve = this.reserve.bind(this);
+		this.addToState = this.addToState.bind(this);
 	}
 
 
@@ -28,69 +33,81 @@ class History extends React.Component {
 			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 	}
 
-	reserve(items) {
+	cancel() {
+		this.setState({
+			idsToReserve: [],
+			clicked: []
+		});
 
-		var start = this.start.value;
-		var end =  this.end.value;
+		this.start.value = '';
+		this.end.value = '';
+	}
 
+	addToState(items) {
+
+		var newArray = [];
+
+		items.forEach(element => {
+			newArray.push(element.item_id);
+			this.setState({
+				idsToReserve: newArray
+			});
+
+		});
+
+	}
+
+
+	renew(start, end) {
 		if (start.length === 0 || end.length === 0) {
 			this.setState({
 				nodate: true
 			});
 
-		} else {
-
-			var newArray = [];
-
-			items.forEach(element => {
-				newArray.push(element.item_id);
-				this.setState({
-					idsToReserve: newArray
-				});
-
+		} else if (this.state.idsToReserve.length == 0) {
+			this.setState({
+				noitems: true
 			});
-
-			console.log(this.state.idsToReserve.toString());
-			//this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.idsToReserve.toString(), start, end));
+		} else {
+			this.props.dispatch(reservationActions.postReservation(this.props.token, this.state.idsToReserve.toString(), start, end));
+			this.cancel();
 		}
 	}
 
+
 	render() {
-		if(this.props.role !== ROLES.USER) {
-			return <NotFound />
-		} else {
-			return (
-				<div className="sve">
+		return (
+			<div className="sve">
 
-					<div className="grey">
-						<div><h3>New starting date</h3>
-							<div className="ui calendar" id="example1">
-								<div className="ui input left icon">
-									<i className="calendar icon"></i>
-									<input type="text" placeholder="startdate" ref={(input) => {
-										this.start = input;
-									}} />
-								</div>
-							</div>
+				<div className="reserv">
+					<h2>Renew old reservation</h2>
+					<Segment>{this.state.idsToReserve.length} items in reservation: [{this.state.idsToReserve.toString()}]</Segment>
+					<h3>New starting date</h3>
+					<div className="ui calendar" id="example1">
+						<div className="ui input left icon">
+							<i className="calendar icon"></i>
+							<input type="text" placeholder="startdate" ref={(input) => {
+								this.start = input;
+							}} />
 						</div>
-						<h3>New return date</h3>
-						<div className="ui calendar" id="example1">
-							<div className="ui input left icon">
-								<i className="calendar icon"></i>
-								<input type="text" placeholder="returndate" ref={(input) => {
-									this.end = input;
-								}} />
-							</div>
-						</div>
-
-
 					</div>
-
-					{this.state.nodate && <Label pointing>Enter both dates</Label>}
-					<ReservationList reservations={this.props.reservations} history={true} reserve={this.reserve} />
+					<h3>New return date</h3>
+					<div className="ui calendar" id="example1">
+						<div className="ui input left icon">
+							<i className="calendar icon"></i>
+							<input type="text" placeholder="returndate" ref={(input) => {
+								this.end = input;
+							}} />
+						</div>
+					</div>
+					{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
+					<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
+					<Button color='grey' onClick={() => this.renew(this.start.value, this.end.value)}>Renew reservation</Button>
 				</div>
-			);
-		}
+
+				<ReservationList reservations={this.props.reservations} history={true} reserve={this.addToState} />
+			</div>
+		);
 	}
 }
 

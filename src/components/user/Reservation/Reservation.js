@@ -12,7 +12,8 @@ export default class Reservation extends React.Component {
         super(args);
 
         this.state = {
-            returnDate: {}
+            returnDate: {},
+            needsReturning: false
         }
     }
 
@@ -20,15 +21,33 @@ export default class Reservation extends React.Component {
         var date = this.props.reservation.return_date.split('-');
         var rd = new Date(date[0], date[1] - 1, date[2]);
 
+
+        var today = new Date();
+        var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+        var afterTomorrow = new Date(today.getTime() + (2 * 24 * 60 * 60 * 1000));
+        var afterafter = new Date(today.getTime() + (3 * 24 * 60 * 60 * 1000));
+
         this.setState({
             returnDate: rd
         });
+
+
+        if ((rd.getDate() == afterafter.getDate() && rd.getMonth() == afterafter.getMonth() && rd.getFullYear() == afterafter.getFullYear())
+            || (rd.getDate() == afterTomorrow.getDate() && rd.getMonth() == afterTomorrow.getMonth() && rd.getFullYear() == afterTomorrow.getFullYear())
+            || (rd.getDate() == tomorrow.getDate() && rd.getMonth() == tomorrow.getMonth() && rd.getFullYear() == tomorrow.getFullYear())
+            || (rd.getDate() == today.getDate() && rd.getMonth() == today.getMonth() && rd.getFullYear() == today.getFullYear())) {
+            if (!this.props.his) {
+                this.setState({
+                    needsReturning: true
+                });
+            }
+        }
     }
 
 
     render() {
         return (
-            <div className="all">
+            <div id="all" style={{ "margin": 20 }}>
                 {(((this.props.his) && (this.state.returnDate < Date.now())) || ((!this.props.his) && (this.state.returnDate > Date.now()))) &&
 
                     <Item.Group className="res">
@@ -36,11 +55,14 @@ export default class Reservation extends React.Component {
                             <Item.Content >
 
                                 <HistoryList items={this.props.reservation.items} />
+
+                                <br />
+                                <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
+                                <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
+                                <br /> <br />
+                                {this.state.needsReturning && (this.props.reservation.status.id !== 5) && <div class="ui pointing red  label">You need to return this item soon!</div>}
+                                <br /> <br />
                                 {(this.props.reservation.status.id === 2) && <div>
-                                    <br />
-                                    <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
-                                    <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
-                                    <br /> <br /> <br /> <br />
                                     {!this.props.his && <div className="grey">
 
                                         <h3>New return date</h3>
@@ -55,7 +77,7 @@ export default class Reservation extends React.Component {
 
 
                                         {!this.props.his && <Button color='grey' floated='right' onClick={() => this.props.ext(this.props.reservation.id, this.end.value)}>Extend reservation</Button>}
-                                        {!this.props.his && <Button  floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
+                                        {!this.props.his && <Button floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
 
                                     </div>}
 
@@ -66,12 +88,12 @@ export default class Reservation extends React.Component {
                                 {(!this.props.his) && (this.props.reservation.status.id === 5) && <Label pointing  >Reservation was canceled.</Label>}
                                 {this.props.his &&
                                     <div>
-                                        {(this.props.reservation.status.id !== 2) && <div><br />
+                                        {(this.props.reservation.status.id !== 2) && (!this.props.his) && <div><br />
                                             <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
                                             <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
                                             <br /> <br /> <br /> <br />
                                         </div>}
-                                        <Button color='grey' floated='right' onClick={() => this.props.res(this.props.reservation.items)}>Renew reservation</Button>
+                                        <Button color='grey' floated='right' onClick={() => this.props.res(this.props.reservation.items)}>Select</Button>
                                     </div>}
                             </Item.Content>
                         </Item>
