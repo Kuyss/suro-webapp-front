@@ -74,9 +74,17 @@ export default class Reservation extends React.Component {
                                                 }} />
                                             </div>
                                         </div>
+                                        <h3>Reason (optional)</h3>
+                                        <div className="ui " id="example2">
+                                            <div className="ui input left icon">
+                                                <input type="text" placeholder="reason" ref={(input) => {
+                                                    this.reason = input;
+                                                }} />
+                                            </div>
+                                        </div>
 
 
-                                        {!this.props.his && <Button color='grey' floated='right' onClick={() => this.props.ext(this.props.reservation.id, this.end.value)}>Extend reservation</Button>}
+                                        {!this.props.his && <Button color='grey' floated='right' onClick={() => this.props.ext(this.props.reservation.id, this.end.value, this.reason.value)}>Extend reservation</Button>}
                                         {!this.props.his && <Button floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
 
                                     </div>}

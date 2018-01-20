@@ -23,26 +23,29 @@ class ActiveReservations extends React.Component {
 
 
 	componentDidMount() {
-		if(this.props.token)
+		if (this.props.token)
 			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
-		
+
 	}
 
 	delReservation(id) {
 		this.props.dispatch(reservationActions.deleteReservation(this.props.token, id));
 	}
 
-	extendRes(id, end){
-		this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end));
+	extendRes(id, end, reason) {
+		if (reason.length == 0)
+			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end));
+		else
+			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end, reason));
 	}
 
 	render() {
-		if(this.props.role !== ROLES.USER) {
+		if (this.props.role !== ROLES.USER) {
 			return <NotFound />
 		} else {
 			return (
 				<div className="sve">
-					{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} ext={this.extendRes}/> }
+					{<ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} ext={this.extendRes} />}
 				</div>
 			);
 		}
@@ -56,7 +59,7 @@ const mapStateToProps = (state) => {
 		role: state.users.currentUserRole,
 		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token,
-		currentUser : state.users.currentUser
+		currentUser: state.users.currentUser
 	};
 };
 

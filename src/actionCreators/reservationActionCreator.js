@@ -113,7 +113,7 @@ const reservationActions = {
 		};
 	},
 
-	extendReservation(token, id, returndate){
+	extendReservation(token, id, returndate, reason){
 		return dispatch => {
 			request
 				.post(env.api + '/reservations/extend')
@@ -121,7 +121,8 @@ const reservationActions = {
 				.accept('application/json')
 				.send({
 					'reservation_id': `[${id}]`,
-					'new_return_date': returndate
+					'new_return_date': returndate,
+					'reason': reason
 				})
 				.end((err, res) => {
 					if(err) {
