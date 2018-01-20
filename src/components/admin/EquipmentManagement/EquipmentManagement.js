@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { ROLES } from 'util/constants';
 
 import EquipmentTabs from './EquipmentTabs';
 import AddEquipment from './AddEquipment';
 import EquipmentOverview from './EquipmentOverview';
 import EquipmentHistory from './EquipmentHistory';
+import NotFound from 'components/NotFound';
 import './EquipmentManagement.css';
 
-export default class EquipmentManagement extends Component {
+class EquipmentManagement extends Component {
 
 	constructor() {
 		super();
@@ -35,20 +38,41 @@ export default class EquipmentManagement extends Component {
 	}
 
 	render() {
-		return(
-			<div className="EquipmentManagement">	
-		  	<Grid>
-		        <Grid.Column width={3}>
-		      		<EquipmentTabs handleTabChange={this.handleTabChange}/>
-		      	</Grid.Column>
+		if(this.props.role !== ROLES.ADMIN) {
+			return <NotFound />
+		} else {
+			return(
+				<div className="EquipmentManagement">	
+			  	<Grid>
+			        <Grid.Column width={3}>
+			      		<EquipmentTabs handleTabChange={this.handleTabChange}/>
+			      	</Grid.Column>
 
-		      	<Grid.Column stretched width={13} >
-		          <Segment>
-		            { this.renderEquipmentManagementView() }
-		          </Segment>
-		        </Grid.Column>
-		    </Grid>
-		  </div>
-		);
+			      	<Grid.Column stretched width={13} >
+			          <Segment>
+			            { this.renderEquipmentManagementView() }
+			          </Segment>
+			        </Grid.Column>
+			    </Grid>
+			  </div>
+			);
+		}
 	}
 }
+
+const mapStateToProps = (state) => {
+  return {
+    role: state.users.currentUserRole
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EquipmentManagement);

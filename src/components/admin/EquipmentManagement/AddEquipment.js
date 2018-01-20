@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import itemActions from 'actionCreators/itemActionCreator';
-import { Button, Dropdown, Form, Input, Table, TextArea } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Input, Segment, Table, TextArea } from 'semantic-ui-react';
 import './EquipmentManagement.css';
 
 class AddEquipment extends Component {
@@ -16,7 +16,8 @@ class AddEquipment extends Component {
 			device_type_id: null,
 			description: "",
 			identifier: "",
-			itemList: []
+			itemList: [],
+			file: null
 		}
 	}
 
@@ -76,6 +77,18 @@ class AddEquipment extends Component {
 		this.resetState();
 	}
 
+	handleUploadFile = () => {
+		const { file } = this.state;
+
+		if(!file) return;
+
+		let formData = new FormData();
+		formData.append("file", file);
+
+		this.props.dispatch(itemActions.uploadFile(formData, this.props.token));
+		this.setState({ file: null });
+	}
+
 	resetState = () => {
 		this.setState({
 			kit_id: null,
@@ -98,6 +111,10 @@ class AddEquipment extends Component {
 	setDeviceType = (e, { value }) => {
 		const device_type_id = value;
 		this.setState({ device_type_id });
+	}
+
+	setFile = (e) => {
+		this.setState({ file: e.target.files[0] });
 	}
 
 	setType = (e, { value }) => {
@@ -132,64 +149,72 @@ class AddEquipment extends Component {
 
 		return(
 			<div>
-				<Form widths='equal'>
-					<Form.Field inline>
-                      <label>Identifier:</label>
-                      <Input className='identifierInput' value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
-                    </Form.Field>
-					<Form.Group inline className="typeDropdowns">
-						<label>Select Types:</label>
-				        <Dropdown value={this.state.device_type_id} onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
-						<Dropdown value={this.state.type_id} onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
-						<Dropdown value={this.state.subtype_id} onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
-						<Dropdown value={this.state.kit_id} onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
-			        </Form.Group>
-			        <Form.Field >
-                      <label>Description:</label>
-                      <TextArea value={this.state.description} onChange={this.setDescription} placeholder='Description' />
-                    </Form.Field>
+				<Segment>
+					<h3>Add items:</h3>
+					<Form widths='equal'>
+						<Form.Field inline>
+	                      <label>Identifier:</label>
+	                      <Input className='identifierInput' value={this.state.identifier} onChange={this.setIdentifier} placeholder='Identifier'/>
+	                    </Form.Field>
+						<Form.Group inline className="typeDropdowns">
+							<label>Select Types:</label>
+					        <Dropdown value={this.state.device_type_id} onChange={this.setDeviceType} placeholder='Select Device Type' search selection options={deviceTypesDropdown} />
+							<Dropdown value={this.state.type_id} onChange={this.setType} placeholder='Select Type' search selection options={typesDropdown} />
+							<Dropdown value={this.state.subtype_id} onChange={this.setSubtype} placeholder='Select Subtype' search selection options={subTypesDropdown} />
+							<Dropdown value={this.state.kit_id} onChange={this.setKit} placeholder='Select Kit' search selection options={kitsDropdown} />
+				        </Form.Group>
+				        <Form.Field >
+	                      <label>Description:</label>
+	                      <TextArea value={this.state.description} onChange={this.setDescription} placeholder='Description' />
+	                    </Form.Field>
+						
+						<Button type='button' onClick={this.handleAddItem}>Add Equipment</Button>
+					</Form>
+					<br/>
 					
-					<Button type='button' onClick={this.handleAddItem}>Add Equipment</Button>
-				</Form>
-				<br/>
-				
-					{
-						this.state.itemList.length > 0 &&
-						<div>
-							<Table celled padded>
-					          <Table.Header>
-					            <Table.Row>
-					              <Table.HeaderCell>Identifier</Table.HeaderCell>
-					              <Table.HeaderCell>Device Type</Table.HeaderCell>
-					              <Table.HeaderCell>Type</Table.HeaderCell>
-					              <Table.HeaderCell>Subtype</Table.HeaderCell>
-					              <Table.HeaderCell>Kit</Table.HeaderCell>
-					              <Table.HeaderCell>Description</Table.HeaderCell>
-					            </Table.Row>
-					          </Table.Header>
+						{
+							this.state.itemList.length > 0 &&
+							<div>
+								<Table celled padded>
+						          <Table.Header>
+						            <Table.Row>
+						              <Table.HeaderCell>Identifier</Table.HeaderCell>
+						              <Table.HeaderCell>Device Type</Table.HeaderCell>
+						              <Table.HeaderCell>Type</Table.HeaderCell>
+						              <Table.HeaderCell>Subtype</Table.HeaderCell>
+						              <Table.HeaderCell>Kit</Table.HeaderCell>
+						              <Table.HeaderCell>Description</Table.HeaderCell>
+						            </Table.Row>
+						          </Table.Header>
 
-					          <Table.Body>
-					            {
-					              this.state.itemList.map((it, i) => {
-					                return(
-					                  <Table.Row key={i}>
-					                    <Table.Cell>{it.identifier}</Table.Cell>
-					                    <Table.Cell>{this.getNameFromId(deviceTypesDropdown, it.device_type_id)}</Table.Cell>
-					                    <Table.Cell>{this.getNameFromId(typesDropdown, it.type_id)}</Table.Cell>
-					                    <Table.Cell>{this.getNameFromId(subTypesDropdown, it.subtype_id)}</Table.Cell>
-					                    <Table.Cell>{this.getNameFromId(kitsDropdown, it.kit_id)}</Table.Cell>
-					                    <Table.Cell>{it.description}</Table.Cell>
-					                  </Table.Row>
-					                );
-					              })
-					            }
-					          </Table.Body>
-					        </Table>
-					        <Button type='button' onClick={this.handleCreateItems}>Save Changes</Button>
-				        </div>
-				        
-					}
+						          <Table.Body>
+						            {
+						              this.state.itemList.map((it, i) => {
+						                return(
+						                  <Table.Row key={i}>
+						                    <Table.Cell>{it.identifier}</Table.Cell>
+						                    <Table.Cell>{this.getNameFromId(deviceTypesDropdown, it.device_type_id)}</Table.Cell>
+						                    <Table.Cell>{this.getNameFromId(typesDropdown, it.type_id)}</Table.Cell>
+						                    <Table.Cell>{this.getNameFromId(subTypesDropdown, it.subtype_id)}</Table.Cell>
+						                    <Table.Cell>{this.getNameFromId(kitsDropdown, it.kit_id)}</Table.Cell>
+						                    <Table.Cell>{it.description}</Table.Cell>
+						                  </Table.Row>
+						                );
+						              })
+						            }
+						          </Table.Body>
+						        </Table>
+						        <Button type='button' onClick={this.handleCreateItems}>Save Changes</Button>
+					        </div>
+					    
+						}
+					</Segment>
 				
+				<Segment>
+					<h3>Upload Excel file:</h3>
+					<Input type='file' onChange={this.setFile} />
+					<Button type='button' onClick={this.handleUploadFile}>Upload File</Button>
+				</Segment>
 			</div>
 		);
 	}

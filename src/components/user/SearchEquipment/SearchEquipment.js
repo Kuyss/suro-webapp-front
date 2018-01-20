@@ -17,6 +17,8 @@ import itemActions from 'actionCreators/itemActionCreator';
 import reservationActions from 'actionCreators/reservationActionCreator'
 import { connect } from 'react-redux';
 import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
+import NotFound from 'components/NotFound';
+import { ROLES } from 'util/constants';
 
 
 class SearchEquipment extends React.Component {
@@ -169,8 +171,11 @@ class SearchEquipment extends React.Component {
 
 
 	render() {
-		return (
-			<div>
+		if(this.props.role !== ROLES.USER) {
+			return <NotFound />
+		} else {
+			return (
+				<div>
 				<div className="all">
 					<div className="reserv">
 						<Segment>{this.state.itemsToReserve.length} items in reservation: [{this.state.itemsToReserve.toString()}]</Segment>
@@ -218,14 +223,15 @@ class SearchEquipment extends React.Component {
 				</div>
 				{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
 				<ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />
-			</div>
-
-		);
+			</div>);
+			
+		}
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
+		role: state.users.currentUserRole,
 		items: state.items.itemList,
 		itemStatus: state.items.status,
 		token: state.users.token

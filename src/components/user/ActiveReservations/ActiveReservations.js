@@ -8,8 +8,8 @@ import reservationActions from 'actionCreators/reservationActionCreator';
 import userActions from '../../../actionCreators/userActionCreator';
 import { connect } from 'react-redux';
 import reservationActionCreator from '../../../actionCreators/reservationActionCreator';
-
-
+import NotFound from 'components/NotFound';
+import { ROLES } from 'util/constants';
 
 
 class ActiveReservations extends React.Component {
@@ -23,7 +23,8 @@ class ActiveReservations extends React.Component {
 
 
 	componentDidMount() {
-		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
+		if(this.props.token)
+			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 		
 	}
 
@@ -36,11 +37,15 @@ class ActiveReservations extends React.Component {
 	}
 
 	render() {
-		return (
-			<div className="sve">
-				{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} ext={this.extendRes}/> }
-			</div>
-		);
+		if(this.props.role !== ROLES.USER) {
+			return <NotFound />
+		} else {
+			return (
+				<div className="sve">
+					{ <ReservationList reservations={this.props.reservations} history={false} del={this.delReservation} ext={this.extendRes}/> }
+				</div>
+			);
+		}
 	}
 
 
@@ -48,6 +53,7 @@ class ActiveReservations extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		role: state.users.currentUserRole,
 		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token,
 		currentUser : state.users.currentUser

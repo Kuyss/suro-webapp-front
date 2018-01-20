@@ -11,6 +11,8 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import './History.css';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment/Segment';
 
+import { ROLES } from 'util/constants';
+import NotFound from 'components/NotFound';
 
 class History extends React.Component {
 	constructor(args) {
@@ -27,8 +29,8 @@ class History extends React.Component {
 
 
 	componentDidMount() {
-		this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
-
+		if(this.props.token)
+			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 	}
 
 	cancel() {
@@ -111,6 +113,7 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		role: state.users.currentUserRole,
 		reservations: state.reservations.activeUsersReservationList,
 		token: state.users.token,
 		currentUser: state.users.currentUser
