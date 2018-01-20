@@ -16,7 +16,8 @@ export default {
 		activeUsersReservationList: [],
 		toApprove: [],
 		approved: [],
-		declined: []
+		declined: [],
+		reservationsLoading: true
 	},
 
 	items:{

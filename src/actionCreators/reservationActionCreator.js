@@ -113,6 +113,28 @@ const reservationActions = {
 		};
 	},
 
+	returnReservation(reservation_id, token) {
+		return dispatch => {
+			request
+                .post(env.api + '/admin/reservations/return')
+                .set('Authorization', `bearer ${token}`)
+                .send({ id: reservation_id })
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.returnReservation({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.returnReservation({ status: "success", data: reservation_id }));
+					} else {
+						dispatch(actions.returnReservation({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	extendReservation(token, id, returndate){
 		return dispatch => {
 			request
