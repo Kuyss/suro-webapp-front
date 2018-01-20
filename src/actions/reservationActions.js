@@ -37,3 +37,11 @@ export function deleteReservation({ status, data }) {
 		type: "DELETE_RESERVATION",
 	}
 }
+
+export function returnReservation({ status, data }) {
+	return {
+		data,
+		status,
+		type: "RETURN_RESERVATION",
+	}
+}

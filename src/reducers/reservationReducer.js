@@ -73,6 +73,19 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
+		case "RETURN_RESERVATION":
+			if(action.status === 'success') {
+				newState = returnReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		default:
 			return state;
 	}
@@ -190,7 +203,24 @@ function filterReservations(reservationList, state) {
 	const newState = Object.assign({}, state, {
 		toApprove,
 		approved,
-		declined
+		declined,
+		reservationsLoading: false
+	});
+
+	return newState;
+}
+
+function returnReservation(reservation_id, state) {
+	let approved = [...state.approved];
+
+	for(let i = 0; i < approved.length; i++) {
+		if(approved[i].id === reservation_id) {
+			approved.splice(i, 1);
+		}
+	}
+
+	const newState = Object.assign({}, state, {
+		approved
 	});
 
 	return newState;
