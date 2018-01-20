@@ -42,12 +42,23 @@ class SearchEquipment extends React.Component {
 
 
 	componentDidMount() {
+		if(this.props.token) {
+			this.props.dispatch(itemActions.getAllItems(this.props.token));
 
-		this.props.dispatch(itemActions.getAllItems(this.props.token));
+			this.setState({
+				filtered: this.props.items
+			});
+		}
+	}
 
-		this.setState({
-			filtered: this.props.items
-		});
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.token && nextProps.token !== this.props.token) {
+			this.props.dispatch(itemActions.getAllItems(nextProps.token));
+
+			this.setState({
+				filtered: this.props.items
+			});
+		}
 	}
 
 	addToRes(newid) {
