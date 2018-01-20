@@ -55,12 +55,12 @@ export default class Reservation extends React.Component {
                             <Item.Content >
 
                                 <HistoryList items={this.props.reservation.items} />
-
+                                <p>{this.props.reservation.id}</p>
                                 <br />
                                 <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
                                 <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
                                 <br /> <br />
-                                {this.state.needsReturning && (this.props.reservation.status.id !== 5) && <div class="ui pointing red  label">You need to return this item soon!</div>}
+                                {this.state.needsReturning && (this.props.reservation.status.id !== 5 && this.props.reservation.status.id !== 1) && <div class="ui pointing red  label">You need to return this item soon!</div>}
                                 <br /> <br />
                                 {(this.props.reservation.status.id === 2) && <div>
                                     {!this.props.his && <div className="grey">
@@ -89,8 +89,9 @@ export default class Reservation extends React.Component {
 
                                     </div>}
 
-
                                 </div>}
+                                {!this.props.his && (this.props.reservation.status.id == 1) && <Button floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
+
                                 {(!this.props.his) && (this.props.reservation.status.id === 1) && <Label pointing  >Reservation is not yet approved by administrator.</Label>}
                                 {(!this.props.his) && (this.props.reservation.status.id === 3) && <Label pointing  >Administrator disapproved this reservation.</Label>}
                                 {(!this.props.his) && (this.props.reservation.status.id === 5) && <Label pointing  >Reservation was canceled.</Label>}

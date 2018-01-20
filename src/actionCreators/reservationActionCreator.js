@@ -165,6 +165,7 @@ const reservationActions = {
 				.end((err, res) => {
 					if(err) {
 						dispatch(actions.deleteReservation({ status: "failure", data: err }));
+						console.log(err);
 						return;
 					}
 
