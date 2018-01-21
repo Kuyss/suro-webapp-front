@@ -256,7 +256,7 @@ function extendReservation(extend_id, state) {
 
 	for(let i = 0; i < toExtend.length; i++) {
 		if(toExtend[i].id === extend_id) {
-			toExtend.splice(i, i);
+			toExtend.splice(i, 1);
 		}
 	}
 
