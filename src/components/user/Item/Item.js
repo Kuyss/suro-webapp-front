@@ -55,7 +55,6 @@ class Item extends React.Component {
                         <I.Content >
                             <I.Header >{this.props.item.description}</I.Header>
                             <I.Meta>{this.props.item.type ? this.props.item.type.description : '/'}</I.Meta>
-                            <I.Meta>{this.props.item.id}</I.Meta>
                             <I.Description>
                                 {this.props.item.kit ? this.props.item.kit.name : '/'}
                             </I.Description>

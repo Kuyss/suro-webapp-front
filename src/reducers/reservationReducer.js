@@ -164,12 +164,12 @@ function declineReservation(reservation_id, state) {
 }
 
 function deleteReservation(reservation_id, state) {
-	let reservationList = [...state.reservationList];
+	let activeUsersReservationList = [...state.activeUsersReservationList];
 
-	reservationList = reservationList.filter(e => e.id !== reservation_id);
+	activeUsersReservationList = activeUsersReservationList.filter(e => e.id !== reservation_id);
 
 	const newState = Object.assign({}, state, {
-		reservationList
+		activeUsersReservationList
 	});
 
 	return newState;
