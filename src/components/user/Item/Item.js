@@ -27,16 +27,14 @@ class Item extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-       // if ((this.props.itemStatus !== nextProps.itemStatus)) {
-            if (this.props.currentItemID === this.props.item.id) {
-                console.log(nextProps.itemStatus);
-                this.setState({
-                    isAvailable: nextProps.itemStatus,
-                    checked: true,
-                    loading: false
-                });
-            }
-       // }
+        if (nextProps.currentItemID === this.props.item.id) {
+            console.log(nextProps.itemStatus);
+            this.setState({
+                isAvailable: nextProps.itemStatus,
+                checked: true,
+                loading: false
+            });
+        }
     }
 
     check(id) {
@@ -57,6 +55,7 @@ class Item extends React.Component {
                         <I.Content >
                             <I.Header >{this.props.item.description}</I.Header>
                             <I.Meta>{this.props.item.type ? this.props.item.type.description : '/'}</I.Meta>
+                            <I.Meta>{this.props.item.id}</I.Meta>
                             <I.Description>
                                 {this.props.item.kit ? this.props.item.kit.name : '/'}
                             </I.Description>
