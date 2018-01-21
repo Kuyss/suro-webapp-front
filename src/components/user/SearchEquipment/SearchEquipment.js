@@ -170,6 +170,8 @@ class SearchEquipment extends React.Component {
 		window.scrollTo(0, 500);
 	}
 
+	
+
 
 	render() {
 		if (this.props.role !== ROLES.USER) {
@@ -227,8 +229,8 @@ class SearchEquipment extends React.Component {
 
 						</div>
 						{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
-						{(this.state.isFiltered) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />}
-						{(!this.state.isFiltered) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} />}
+						{(this.state.isFiltered) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest}  />}
+						{(!this.state.isFiltered) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} check={this.check} />}
 					</div>);
 			}
 		}

@@ -48,14 +48,14 @@ export default class Reservation extends React.Component {
     render() {
         return (
             <div id="all" style={{ "margin": 20 }}>
-                {(((this.props.his) && (this.state.returnDate < Date.now())) || ((!this.props.his) && (this.state.returnDate > Date.now()) && (this.props.reservation.status.id !== 5)&&(this.props.reservation.status.id !== 4))) &&
+                {(((this.props.his) && (this.state.returnDate < Date.now())) || ((!this.props.his) && (this.state.returnDate > Date.now()) && (this.props.reservation.status.id !== 5) && (this.props.reservation.status.id !== 4))) &&
 
                     <Item.Group className="res">
                         <Item>
                             <Item.Content >
 
                                 <HistoryList items={this.props.reservation.items} />
-                                
+
                                 <br />
                                 {<p>Reservation id: {this.props.reservation.id}</p>}
                                 <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
@@ -93,7 +93,7 @@ export default class Reservation extends React.Component {
                                 </div>}
                                 {!this.props.his && (this.props.reservation.status.id == 1) && <Button floated='right' onClick={() => this.props.del(this.props.reservation.id)}>Delete reservation</Button>}
 
-                                {(this.props.reservation.status.id === 1) && <Label pointing  >Reservation is not yet approved by administrator.</Label>}
+                                {(!this.props.his) && (this.props.reservation.status.id === 1) && <Label pointing  >Reservation is not yet approved by administrator.</Label>}
                                 {(this.props.reservation.status.id === 3) && <Label pointing  >Administrator disapproved this reservation.</Label>}
                                 {(this.props.reservation.status.id === 4) && <Label pointing  >Item was returned.</Label>}
                                 {(this.props.reservation.status.id === 5) && <Label pointing  >Reservation was canceled.</Label>}

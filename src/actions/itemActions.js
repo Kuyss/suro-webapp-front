@@ -74,7 +74,7 @@ export function getItemStatus({ status, data }) {
 	return {
 		data,
 		status,
-		type: "GET_ITEMS_STATUS",
+		type: "GET_ITEM_STATUS",
 	}
 }
 

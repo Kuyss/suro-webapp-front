@@ -197,6 +197,7 @@ const itemActions = {
 						return;
 					}
 					let itemStatus = JSON.parse(res.text);
+					//console.log(itemStatus);
 					if (res.ok) {
 						dispatch(actions.getItemStatus({ status: "success", data: itemStatus }));
 					} else {
