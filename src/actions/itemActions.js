@@ -21,6 +21,30 @@ export function deleteDeviceType({ status, data }) {
 	}
 }
 
+export function deleteType({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_TYPE",
+	}
+}
+
+export function deleteSubtype({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_SUBTYPE",
+	}
+}
+
+export function deleteKit({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_KIT",
+	}
+}
+
 export function deleteItem({ status, data }) {
 	return {
 		data,

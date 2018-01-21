@@ -59,6 +59,18 @@ class CategoryManagement extends Component {
 		this.props.dispatch(itemActions.deleteDeviceType(id, this.props.token));
 	}
 
+	handleDeleteType = (id) => {
+		this.props.dispatch(itemActions.deleteType(id, this.props.token));
+	}
+
+	handleDeleteSubtype = (id) => {
+		this.props.dispatch(itemActions.deleteSubtype(id, this.props.token));
+	}
+
+	handleDeleteKit = (id) => {
+		this.props.dispatch(itemActions.deleteKit(id, this.props.token));
+	}
+
 	handleTypeChange = (e, { value }) => {
 		this.setState({
 			type: value,
@@ -240,7 +252,7 @@ class CategoryManagement extends Component {
 
 			          <Table.Body>
 			            {
-			              types.map((it, i) => {
+			              kits.map((it, i) => {
 			              		return(
 				                  <Table.Row key={i}>
 				                    <Table.Cell>{it.id}</Table.Cell>

@@ -76,6 +76,69 @@ const itemActions = {
 		};
 	},
 
+	deleteType(id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/items/details/types/delete/${id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.deleteType({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteType({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteType({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	deleteSubtype(id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/items/details/subtypes/delete/${id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.deleteSubtype({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteSubtype({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteSubtype({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	deleteKit(id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/items/details/kits/delete/${id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.deleteKit({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteKit({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteKit({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	deleteItem(item_id, token) {
 		return dispatch => {
 			request

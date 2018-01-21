@@ -42,6 +42,51 @@ export default function itemReducer(state = initialState.items, action) {
 
 			return newState;
 
+		case "DELETE_TYPE":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					types: state.types.filter(it => it.id !== action.data)
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "DELETE_SUBTYPE":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					subtypes: state.subtypes.filter(it => it.id !== action.data)
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "DELETE_KIT":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					kits: state.kits.filter(it => it.id !== action.data)
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_ITEM":
 			if(action.status === 'success') {
 				newState = deleteItem(action.data, state);
