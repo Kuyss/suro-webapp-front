@@ -1,3 +1,11 @@
+export function adminDeleteReservation({ status, data }) {
+	return {
+		data,
+		status,
+		type: "ADMIN_DELETE_RESERVATION",
+	}
+}
+
 export function approveReservation({ status, data }) {
 	return {
 		data,
@@ -14,6 +22,14 @@ export function declineReservation({ status, data }) {
 	}
 }
 
+export function deleteReservation({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_RESERVATION",
+	}
+}
+
 export function getAllReservations({ status, data }) {
 	return {
 		data,
@@ -27,14 +43,6 @@ export function getActiveUsersReservations({ status, data }) {
 		data,
 		status,
 		type: "GET_ACTIVE_USERS_RESERVATIONS",
-	}
-}
-
-export function deleteReservation({ status, data }) {
-	return {
-		data,
-		status,
-		type: "DELETE_RESERVATION",
 	}
 }
 

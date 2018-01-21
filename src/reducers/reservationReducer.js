@@ -6,6 +6,19 @@ export default function reservationReducer(state = initialState.reservations, ac
 	
 	switch(action.type) {
 
+		case "ADMIN_DELETE_RESERVATION":
+			if(action.status === 'success') {
+				newState = adminDeleteReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "APPROVE_RESERVATION":
 			if(action.status === 'success') {
 				newState = approveReservation(action.data, state);
@@ -89,6 +102,27 @@ export default function reservationReducer(state = initialState.reservations, ac
 		default:
 			return state;
 	}
+}
+
+function adminDeleteReservation({reservation_id, type}, state) {
+	let array = [];
+
+	if(type === "DECLINED") array = [...state.declined];
+	if(type === "TO_APPROVE") array = [...state.toApprove];
+	if(type === "APPROVED") array = [...state.approved];
+
+	for(let i = 0; i < array.length; i++) {
+		if(array[i].id === reservation_id)
+			array.splice(i, 1);
+	}
+
+	let newState;
+
+	if(type === "DECLINED") newState = Object.assign({}, state, { declined: array });
+	if(type === "TO_APPROVE") newState = Object.assign({}, state, { toApprove: array });
+	if(type === "APPROVED") newState = Object.assign({}, state, { approved: array });
+
+	return newState;
 }
 
 function approveReservation(reservation_id, state) {

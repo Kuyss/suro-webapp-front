@@ -49,6 +49,27 @@ const reservationActions = {
 		};
 	},
 
+	adminDeleteReservation(reservation_id, type, token) {
+		return dispatch => {
+			request
+                .del(`${env.api}/admin/reservations/delete/${reservation_id}`)
+                .set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.adminDeleteReservation({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.adminDeleteReservation({ status: "success", data: { reservation_id, type } }));
+					} else {
+						dispatch(actions.adminDeleteReservation({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 
 	getAllReservations(token) {
 		return dispatch => {

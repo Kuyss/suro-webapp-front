@@ -28,6 +28,10 @@ class ReservationApprovals extends Component {
 		this.props.dispatch(reservationActions.declineReservation(reservation_id, this.props.token));
 	}
 
+  handleDeleteReservation = (reservation_id, type) => {
+    this.props.dispatch(reservationActions.adminDeleteReservation(reservation_id, type, this.props.token));
+  }
+
   handleReturnReservation = (reservation_id) => {
     this.props.dispatch(reservationActions.returnReservation(reservation_id, this.props.token));
   }
@@ -42,8 +46,8 @@ class ReservationApprovals extends Component {
         <div>
           <Segment>
             <h3>Select which reservations to show:</h3>
+            <Checkbox className='checkboxes' toggle label='Show Waiting Approval' onClick={() => this.setState({ showToApprove: !this.state.showToApprove })} defaultChecked />
             <Checkbox className='checkboxes' toggle label='Show Approved' onClick={() => this.setState({ showApproved: !this.state.showApproved })} />
-            <Checkbox className='checkboxes' toggle label='Show Waiting approval' onClick={() => this.setState({ showToApprove: !this.state.showToApprove })} defaultChecked />
             <Checkbox className='checkboxes' toggle label='Show Declined' onClick={() => this.setState({ showDeclined: !this.state.showDeclined })} />
             <Checkbox className='checkboxes' toggle label='Show Returned' />
           </Segment>
@@ -65,6 +69,7 @@ class ReservationApprovals extends Component {
                   <Table.HeaderCell>User</Table.HeaderCell>
                   <Table.HeaderCell>Approve</Table.HeaderCell>
                   <Table.HeaderCell>Decline</Table.HeaderCell>
+                  <Table.HeaderCell>Delete</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
@@ -86,6 +91,9 @@ class ReservationApprovals extends Component {
                         </Table.Cell>
                         <Table.Cell textAlign='center'>
                           <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                        </Table.Cell>
+                        <Table.Cell textAlign='center'>
+                          <Button onClick={() => this.handleDeleteReservation(r.id, "TO_APPROVE")} color='red' icon><Icon name='minus'/></Button>
                         </Table.Cell>
                       </Table.Row>
                     );
@@ -113,6 +121,7 @@ class ReservationApprovals extends Component {
                     <Table.HeaderCell>User</Table.HeaderCell>
                     <Table.HeaderCell>Return</Table.HeaderCell>
                     <Table.HeaderCell>Decline</Table.HeaderCell>
+                    <Table.HeaderCell>Delete</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -134,6 +143,9 @@ class ReservationApprovals extends Component {
                           </Table.Cell>
                           <Table.Cell textAlign='center'>
                             <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                          </Table.Cell>
+                          <Table.Cell textAlign='center'>
+                            <Button onClick={() => this.handleDeleteReservation(r.id, "APPROVED")} color='red' icon><Icon name='minus'/></Button>
                           </Table.Cell>
                         </Table.Row>
                       );
@@ -161,7 +173,7 @@ class ReservationApprovals extends Component {
                     <Table.HeaderCell>Updated At</Table.HeaderCell>
                     <Table.HeaderCell>User</Table.HeaderCell>
                     <Table.HeaderCell>Approve</Table.HeaderCell>
-                    <Table.HeaderCell>Decline</Table.HeaderCell>
+                    <Table.HeaderCell>Delete</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -182,7 +194,7 @@ class ReservationApprovals extends Component {
                             <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
                           </Table.Cell>
                           <Table.Cell textAlign='center'>
-                            <Button onClick={() => this.handleDeclineReservation(r.id)} color='red' icon><Icon name='minus circle'/></Button>
+                            <Button onClick={() => this.handleDeleteReservation(r.id, "DECLINED")} color='red' icon><Icon name='minus'/></Button>
                           </Table.Cell>
                         </Table.Row>
                       );
