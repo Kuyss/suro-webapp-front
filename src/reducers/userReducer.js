@@ -29,7 +29,6 @@ export default function userReducer(state = initialState.users, action) {
 
 		case "CHANGE_USER_ACTIVE":
 			if(action.status === 'success') {
-				console.log("changed");
 				newState = changeUserActive(action.data, state);
 			}
 			
@@ -56,7 +55,6 @@ export default function userReducer(state = initialState.users, action) {
 
 		case "EDIT_USER":
 			if(action.status === 'success') {
-				console.log("edited");
 				newState = editUser(action.data, state);
 			}
 			

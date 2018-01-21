@@ -6,7 +6,6 @@ var request = require('superagent');
 const userActions = {
 
 	activateUser(user, token) {
-		console.log(user);
 		return dispatch => {
 			request
 				.put(`${env.api}/admin/users/edit`)
@@ -77,7 +76,6 @@ const userActions = {
 	},
 
 	editUser(user, token) {
-		console.log(user);
 		return dispatch => {
 			request
 				.put(`${env.api}/admin/users/edit`)

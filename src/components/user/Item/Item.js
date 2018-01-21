@@ -28,7 +28,6 @@ class Item extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentItemID === this.props.item.id) {
-            console.log(nextProps.itemStatus);
             this.setState({
                 isAvailable: nextProps.itemStatus,
                 checked: true,

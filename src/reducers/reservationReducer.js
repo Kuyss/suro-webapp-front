@@ -88,7 +88,6 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 		case "GET_RESERVATIONS_TO_EXTEND":
 			if(action.status === 'success') {
-				console.log(action.data);
 				newState = Object.assign({}, state, {
 					toExtend: action.data
 				});

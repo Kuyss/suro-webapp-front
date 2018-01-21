@@ -54,7 +54,6 @@ class SearchEquipment extends React.Component {
 
 
 		if (!(this.state.clicked.indexOf(newid) > -1)) {
-			console.log(`${newid} added`);
 			var newArray = this.state.itemsToReserve.slice();
 			newArray.push(newid);
 			this.setState({

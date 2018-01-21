@@ -71,7 +71,6 @@ const reservationActions = {
 	},
 
 	adminExtendReservation(extend_id, token) {
-		console.log(extend_id, token);
 		return dispatch => {
 			request
                 .post(env.api + '/admin/reservations/extend')
@@ -149,7 +148,6 @@ const reservationActions = {
 						return;
 					}
 					let reservations = JSON.parse(res.text);
-					console.log(reservations);
 					if(res.ok) {
 						dispatch(actions.getReservationsToExtend({ status: "success", data: reservations }));
 					} else {
