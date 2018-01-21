@@ -72,11 +72,14 @@ class UsersOverview extends Component {
   handleEditUser = (user) => {
     const { first_name, last_name, role_id, active } = this.state;
 
-    if(!first_name || !last_name || !role_id || active === null) return;
+    if(!first_name || !last_name || !role_id) return;
 
-    const newUser = { id: user.id, first_name, last_name, role_id, active };
+    const newUser = { id: user.id, first_name, last_name, role_id };
 
     this.props.dispatch(userActions.editUser(newUser, this.props.token));
+
+    if(active !== null && user.active !== active) 
+      this.props.dispatch(userActions.changeUserActive(user.id, this.props.token))
 
     this.handleDismiss();
   }

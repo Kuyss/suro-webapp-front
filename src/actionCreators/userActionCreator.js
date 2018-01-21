@@ -34,6 +34,27 @@ const userActions = {
 		};
 	},
 
+	changeUserActive(user_id, token) {
+		return dispatch => {
+			request
+				.put(`${env.api}/admin/users/edit/status/${user_id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.changeUserActive({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.changeUserActive({ status: "success", data: user_id }));
+					} else {
+						dispatch(actions.changeUserActive({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	deleteUser(user_id, token) {
 		return dispatch => {
 			request

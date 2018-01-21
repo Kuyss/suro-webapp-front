@@ -27,6 +27,20 @@ export default function userReducer(state = initialState.users, action) {
 
 			return newState;
 
+		case "CHANGE_USER_ACTIVE":
+			if(action.status === 'success') {
+				console.log("changed");
+				newState = changeUserActive(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_USER":
 			if(action.status === 'success') {
 				newState = deleteUser(action.data, state);
@@ -42,6 +56,7 @@ export default function userReducer(state = initialState.users, action) {
 
 		case "EDIT_USER":
 			if(action.status === 'success') {
+				console.log("edited");
 				newState = editUser(action.data, state);
 			}
 			
@@ -165,6 +180,30 @@ function activateUser(user, state) {
 	return newState;
 }
 
+function changeUserActive(user_id, state) {
+	let userList = [...state.userList];
+
+	for(let i = 0; i < userList.length; i++) {
+		if(userList[i].id === user_id) {
+			if(userList[i].active === 1) {
+				userList[i].active = 0;
+				break;
+			}
+			else if(userList[i].active === 0) {
+				userList[i].active = 1;
+				break;
+			}
+			console.log(userList[i].active);
+		}
+	}
+
+	const newState = Object.assign({}, state, {
+		userList
+	});
+
+	return newState;	
+}
+
 function deleteUser(user_id, state) {
 	let userList = [...state.userList];
 
@@ -184,8 +223,11 @@ function editUser(user, state) {
 	let userList = [...state.userList];
 
 	for(let i = 0; i < userList.length; i++) {
-		if(userList[i].id === user.id)
+		if(userList[i].id === user.id) {
+			let active = userList[i].active;
 			userList[i] = user;
+			userList[i].active = active;
+		}
 	}
 
 	const newState = Object.assign({}, state, {

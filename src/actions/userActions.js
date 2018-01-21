@@ -13,6 +13,14 @@ export function changeActiveTab({ data }) {
 	}
 }
 
+export function changeUserActive({ status, data }) {
+	return {
+		data,
+		status,
+		type: "CHANGE_USER_ACTIVE",
+	}
+}
+
 export function deleteUser({ status, data }) {
 	return {
 		data,
