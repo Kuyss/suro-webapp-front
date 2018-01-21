@@ -45,6 +45,19 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
+		case "ADMIN_EXTEND_RESERVATION":
+			if(action.status === 'success') {
+				newState = extendReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "GET_ALL_RESERVATIONS":
 			if(action.status === 'success') {
 				newState = filterReservations(action.data, state);
@@ -73,9 +86,38 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
+		case "GET_RESERVATIONS_TO_EXTEND":
+			if(action.status === 'success') {
+				console.log(action.data);
+				newState = Object.assign({}, state, {
+					toExtend: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_RESERVATION":
 			if(action.status === 'success') {
 				newState = deleteReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "REFUSE_RESERVATION":
+			if(action.status === 'success') {
+				newState = extendReservation(action.data, state);
 			}
 			
 			if(action.status === 'failure') {
@@ -204,6 +246,22 @@ function deleteReservation(reservation_id, state) {
 
 	const newState = Object.assign({}, state, {
 		reservationList
+	});
+
+	return newState;
+}
+
+function extendReservation(extend_id, state) {
+	let toExtend = [...state.toExtend];
+
+	for(let i = 0; i < toExtend.length; i++) {
+		if(toExtend[i].id === extend_id) {
+			toExtend.splice(i, i);
+		}
+	}
+
+	const newState = Object.assign({}, state, {
+		toExtend
 	});
 
 	return newState;

@@ -70,6 +70,29 @@ const reservationActions = {
 		};
 	},
 
+	adminExtendReservation(extend_id, token) {
+		console.log(extend_id, token);
+		return dispatch => {
+			request
+                .post(env.api + '/admin/reservations/extend')
+                .set('Authorization', `bearer ${token}`)
+                .send({ id: extend_id })
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.adminExtendReservation({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.adminExtendReservation({ status: "success", data: extend_id }));
+					} else {
+						dispatch(actions.adminExtendReservation({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 
 	getAllReservations(token) {
 		return dispatch => {
@@ -114,6 +137,28 @@ const reservationActions = {
 		};
 	},
 
+	getReservationsToExtend(token) {
+		return dispatch => {
+			request
+                .get(env.api + '/admin/reservations/extends')
+                .set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.getReservationsToExtend({ status: "failure", data: err }));
+						return;
+					}
+					let reservations = JSON.parse(res.text);
+					console.log(reservations);
+					if(res.ok) {
+						dispatch(actions.getReservationsToExtend({ status: "success", data: reservations }));
+					} else {
+						dispatch(actions.getReservationsToExtend({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
 	postReservation(token, id, startdate, returndate){
 		return dispatch => {
 			request
@@ -129,6 +174,28 @@ const reservationActions = {
 					if(err) {
 						console.log(err);
 						return;
+					}
+				});
+		};
+	},
+
+	refuseReservation(extend_id, reason, token) {
+		return dispatch => {
+			request
+                .post(env.api + '/admin/reservations/extend/refuse')
+                .set('Authorization', `bearer ${token}`)
+                .send({ id: extend_id, reason })
+				.accept('application/json')
+				.end((err, res) => {
+					if(err) {
+						dispatch(actions.refuseReservation({ status: "failure", data: err }));
+						return;
+					}
+
+					if(res.ok) {
+						dispatch(actions.refuseReservation({ status: "success", data: extend_id }));
+					} else {
+						dispatch(actions.refuseReservation({ status: "failure", data: res.status }));
 					}
 				});
 		};
