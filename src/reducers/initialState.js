@@ -17,6 +17,7 @@ export default {
 		toApprove: [],
 		approved: [],
 		declined: [],
+		toExtend: [],
 		reservationsLoading: true
 	},
 

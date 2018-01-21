@@ -6,6 +6,19 @@ export default function reservationReducer(state = initialState.reservations, ac
 	
 	switch(action.type) {
 
+		case "ADMIN_DELETE_RESERVATION":
+			if(action.status === 'success') {
+				newState = adminDeleteReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "APPROVE_RESERVATION":
 			if(action.status === 'success') {
 				newState = approveReservation(action.data, state);
@@ -22,6 +35,19 @@ export default function reservationReducer(state = initialState.reservations, ac
 		case "DECLINE_RESERVATION":
 			if(action.status === 'success') {
 				newState = declineReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "ADMIN_EXTEND_RESERVATION":
+			if(action.status === 'success') {
+				newState = extendReservation(action.data, state);
 			}
 			
 			if(action.status === 'failure') {
@@ -60,9 +86,38 @@ export default function reservationReducer(state = initialState.reservations, ac
 
 			return newState;
 
+		case "GET_RESERVATIONS_TO_EXTEND":
+			if(action.status === 'success') {
+				console.log(action.data);
+				newState = Object.assign({}, state, {
+					toExtend: action.data
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_RESERVATION":
 			if(action.status === 'success') {
 				newState = deleteReservation(action.data, state);
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
+		case "REFUSE_RESERVATION":
+			if(action.status === 'success') {
+				newState = extendReservation(action.data, state);
 			}
 			
 			if(action.status === 'failure') {
@@ -89,6 +144,27 @@ export default function reservationReducer(state = initialState.reservations, ac
 		default:
 			return state;
 	}
+}
+
+function adminDeleteReservation({reservation_id, type}, state) {
+	let array = [];
+
+	if(type === "DECLINED") array = [...state.declined];
+	if(type === "TO_APPROVE") array = [...state.toApprove];
+	if(type === "APPROVED") array = [...state.approved];
+
+	for(let i = 0; i < array.length; i++) {
+		if(array[i].id === reservation_id)
+			array.splice(i, 1);
+	}
+
+	let newState;
+
+	if(type === "DECLINED") newState = Object.assign({}, state, { declined: array });
+	if(type === "TO_APPROVE") newState = Object.assign({}, state, { toApprove: array });
+	if(type === "APPROVED") newState = Object.assign({}, state, { approved: array });
+
+	return newState;
 }
 
 function approveReservation(reservation_id, state) {
@@ -170,6 +246,22 @@ function deleteReservation(reservation_id, state) {
 
 	const newState = Object.assign({}, state, {
 		activeUsersReservationList
+	});
+
+	return newState;
+}
+
+function extendReservation(extend_id, state) {
+	let toExtend = [...state.toExtend];
+
+	for(let i = 0; i < toExtend.length; i++) {
+		if(toExtend[i].id === extend_id) {
+			toExtend.splice(i, i);
+		}
+	}
+
+	const newState = Object.assign({}, state, {
+		toExtend
 	});
 
 	return newState;

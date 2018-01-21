@@ -7,6 +7,7 @@ import EquipmentTabs from './EquipmentTabs';
 import AddEquipment from './AddEquipment';
 import EquipmentOverview from './EquipmentOverview';
 import EquipmentHistory from './EquipmentHistory';
+import CategoryManagement from './CategoryManagement';
 import NotFound from 'components/NotFound';
 import './EquipmentManagement.css';
 
@@ -32,6 +33,8 @@ class EquipmentManagement extends Component {
 				return <EquipmentOverview />
 			case 'equipment history':
 				return <EquipmentHistory />
+			case 'category management':
+				return <CategoryManagement />
 			default:
 				return null
 		}

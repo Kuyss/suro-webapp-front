@@ -26,6 +26,10 @@ export default class EquipmentTabs extends Component {
 				<Icon name='history' />
 					Equipment History
 				</Menu.Item>
+				<Menu.Item name='category management' active={activeItem === 'category management'} onClick={this.handleItemClick} >
+				<Icon name='history' />
+					Category Management
+				</Menu.Item>
 			</Menu>
 		);
 	}

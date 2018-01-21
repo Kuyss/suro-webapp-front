@@ -13,6 +13,38 @@ export function createItem({ status, data }) {
 	}
 }
 
+export function deleteDeviceType({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_DEVICE_TYPE",
+	}
+}
+
+export function deleteType({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_TYPE",
+	}
+}
+
+export function deleteSubtype({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_SUBTYPE",
+	}
+}
+
+export function deleteKit({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_KIT",
+	}
+}
+
 export function deleteItem({ status, data }) {
 	return {
 		data,
@@ -91,5 +123,12 @@ export function setCurrentItem({ status, data }) {
 		data,
 		status,
 		type: "SET_CURRENT_ITEM",
+	}
+}
+
+export function resetLoadingFlag({ data }) {
+	return {
+		data,
+		type: "RESET_LOADING_FLAG",
 	}
 }

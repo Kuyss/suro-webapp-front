@@ -19,6 +19,10 @@ class EquipmentOverview extends Component {
 		this.props.dispatch(itemActions.getAllItems(this.props.token));
 	}
 
+	componentWillUnmount = () => {
+		this.props.dispatch(itemActions.resetLoadingFlag());
+	}
+
 	handleDismiss = () => {
 		this.setState({
 			description: "",
@@ -97,7 +101,13 @@ class EquipmentOverview extends Component {
 				                    <Table.Cell>{it.id}</Table.Cell>
 				                    <Table.Cell><Input placeholder='Identifier' value={this.state.identifier} onChange={this.setIdentifier} /></Table.Cell>
 				                    <Table.Cell><Input placeholder='Description' value={this.state.description} onChange={this.setDescription} /></Table.Cell>
-				                    <Table.Cell>{it.device_type.description}, {it.type.description}, {it.subtype ? it.subtype.description : ""}, {it.kit.name}</Table.Cell>
+				                    <Table.Cell>
+				                    	{it.device_type ? it.device_type.description : "-"}, 
+				                    	{it.type ? it.type.description : "-"}, 
+				                    	{it.subtype ? it.subtype.description : "-"}, 
+				                    	{it.kit ? it.kit.name : "-"}
+
+				                    </Table.Cell>
 				                    <Table.Cell>{it.created_at}</Table.Cell>
 				                    <Table.Cell>{it.updated_at}</Table.Cell>
 				                    <Table.Cell textAlign='center'>
@@ -113,7 +123,12 @@ class EquipmentOverview extends Component {
 				                    <Table.Cell>{it.id}</Table.Cell>
 				                    <Table.Cell>{it.identifier}</Table.Cell>
 				                    <Table.Cell>{it.description}</Table.Cell>
-				                    <Table.Cell>{it.device_type.description}, {it.type.description}, {it.subtype ? it.subtype.description : ""}, {it.kit.name}</Table.Cell>
+				                    <Table.Cell>
+				                    	{it.device_type ? it.device_type.description : "-"}, 
+				                    	{it.type ? it.type.description : "-"}, 
+				                    	{it.subtype ? it.subtype.description : "-"}, 
+				                    	{it.kit ? it.kit.name : "-"}
+				                    </Table.Cell>
 				                    <Table.Cell>{it.created_at}</Table.Cell>
 				                    <Table.Cell>{it.updated_at}</Table.Cell>
 				                    <Table.Cell textAlign='center'><Button onClick={() => this.handleStartEdit(it,i)} color='orange' icon><Icon name='edit'/></Button></Table.Cell>

@@ -19,6 +19,7 @@ class EquipmentHistory extends Component {
 
 	componentWillUnmount = () => {
 		this.props.dispatch(itemActions.clearItemReservations());
+		this.props.dispatch(itemActions.resetLoadingFlag());
 	}
 
 	createDropdownList = (list) => {
