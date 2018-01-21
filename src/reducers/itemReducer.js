@@ -27,6 +27,21 @@ export default function itemReducer(state = initialState.items, action) {
 
 			return newState;
 
+		case "DELETE_DEVICE_TYPE":
+			if(action.status === 'success') {
+				newState = Object.assign({}, state, {
+					deviceTypes: state.deviceTypes.filter(it => it.id !== action.data)
+				});
+			}
+			
+			if(action.status === 'failure') {
+				newState = Object.assign({}, state, {
+					error: action.data
+				});
+			}
+
+			return newState;
+
 		case "DELETE_ITEM":
 			if(action.status === 'success') {
 				newState = deleteItem(action.data, state);
@@ -156,6 +171,13 @@ export default function itemReducer(state = initialState.items, action) {
 					error: action.data
 				});
 			}
+
+			return newState;
+
+		case "RESET_LOADING_FLAG":
+			newState = Object.assign({}, state, {
+				itemsLoading: action.data
+			});
 
 			return newState;
 

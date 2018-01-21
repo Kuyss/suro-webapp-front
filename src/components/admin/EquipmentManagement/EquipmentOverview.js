@@ -19,6 +19,10 @@ class EquipmentOverview extends Component {
 		this.props.dispatch(itemActions.getAllItems(this.props.token));
 	}
 
+	componentWillUnmount = () => {
+		this.props.dispatch(itemActions.resetLoadingFlag());
+	}
+
 	handleDismiss = () => {
 		this.setState({
 			description: "",

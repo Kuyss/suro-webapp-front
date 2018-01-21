@@ -13,6 +13,14 @@ export function createItem({ status, data }) {
 	}
 }
 
+export function deleteDeviceType({ status, data }) {
+	return {
+		data,
+		status,
+		type: "DELETE_DEVICE_TYPE",
+	}
+}
+
 export function deleteItem({ status, data }) {
 	return {
 		data,
@@ -83,5 +91,12 @@ export function getReservationHistory({ status, data }) {
 		data,
 		status,
 		type: "GET_RESERVATION_HISTORY",
+	}
+}
+
+export function resetLoadingFlag({ data }) {
+	return {
+		data,
+		type: "RESET_LOADING_FLAG",
 	}
 }

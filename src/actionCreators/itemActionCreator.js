@@ -5,6 +5,28 @@ var request = require('superagent');
 
 const itemActions = {
 
+	addDeviceType(deviceType, token) {
+		return dispatch => {
+			request
+				.post(`${env.api}/admin/items/details/create/devicetype`)
+				.set('Authorization', `bearer ${token}`)
+				.send(deviceType)
+				.accept('application/json')
+				.end((err, res) => {
+					/*if (err) {
+						dispatch(actions.deleteDeviceType({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteDeviceType({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteDeviceType({ status: "failure", data: res.status }));
+					}*/
+				});
+		};
+	},
+
 	clearItemReservations() {
 		return dispatch => {
 			dispatch(actions.clearItemReservations({ data: [] }));				
@@ -28,6 +50,27 @@ const itemActions = {
 						dispatch(actions.createItem({ status: "success", data: true }));
 					} else {
 						dispatch(actions.createItem({ status: "failure", data: res.status }));
+					}
+				});
+		};
+	},
+
+	deleteDeviceType(id, token) {
+		return dispatch => {
+			request
+				.del(`${env.api}/admin/items/details/devicetypes/delete/${id}`)
+				.set('Authorization', `bearer ${token}`)
+				.accept('application/json')
+				.end((err, res) => {
+					if (err) {
+						dispatch(actions.deleteDeviceType({ status: "failure", data: err }));
+						return;
+					}
+
+					if (res.ok) {
+						dispatch(actions.deleteDeviceType({ status: "success", data: id }));
+					} else {
+						dispatch(actions.deleteDeviceType({ status: "failure", data: res.status }));
 					}
 				});
 		};
@@ -225,6 +268,12 @@ const itemActions = {
 						dispatch(actions.getReservationHistory({ status: "failure", data: res.status }));
 					}
 				});
+		};
+	},
+
+	resetLoadingFlag() {
+		return dispatch => {
+			dispatch(actions.resetLoadingFlag({ data: true }));				
 		};
 	},
 
