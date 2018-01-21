@@ -251,6 +251,12 @@ const itemActions = {
 		};
 	},
 
+	setCurrentItem(id){
+		return dispatch => {
+		dispatch(actions.setCurrentItem({status: "success", data: id}));
+		}
+	}
+
 
 };
 

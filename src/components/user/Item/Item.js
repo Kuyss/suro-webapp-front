@@ -21,37 +21,52 @@ class Item extends React.Component {
         super(args);
         this.state = {
             isAvailable: false,
-            checked: false
+            checked: false,
+            loading: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if ((this.props.itemStatus !== nextProps.itemStatus)) {
+            if (this.props.currentItemID === this.props.item.id) {
+                console.log(nextProps.itemStatus);
+                this.setState({
+                    isAvailable: nextProps.itemStatus,
+                    checked: true,
+                    loading: false
+                });
+            }
         }
     }
 
     check(id) {
+        this.setState({
+            loading: true
+        });
+        this.props.dispatch(itemActions.setCurrentItem(id));
         this.props.dispatch(itemActions.getItemStatus(this.props.token, id));
-        console.log(this.props.itemStatus);
-       this.setState({
-           isAvailable: this.props.itemStatus,
-           checked: true
-       });
+
     }
 
     render() {
         return (
             <I.Group className="itemm">
-                <I>
-                    <I.Content >
-                        <Image src={this.props.item.picture} size='small' />
-                        <I.Header >{this.props.item.description}</I.Header>
-                        <I.Meta>{this.props.item.type.description}</I.Meta>
-                        <I.Description>
-                            {this.props.item.kit.name}
-                        </I.Description>
-                        {!this.state.checked && <Button color='grey' floated='right' onClick={() => this.check(this.props.item.id)}>Check availability</Button>}
-                        {this.state.checked && (this.state.isAvailable) && (this.props.item.working === 1) && <div><Label pointing>Item is free.</Label><Button color='grey' floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button></div>}
-                        {this.state.checked && ((!this.state.isAvailable) || (this.props.item.working !== 1)) && <Button floated='right' onClick={() => this.props.sug(this.props.item.kit.name)}>See similar items</Button>}
-                        {this.state.checked && (!this.state.isAvailable) && <Label pointing>Item already reserved.</Label>}
-                        {(!this.props.item.working) && <div class="ui pointing red basic label">Item is damaged.</div>}
-                    </I.Content>
-                </I>
+                {this.state.loading && <Label>LOADING...</Label>}
+                {!this.state.loading &&
+                    <I>
+                        <I.Content >
+                            <I.Header >{this.props.item.description}</I.Header>
+                            <I.Meta>{this.props.item.type ? this.props.item.type.description : '/'}</I.Meta>
+                            <I.Description>
+                                {this.props.item.kit ? this.props.item.kit.name : '/'}
+                            </I.Description>
+                            {!this.state.checked && this.props.item.working && <Button color='grey' floated='right' onClick={() => this.check(this.props.item.id)}>Check availability</Button>}
+                            {this.state.checked && (this.state.isAvailable) && (this.props.item.working === 1) && <div><Label pointing>Item is free.</Label><Button color='grey' floated='right' onClick={() => this.props.do(this.props.item.id)}>Add to reservation</Button></div>}
+                            {(this.state.checked && ((!this.state.isAvailable)) || (this.props.item.working !== 1)) && <Button floated='right' onClick={() => this.props.sug(this.props.item.kit.name)}>See similar items</Button>}
+                            {this.state.checked && (!this.state.isAvailable) && <Label pointing>Item already reserved.</Label>}
+                            {(!this.props.item.working) && <div class="ui pointing red basic label">Item is damaged.</div>}
+                        </I.Content>
+                    </I>}
             </I.Group>
         );
     }
@@ -61,7 +76,8 @@ class Item extends React.Component {
 const mapStateToProps = (state) => {
     return {
         itemStatus: state.items.status,
-        token: state.users.token
+        token: state.users.token,
+        currentItemID: state.items.currentItemID
     };
 };
 

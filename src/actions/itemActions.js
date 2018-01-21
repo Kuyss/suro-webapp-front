@@ -85,3 +85,11 @@ export function getReservationHistory({ status, data }) {
 		type: "GET_RESERVATION_HISTORY",
 	}
 }
+
+export function setCurrentItem({ status, data }) {
+	return {
+		data,
+		status,
+		type: "SET_CURRENT_ITEM",
+	}
+}

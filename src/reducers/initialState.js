@@ -28,6 +28,7 @@ export default {
 		subtypes: [],
 		types: [],
 		showItemCreatedPopup: false,
+		currentItemID: 0,
 		status: false,
 		itemsLoading: true,
 		itemReservations: []

@@ -121,10 +121,10 @@ class SearchEquipment extends React.Component {
 				f = this.props.items.filter(item => item.description.toLowerCase().includes(writtenValue.toLowerCase()));
 				break;
 			case 'type':
-				f = this.props.items.filter(item => item.type.description.toLowerCase().includes(writtenValue.toLowerCase()));
+				f = this.props.items.filter(function(item) {if(item.type)  return (item.type.description.toLowerCase().includes(writtenValue.toLowerCase()))});
 				break;
 			case 'kittype':
-				f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()));
+				f = this.props.items.filter(function(item) {if(item.kit) return (item.kit.name.toLowerCase().includes(writtenValue.toLowerCase()))});
 				break;
 			default:
 				break;
@@ -161,7 +161,7 @@ class SearchEquipment extends React.Component {
 	}
 
 	suggest(kittype) {
-		var f = this.props.items.filter(item => item.kit.name.toLowerCase().includes(kittype.toLowerCase()));
+		var f = this.props.items.filter(function(item) {if(item.kit) return (item.kit.name.toLowerCase().includes(kittype.toLowerCase()))});
 		this.setState({
 			filtered: f,
 			showingSim: true,
@@ -170,7 +170,7 @@ class SearchEquipment extends React.Component {
 		window.scrollTo(0, 500);
 	}
 
-	
+
 
 
 	render() {
@@ -229,7 +229,7 @@ class SearchEquipment extends React.Component {
 
 						</div>
 						{this.state.showingSim && <h2 style={{ "padding": 10 }}>Similar items:</h2>}
-						{(this.state.isFiltered) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest}  />}
+						{(this.state.isFiltered) && <ItemList items={this.state.filtered} do={this.addToRes} sug={this.suggest} />}
 						{(!this.state.isFiltered) && <ItemList items={this.props.items} do={this.addToRes} sug={this.suggest} check={this.check} />}
 					</div>);
 			}
