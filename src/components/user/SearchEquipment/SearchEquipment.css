@@ -1,15 +1,11 @@
 .all{
-    padding: 10px;
+    padding: 5px;
 }
 
 .select {
     width: 170px;
     height: 37px;
     margin: 5px;
-}
-
-.config {
-    margin-left: 500px; 
 }
 
 .reserv {

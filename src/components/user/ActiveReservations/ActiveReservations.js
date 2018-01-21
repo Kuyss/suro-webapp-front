@@ -34,9 +34,9 @@ class ActiveReservations extends React.Component {
 
 	extendRes(id, end, reason) {
 		if (reason.length == 0)
-			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end));
+			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end.toString()));
 		else
-			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end, reason));
+			this.props.dispatch(reservationActions.extendReservation(this.props.token, id, end.toString(), reason));
 	}
 
 	render() {
