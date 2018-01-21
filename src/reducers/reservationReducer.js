@@ -89,7 +89,7 @@ export default function reservationReducer(state = initialState.reservations, ac
 		case "GET_RESERVATIONS_TO_EXTEND":
 			if(action.status === 'success') {
 				newState = Object.assign({}, state, {
-					toExtend: action.data
+					toExtend: action.data.filter(e => {return e.status === 'Zatraženo produživanje'})
 				});
 			}
 			
