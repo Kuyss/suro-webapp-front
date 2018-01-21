@@ -34,7 +34,7 @@ const userActions = {
 		};
 	},
 
-	changeUserActive(user_id, token) {
+	changeUserActive(user_id, flag, token) {
 		return dispatch => {
 			request
 				.put(`${env.api}/admin/users/edit/status/${user_id}`)
@@ -47,7 +47,7 @@ const userActions = {
 					}
 
 					if(res.ok) {
-						dispatch(actions.changeUserActive({ status: "success", data: user_id }));
+						dispatch(actions.changeUserActive({ status: "success", data: { user_id, flag } }));
 					} else {
 						dispatch(actions.changeUserActive({ status: "failure", data: res.status }));
 					}

@@ -79,7 +79,7 @@ class UsersOverview extends Component {
     this.props.dispatch(userActions.editUser(newUser, this.props.token));
 
     if(active !== null && user.active !== active) 
-      this.props.dispatch(userActions.changeUserActive(user.id, this.props.token))
+      this.props.dispatch(userActions.changeUserActive(user.id, false, this.props.token))
 
     this.handleDismiss();
   }

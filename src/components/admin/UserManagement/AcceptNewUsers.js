@@ -16,7 +16,7 @@ class AcceptNewUser extends Component {
 	}
 
 	handleActivateUser = (user_id) => {
-		this.props.dispatch(userActions.changeUserActive(user_id, this.props.token));
+		this.props.dispatch(userActions.changeUserActive(user_id, true, this.props.token));
 	}
 
 	render() {

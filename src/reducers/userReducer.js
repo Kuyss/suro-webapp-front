@@ -180,22 +180,31 @@ function activateUser(user, state) {
 	return newState;
 }
 
-function changeUserActive(user_id, state) {
+function changeUserActive({ user_id, flag }, state) {
 	let userList = [...state.userList];
 
-	for(let i = 0; i < userList.length; i++) {
-		if(userList[i].id === user_id) {
-			if(userList[i].active === 1) {
-				userList[i].active = 0;
-				break;
+	if(flag) {
+		for(let i = 0; i < userList.length; i++) {
+			if(userList[i].id === user_id) {
+				userList.splice(i, 1);
 			}
-			else if(userList[i].active === 0) {
-				userList[i].active = 1;
-				break;
+		}
+	} else {
+		for(let i = 0; i < userList.length; i++) {
+			if(userList[i].id === user_id) {
+				if(userList[i].active === 1) {
+					userList[i].active = 0;
+					break;
+				}
+				else if(userList[i].active === 0) {
+					userList[i].active = 1;
+					break;
+				}
+				
 			}
-			console.log(userList[i].active);
 		}
 	}
+	
 
 	const newState = Object.assign({}, state, {
 		userList
