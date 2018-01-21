@@ -15,10 +15,8 @@ class AcceptNewUser extends Component {
 	   else return "ROLE";
 	}
 
-	handleActivateUser = (user) => {
-		let newUser = { id: user.id, active: 1};
-
-		this.props.dispatch(userActions.activateUser(newUser, this.props.token));
+	handleActivateUser = (user_id) => {
+		this.props.dispatch(userActions.changeUserActive(user_id, this.props.token));
 	}
 
 	render() {
@@ -51,7 +49,7 @@ class AcceptNewUser extends Component {
                     <Table.Cell>{this.convertRole(u.role_id)}</Table.Cell>
                     <Table.Cell>{u.created_at}</Table.Cell>
                     <Table.Cell>{u.updated_at}</Table.Cell>
-                    <Table.Cell textAlign='center'><Button onClick={() => this.handleActivateUser(u)} color='blue' icon><Icon name='check circle'/></Button></Table.Cell>
+                    <Table.Cell textAlign='center'><Button onClick={() => this.handleActivateUser(u.id)} color='blue' icon><Icon name='check circle'/></Button></Table.Cell>
                   </Table.Row>
                 );
               })
