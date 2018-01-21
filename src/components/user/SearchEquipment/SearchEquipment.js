@@ -167,7 +167,7 @@ class SearchEquipment extends React.Component {
 			showingSim: true,
 			isFiltered: true
 		});
-		window.scrollTo(0, 600);
+		window.scrollTo(0, 500);
 	}
 
 
@@ -213,15 +213,16 @@ class SearchEquipment extends React.Component {
 									<option value="type">Type</option>
 									<option value="kittype">Kit type</option>
 								</select>
-								<div className="ui search" >
+								<div className="ui search">
 									<input className="prompt" type="text" placeholder="search" ref={(input) => {
 										this.search = input;
 									}} />
 
 								</div>
-
-								<Button style={{ "margin": 5 }} onClick={() => this.cancelQuery()}>Cancel filter</Button>
-								<Button color='grey' style={{ "margin": 5 }} onClick={() => this.filterBy()}>Search </Button>
+							</div>
+							<div className="btns">
+								<Button onClick={() => this.cancelQuery()}>Cancel filter</Button>
+								<Button color='grey' onClick={() => this.filterBy()}>Search </Button>
 							</div>
 
 						</div>

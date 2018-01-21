@@ -55,7 +55,7 @@ export default class Reservation extends React.Component {
                             <Item.Content >
 
                                 <HistoryList items={this.props.reservation.items} />
-                                <p>{this.props.reservation.id}</p>
+                                {/* <p>{this.props.reservation.id}</p> */}
                                 <br />
                                 <Item.Description>Start date: {this.props.reservation.start_date}</Item.Description>
                                 <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
