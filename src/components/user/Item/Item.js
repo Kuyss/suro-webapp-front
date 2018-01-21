@@ -27,7 +27,7 @@ class Item extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if ((this.props.itemStatus !== nextProps.itemStatus)) {
+       // if ((this.props.itemStatus !== nextProps.itemStatus)) {
             if (this.props.currentItemID === this.props.item.id) {
                 console.log(nextProps.itemStatus);
                 this.setState({
@@ -36,7 +36,7 @@ class Item extends React.Component {
                     loading: false
                 });
             }
-        }
+       // }
     }
 
     check(id) {

@@ -29,7 +29,7 @@ export default {
 		types: [],
 		showItemCreatedPopup: false,
 		currentItemID: 0,
-		status: false,
+		status: null,
 		itemsLoading: true,
 		itemReservations: []
 	}

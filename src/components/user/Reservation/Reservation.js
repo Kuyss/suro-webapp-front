@@ -104,7 +104,7 @@ export default class Reservation extends React.Component {
                                             <Item.Description>Return date: {this.props.reservation.return_date}</Item.Description>
                                             <br /> <br /> <br /> <br />
                                         </div>}
-                                        <Button color='grey' floated='right' onClick={() => this.props.res(this.props.reservation.items)}>Select</Button>
+                                        {/* <Button color='grey' floated='right' onClick={() => this.props.res(this.props.reservation.items)}>Select</Button> */}
                                     </div>}
                             </Item.Content>
                         </Item>

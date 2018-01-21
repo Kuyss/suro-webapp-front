@@ -29,7 +29,7 @@ class History extends React.Component {
 
 
 	componentDidMount() {
-		if(this.props.token)
+		if (this.props.token)
 			this.props.dispatch(reservationActions.getActiveUsersReservations(this.props.token, this.props.currentUser.id));
 	}
 
@@ -78,7 +78,7 @@ class History extends React.Component {
 	render() {
 		return (
 			<div className="sve">
-
+				{/* 
 				<div className="reserv">
 					<h2>Renew old reservation</h2>
 					<Segment>{this.state.idsToReserve.length} items in reservation: [{this.state.idsToReserve.toString()}]</Segment>
@@ -103,7 +103,7 @@ class History extends React.Component {
 					{(this.state.nodate || this.state.noitems) && <div class="ui pointing red basic label">Enter both dates and items</div>}
 					<Button style={{ 'margin-left': 400 }} onClick={() => this.cancel()}>Cancel</Button>
 					<Button color='grey' onClick={() => this.renew(this.start.value, this.end.value)}>Renew reservation</Button>
-				</div>
+				</div> */}
 
 				<ReservationList reservations={this.props.reservations} history={true} reserve={this.addToState} />
 			</div>
