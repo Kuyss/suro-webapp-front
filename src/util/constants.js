@@ -8,5 +8,3 @@ export const RESERVATION_STATUS = {
 	APPROVED: 2,
 	DECLINED: 3
 };
-
-export const API_BASE = "localhost:8080/api";
