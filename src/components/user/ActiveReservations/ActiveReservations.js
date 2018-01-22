@@ -1,9 +1,6 @@
 import React from 'react';
 import ReservationList from '../ReservationList/ReservationList';
-import { getReservations, deleteReservation } from '../../../services/reservation';
 import './ActiveReservations.css';
-import { read } from '../../../services/storage';
-import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import userActions from '../../../actionCreators/userActionCreator';
 import { connect } from 'react-redux';

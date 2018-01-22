@@ -1,10 +1,7 @@
 import React from 'react';
 import { Item } from 'semantic-ui-react';
 import ReservationList from '../ReservationList/ReservationList';
-import { getReservations, postReservation } from '../../../services/reservation';
-import { read } from '../../../services/storage';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
-import { getActiveUser } from '../../../services/user';
 import reservationActions from 'actionCreators/reservationActionCreator';
 import { connect } from 'react-redux';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';

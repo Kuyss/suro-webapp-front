@@ -1,9 +1,6 @@
 import React from 'react';
 import { Search, Dropdown } from 'semantic-ui-react';
 import ItemList from '../ItemList/ItemList';
-import { getItems } from '../../../services/item';
-import { read } from '../../../services/storage';
-import { postReservation } from '../../../services/reservation';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
