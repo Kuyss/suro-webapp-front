@@ -9,4 +9,4 @@ export const RESERVATION_STATUS = {
 	DECLINED: 3
 };
 
-export const API_BASE = "http://159.89.108.135/api";
+export const API_BASE = "localhost:8080/api";
