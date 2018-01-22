@@ -129,6 +129,7 @@ class ReservationApprovals extends Component {
                     <Table.HeaderCell>Status</Table.HeaderCell>
                     <Table.HeaderCell>Created At</Table.HeaderCell>
                     <Table.HeaderCell>Updated At</Table.HeaderCell>
+                    <Table.HeaderCell>Updated By</Table.HeaderCell>
                     <Table.HeaderCell>User</Table.HeaderCell>
                     <Table.HeaderCell>Return</Table.HeaderCell>
                     <Table.HeaderCell>Decline</Table.HeaderCell>
@@ -148,6 +149,7 @@ class ReservationApprovals extends Component {
                           <Table.Cell>{r.status.name}</Table.Cell>
                           <Table.Cell>{r.created_at}</Table.Cell>
                           <Table.Cell>{r.updated_at}</Table.Cell>
+                          <Table.Cell>{r.status_creator ? r.status_creator.email : ""}</Table.Cell>
                           <Table.Cell>{r.user.email}</Table.Cell>
                           <Table.Cell textAlign='center'>
                             <Button onClick={() => this.handleReturnReservation(r.id)} color='yellow' icon><Icon name='arrow right'/></Button>
@@ -182,6 +184,7 @@ class ReservationApprovals extends Component {
                     <Table.HeaderCell>Return Date</Table.HeaderCell>
                     <Table.HeaderCell>Status</Table.HeaderCell>
                     <Table.HeaderCell>Updated At</Table.HeaderCell>
+                    <Table.HeaderCell>Updated By</Table.HeaderCell>
                     <Table.HeaderCell>User</Table.HeaderCell>
                     <Table.HeaderCell>Approve</Table.HeaderCell>
                     <Table.HeaderCell>Delete</Table.HeaderCell>
@@ -200,6 +203,7 @@ class ReservationApprovals extends Component {
                           <Table.Cell>{r.return_date}</Table.Cell>
                           <Table.Cell>{r.status.name}</Table.Cell>
                           <Table.Cell>{r.updated_at}</Table.Cell>
+                          <Table.Cell>{r.status_creator ? r.status_creator.email : ""}</Table.Cell>
                           <Table.Cell>{r.user.email}</Table.Cell>
                           <Table.Cell textAlign='center'>
                             <Button onClick={() => this.handleApproveReservation(r.id)} color='green' icon><Icon name='check circle'/></Button>
